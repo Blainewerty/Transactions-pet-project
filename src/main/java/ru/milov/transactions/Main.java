@@ -1,9 +1,14 @@
 package ru.milov.transactions;
 
 import org.postgresql.util.PSQLException;
+import ru.milov.transactions.dao.domain.User;
+import ru.milov.transactions.dao.domain.UserBillDao;
+import ru.milov.transactions.dao.domain.UserBills;
+import ru.milov.transactions.dao.domain.UserDao;
 
 import java.sql.*;
 import java.sql.Date;
+import java.util.*;
 import java.util.Scanner;
 
 public class Main {
@@ -19,8 +24,15 @@ public class Main {
     int billID;
 
     public static void main(String[] args) {
-        Main main = new Main();
-        main.startApp();
+        UserDao userDao = UserDao.getUserDao();
+        User user  = userDao.findById(3);
+        System.out.println(user);
+        UserBillDao userBillDao = UserBillDao.getUserDao();
+        UserBills userBills = userBillDao.findById(3);
+        System.out.println(user.getEmail() + " " + userBills.getDate() + " " +
+                userBills.getBalance() + " " + userBills.getNameCategory() + " " +
+                userBills.getNameOfBill() + " " + userBills.getTransactions());
+//        main.startApp();
     }
 
     private void pressEmailPass() {
@@ -54,7 +66,6 @@ public class Main {
             }
         }
     }
-
 
     private int checkIfUserInDataBase(String email, String passwd) {
         DigestService hexpassword = new DigestService();
