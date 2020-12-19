@@ -1,21 +1,26 @@
 package ru.milov.transactions;
 
+import ru.milov.transactions.Menu.Registration;
 import ru.milov.transactions.dao.domain.User;
 import ru.milov.transactions.dao.domain.UserDao;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
 
     Scanner in = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        UserDao userDao = UserDao.getUserDao();
-        User user = userDao.findById(3);
-        System.out.println(user);
-        System.out.println(user.getEmail() + " " + user.getDate() + " " +
-                user.getBalance() + " " + user.getNameCategory() + " " +
-                user.getNameOfBill() + " " + user.getTransactions());
+    public static void main(String[] args) throws IOException {
+//        UserDao userDao = UserDao.getUserDao();
+//        User user = userDao.findById(3);
+//        System.out.println(user);
+//        System.out.println(user.getEmail() + " " + user.getDate() + " " +
+//                user.getBalance() + " " + user.getNameCategory() + " " +
+//                user.getNameOfBill() + " " + user.getTransactions());
+
+        Registration reg = new Registration();
+        reg.registration();
 //        main.startApp();
     }
 

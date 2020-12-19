@@ -62,7 +62,26 @@ public class UserDao implements Dao<User, Integer> {
 
     @Override
     public User insert(User user) {
-        return null;
+        try (Connection connection = getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("");
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                user = new User();
+                user.setId(rs.getInt("user_id"));
+                user.setBalance(rs.getInt("balance"));
+                user.setDate(rs.getString("date"));
+                user.setNameCategory(rs.getString("name_category"));
+                user.setTransactions(rs.getInt("transactions"));
+                user.setNameOfBill(rs.getString("name_bill"));
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return user;
     }
 
     @Override
