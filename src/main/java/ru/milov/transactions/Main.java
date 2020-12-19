@@ -1,41 +1,25 @@
 package ru.milov.transactions;
 
-import org.postgresql.util.PSQLException;
 import ru.milov.transactions.dao.domain.User;
-import ru.milov.transactions.dao.domain.UserBillDao;
-import ru.milov.transactions.dao.domain.UserBills;
 import ru.milov.transactions.dao.domain.UserDao;
 
-import java.sql.*;
-import java.sql.Date;
-import java.util.*;
 import java.util.Scanner;
 
 public class Main {
 
-    String url = "jdbc:postgresql://localhost:5432/postgres";
-    String usr = "postgres";
-    String pswd = "admin";
-    String email;
-    String passwd;
     Scanner in = new Scanner(System.in);
-    int userId;
-    int balance;
-    int billID;
 
     public static void main(String[] args) {
         UserDao userDao = UserDao.getUserDao();
-        User user  = userDao.findById(3);
+        User user = userDao.findById(3);
         System.out.println(user);
-        UserBillDao userBillDao = UserBillDao.getUserDao();
-        UserBills userBills = userBillDao.findById(3);
-        System.out.println(user.getEmail() + " " + userBills.getDate() + " " +
-                userBills.getBalance() + " " + userBills.getNameCategory() + " " +
-                userBills.getNameOfBill() + " " + userBills.getTransactions());
+        System.out.println(user.getEmail() + " " + user.getDate() + " " +
+                user.getBalance() + " " + user.getNameCategory() + " " +
+                user.getNameOfBill() + " " + user.getTransactions());
 //        main.startApp();
     }
 
-    private void pressEmailPass() {
+    /*private void pressEmailPass() {
         System.out.println("Place Name of email");
         in.nextLine();
         email = in.nextLine();
@@ -245,5 +229,5 @@ public class Main {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-    }
+    }*/
 }
