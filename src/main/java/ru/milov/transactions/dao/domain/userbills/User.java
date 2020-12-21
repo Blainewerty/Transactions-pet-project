@@ -1,4 +1,4 @@
-package ru.milov.transactions.dao.domain;
+package ru.milov.transactions.dao.domain.userbills;
 
 public class User {
 
@@ -9,7 +9,9 @@ public class User {
     private String nameCategory;
     private int transactions;
     private String nameOfBill;
-    private String  date;
+    private String date;
+    private int TransactionsId;
+    private int NameBillId;
 
     public Integer getId() {
         return id;
@@ -75,14 +77,30 @@ public class User {
         this.date = date;
     }
 
+    public int getTransactionsId() {
+        return TransactionsId;
+    }
+
+    public void setTransactionsId(int transactionsId) {
+        TransactionsId = transactionsId;
+    }
+
+    public int getNameBillId() {
+        return NameBillId;
+    }
+
+    public void setNameBillId(int nameBillId) {
+        NameBillId = nameBillId;
+    }
+
     @Override
     public String toString() {
-        return  "ID " + "\t" + id + "\n" +
-                "Email " + "\t" + email + "\n" +
-                "Balance " + "\t" + "\t" + balance + "\n" +
-                "Category " + "\t" + nameCategory + "\n" +
-                "Transaction " + "\t" + transactions + "\n" +
-                "Name of Bill " + "\t" + nameOfBill + "\n" +
-                "Date " + "\t" + date;
+        return  "ID " + id + "\t" +
+                "Email " + email + "\t" +
+                "Balance " + balance + "\t" +
+                "Name Category " + nameCategory + "\t" +
+                "Transactions " + transactions + "\t" +
+                "Name Of Bill " + nameOfBill + "\t" +
+                "Date " + date;
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 public interface Dao <DOMAIN, ID> {
     DOMAIN findById(DOMAIN domain);
 
-    List<DOMAIN> findByAll();
+    List<DOMAIN> findByAll(DOMAIN user,List<DOMAIN> list);
 
     DOMAIN insert (DOMAIN domain);
 

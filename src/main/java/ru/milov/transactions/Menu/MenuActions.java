@@ -1,11 +1,13 @@
 package ru.milov.transactions.Menu;
 
-import ru.milov.transactions.dao.domain.User;
+import ru.milov.transactions.dao.domain.userbills.User;
 import ru.milov.transactions.dao.domain.UserDao;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuActions implements MenuFunc {
 
@@ -14,53 +16,68 @@ public class MenuActions implements MenuFunc {
     String command;
     String email;
     String password;
+    String billName;
     UserDao userDao = UserDao.getUserDao();
+    SQLActions sqlActions = new SQLActions();
 
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     @Override
     public void view(String string) {
-        System.out.println("For " + string + " type email, password");
+        System.out.println("For " + string + " type email, password, bill");
     }
 
     @Override
     public void registration() throws IOException {
-        view("registration");
         user = new User();
+        view("registration");
         email = reader.readLine();
         password = digest.digest(reader.readLine());
+        billName = reader.readLine();
         user.setEmail(email);
         user.setPassword(password);
+        user.setNameOfBill(billName);
+        user.setDate((String.valueOf(java.time.LocalDate.now())));
+        sqlActions.getNameOfBill(user);
         userDao.insert(user);
-        System.out.println(user);
+
     }
 
     @Override
     public void authentication() throws IOException {
-        view("authentication");
         user = new User();
+        view("authentication");
         email = reader.readLine();
         password = digest.digest(reader.readLine());
         user.setEmail(email);
         user.setPassword(password);
+        System.out.println("Press name of Bill");
+        user.setNameOfBill(reader.readLine());
         userDao.findById(user);
-
         if (user.getId() != null) {
             do {
+
                 System.out.println("What we do next?\n" +
                         "1: Add Info\n" +
                         "2: Get Current Info\n" +
-                        "3: Go back");
+                        "3: Get All operations\n" +
+                        "4: Go back\n");
                 command = reader.readLine();
                 switch (command) {
                     case "1":
-                        SQLActions sqlActions = new SQLActions();
                         sqlActions.addInfoAboutUsersBillsToSQL(user);
                         break;
                     case "2":
-                        System.out.println(user);
+                        sqlActions.getInfoAboutUserFromSQL(user);
                         break;
                     case "3":
+                        List<User> userList = new ArrayList<>();
+                        userDao.findByAll(user,userList);
+                        for (User user: userList){
+                            System.out.println(user);
+                        }
+                        break;
+                    case "4":
                         Menu menu = new Menu();
                         menu.start();
                 }
