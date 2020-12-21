@@ -12,6 +12,8 @@ import static ru.milov.transactions.dao.DaoFactory.getConnection;
 
 public class UserDao implements Dao<User, Integer> {
 
+    User user;
+
     private static UserDao userDao;
 
     public static UserDao getUserDao() {
@@ -26,21 +28,20 @@ public class UserDao implements Dao<User, Integer> {
     }
 
     @Override
-    public User findById(Integer id) {
-        User user = null;
+    public User findById(User user) {
         try (Connection connection = getConnection()) {
             PreparedStatement ps = connection.prepareStatement("select u.user_id, balance, date, name_category, transactions, name_bill\n" +
                     "from bills\n" +
                     "         inner join users u on bills.user_id = u.user_id\n" +
                     "         inner join transaction_categ tc on bills.transaction_categ_id = tc.transaction_categ_id\n" +
                     "        inner join name_bill nb on bills.name_bill_id = nb.name_bill_id\n" +
-                    "where u.user_id = ? order by balance ");
-            ps.setInt(1, id);
+                    "where email = ? and password = ? order by bill_id ");
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getPassword());
 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                user = new User();
                 user.setId(rs.getInt("user_id"));
                 user.setBalance(rs.getInt("balance"));
                 user.setDate(rs.getString("date"));
@@ -63,21 +64,13 @@ public class UserDao implements Dao<User, Integer> {
     @Override
     public User insert(User user) {
         try (Connection connection = getConnection()) {
-            PreparedStatement ps = connection.prepareStatement("");
-            ps.setInt(1, id);
+            PreparedStatement ps = connection.prepareStatement("insert into bills (user_id, name_bill_id, balance, date, transactions, transaction_categ_id) \n" +
+                    "values (?,?,?,?,?,?)");
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getPassword());
 
-            ResultSet rs = ps.executeQuery();
+            ps.execute();
 
-            while (rs.next()) {
-                user = new User();
-                user.setId(rs.getInt("user_id"));
-                user.setBalance(rs.getInt("balance"));
-                user.setDate(rs.getString("date"));
-                user.setNameCategory(rs.getString("name_category"));
-                user.setTransactions(rs.getInt("transactions"));
-                user.setNameOfBill(rs.getString("name_bill"));
-
-            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -86,7 +79,18 @@ public class UserDao implements Dao<User, Integer> {
 
     @Override
     public User update(User user) {
-        return null;
+        try (Connection connection = getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("insert into bills (user_id, name_bill_id, balance, date, transactions, transaction_categ_id) \n" +
+                    "values (?,?,?,?,?,?)");
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getPassword());
+
+            ps.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return user;
     }
 
     @Override

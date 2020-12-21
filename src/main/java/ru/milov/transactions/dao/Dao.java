@@ -3,7 +3,7 @@ package ru.milov.transactions.dao;
 import java.util.List;
 
 public interface Dao <DOMAIN, ID> {
-    DOMAIN findById(ID id);
+    DOMAIN findById(DOMAIN domain);
 
     List<DOMAIN> findByAll();
 

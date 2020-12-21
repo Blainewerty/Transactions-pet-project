@@ -1,9 +1,9 @@
 package ru.milov.transactions;
 
-import ru.milov.transactions.Menu.Registration;
-import ru.milov.transactions.dao.domain.User;
-import ru.milov.transactions.dao.domain.UserDao;
+import ru.milov.transactions.Menu.Menu;
+import ru.milov.transactions.Menu.MenuActions;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -18,9 +18,8 @@ public class Main {
 //        System.out.println(user.getEmail() + " " + user.getDate() + " " +
 //                user.getBalance() + " " + user.getNameCategory() + " " +
 //                user.getNameOfBill() + " " + user.getTransactions());
-
-        Registration reg = new Registration();
-        reg.registration();
+          Menu menu = new Menu();
+          menu.start();
 //        main.startApp();
     }
 

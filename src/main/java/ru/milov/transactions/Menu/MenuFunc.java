@@ -4,10 +4,10 @@ import java.io.IOException;
 
 public interface MenuFunc {
 
-    public void view() throws IOException;
+    void view(String string);
 
     public void registration() throws IOException;
 
-    public void authentication();
+    public void authentication() throws IOException;
 
 }

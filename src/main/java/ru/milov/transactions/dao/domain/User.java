@@ -77,10 +77,12 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return  "ID " + "\t" + id + "\n" +
+                "Email " + "\t" + email + "\n" +
+                "Balance " + "\t" + "\t" + balance + "\n" +
+                "Category " + "\t" + nameCategory + "\n" +
+                "Transaction " + "\t" + transactions + "\n" +
+                "Name of Bill " + "\t" + nameOfBill + "\n" +
+                "Date " + "\t" + date;
     }
 }
