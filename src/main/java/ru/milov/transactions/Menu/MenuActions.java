@@ -51,7 +51,6 @@ public class MenuActions implements MenuFunc {
             password = digest.digest(reader.readLine());
             user.setEmail(email);
             user.setPassword(password);
-            userDao.getID(user);
             if (user.getId() == null) {
                 System.out.println("Please check email and password and try again\n");
             }
