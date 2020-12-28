@@ -24,7 +24,7 @@ public class UserDao implements Dao<User, Integer> {
     }
 
     @Override
-    public User findById(User user, User userbill) {
+    public User findById(User user, User userBill) {
         try (Connection connection = getConnection()) {
             PreparedStatement ps = connection.prepareStatement("select u.user_id, balance, date, name_category, transactions, name_bill\n" +
                     "from bills\n" +
@@ -35,17 +35,17 @@ public class UserDao implements Dao<User, Integer> {
                     "order by bill_id");
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
-            ps.setString(3, userbill.getNameOfBill());
+            ps.setString(3, userBill.getNameOfBill());
 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 user.setId(rs.getInt("user_id"));
-                userbill.setBalance(rs.getInt("balance"));
-                userbill.setDate(rs.getString("date"));
-                userbill.setNameCategory(rs.getString("name_category"));
-                userbill.setTransactions(rs.getInt("transactions"));
-                userbill.setNameOfBill(rs.getString("name_bill"));
+                userBill.setBalance(rs.getInt("balance"));
+                userBill.setDate(rs.getString("date"));
+                userBill.setNameCategory(rs.getString("name_category"));
+                userBill.setTransactions(rs.getInt("transactions"));
+                userBill.setNameOfBill(rs.getString("name_bill"));
 
             }
         } catch (SQLException throwables) {
@@ -55,7 +55,7 @@ public class UserDao implements Dao<User, Integer> {
     }
 
     @Override
-    public List<User> findByAll(User user,User userbill, List<User> userList) {
+    public List<User> findByAll(User user, User userBill, List<User> userList) {
         try (Connection connection = getConnection()) {
             PreparedStatement ps = connection.prepareStatement("select u.user_id, balance, date, name_category, transactions, name_bill\n" +
                     "from bills\n" +
@@ -66,7 +66,7 @@ public class UserDao implements Dao<User, Integer> {
                     "order by bill_id");
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
-            ps.setString(3, userbill.getNameOfBill());
+            ps.setString(3, userBill.getNameOfBill());
 
             ResultSet rs = ps.executeQuery();
 
@@ -94,22 +94,26 @@ public class UserDao implements Dao<User, Integer> {
 
             if (user.getId() == null) {
                 PreparedStatement ps = connection.prepareStatement("insert into users (email, password) \n" +
-                        "values (?,?)");
+                                "values (?,?)",
+                        Statement.RETURN_GENERATED_KEYS);
+
                 ps.setString(1, user.getEmail());
                 ps.setString(2, user.getPassword());
 
-                ps.execute();
+                int affectedRows = ps.executeUpdate();
 
-                getID(user);
+                if (affectedRows == 0) {
+                    throw new SQLException("Creating user failed, no rows affected.");
+                }
+
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        user.setId(generatedKeys.getInt(1));
+                    } else {
+                        throw new SQLException("Creating user failed, no ID obtained.");
+                    }
+                }
             }
-
-            /*PreparedStatement ps = connection.prepareStatement("insert into bills (user_id, name_bill_id, balance, date) \n" +
-                    "values (?,?,0,?)");
-            ps.setInt(1, user.getId());
-            ps.setInt(2, user.getNameBillId());
-            ps.setDate(3, Date.valueOf(user.getDate()));
-
-            ps.execute();*/
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -118,16 +122,16 @@ public class UserDao implements Dao<User, Integer> {
     }
 
     @Override
-    public User update(User user, User userbill) {
+    public User update(User user, User userBill) {
         try (Connection connection = getConnection()) {
             PreparedStatement ps = connection.prepareStatement("insert into bills (user_id, name_bill_id, balance, date, transactions, transaction_categ_id) \n" +
                     "values (?,?,?,?,?,?)");
-            ps.setInt(1,user.getId());
-            ps.setInt(2, userbill.getNameBillId());
-            ps.setInt(3, userbill.getBalance());
-            ps.setDate(4, Date.valueOf(userbill.getDate()));
-            ps.setInt(5, userbill.getTransactions());
-            ps.setInt(6, userbill.getTransactionsId());
+            ps.setInt(1, user.getId());
+            ps.setInt(2, userBill.getNameBillId());
+            ps.setInt(3, userBill.getBalance());
+            ps.setDate(4, Date.valueOf(userBill.getDate()));
+            ps.setInt(5, userBill.getTransactions());
+            ps.setInt(6, userBill.getTransactionsId());
 
             ps.execute();
 
@@ -142,20 +146,4 @@ public class UserDao implements Dao<User, Integer> {
         return false;
     }
 
-    public User getID(User user) {
-        try (Connection connection = getConnection()) {
-            PreparedStatement ps = connection.prepareStatement("select user_id from users where email=? and password=?");
-            ps.setString(1, user.getEmail());
-            ps.setString(2, user.getPassword());
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                user.setId(rs.getInt("user_id"));
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return user;
-    }
 }

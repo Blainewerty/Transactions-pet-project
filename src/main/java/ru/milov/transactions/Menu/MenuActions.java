@@ -19,7 +19,6 @@ public class MenuActions implements MenuFunc {
     String command;
     String email;
     String password;
-    String billName;
     UserDao userDao = UserDao.getUserDao();
     SQLActions sqlActions = new SQLActions();
 
@@ -40,7 +39,7 @@ public class MenuActions implements MenuFunc {
         user.setEmail(email);
         user.setPassword(password);
         userDao.insert(user);
-
+        System.out.println(user);
     }
 
     @Override
@@ -81,7 +80,7 @@ public class MenuActions implements MenuFunc {
     }
 
 
-    private void workingWithSQL(User user, User userbill) throws IOException {
+    public void workingWithSQL(User user, User userBill) throws IOException {
         do {
             System.out.println("What we do next?\n" +
                     "1: Add Info\n" +
@@ -91,14 +90,14 @@ public class MenuActions implements MenuFunc {
             command = reader.readLine();
             switch (command) {
                 case "1":
-                    sqlActions.addInfoAboutUsersBillsToSQL(user, userbill);
+                    sqlActions.addInfoAboutUsersBillsToSQL(user, userBill);
                     break;
                 case "2":
-                    sqlActions.getInfoAboutUserFromSQL(user, userbill);
+                    sqlActions.getInfoAboutUserFromSQL(user, userBill);
                     break;
                 case "3":
                     List<User> userList = new ArrayList<>();
-                    userDao.findByAll(user, userbill, userList);
+                    userDao.findByAll(user, userBill, userList);
                     for (User userOperat : userList) {
                         System.out.println(userOperat);
                     }

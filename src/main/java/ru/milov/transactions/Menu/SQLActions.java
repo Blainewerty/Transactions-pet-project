@@ -13,25 +13,25 @@ public class SQLActions {
 
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public void getInfoAboutUserFromSQL(User user, User userbill) {
-        userDao.findById(user, userbill);
-        System.out.println(userbill + "\n");
+    public void getInfoAboutUserFromSQL(User user, User userBill) {
+        userDao.findById(user, userBill);
+        System.out.println(userBill + "\n");
     }
 
-    public void addInfoAboutUsersBillsToSQL(User user, User userbill) throws IOException {
-        userbill.setDate(String.valueOf(java.time.LocalDate.now()));
+    public void addInfoAboutUsersBillsToSQL(User user, User userBill) throws IOException {
+        userBill.setDate(String.valueOf(java.time.LocalDate.now()));
         System.out.println("Add score of transaction");
-        userbill.setTransactions(Integer.parseInt(reader.readLine()));
+        userBill.setTransactions(Integer.parseInt(reader.readLine()));
         System.out.println("Add name of category\n" +
                 "Salary, Funnies, Automobile, Health");
-        userbill.setNameCategory(reader.readLine());
-        getNameCategoryId(userbill);
-        if (userbill.getTransactionsId() == 1) {
-            userbill.setBalance(userbill.getBalance() + userbill.getTransactions());
+        userBill.setNameCategory(reader.readLine());
+        getNameCategoryId(userBill);
+        if (userBill.getTransactionsId() == 1) {
+            userBill.setBalance(userBill.getBalance() + userBill.getTransactions());
         } else {
-            userbill.setBalance(userbill.getBalance() - userbill.getTransactions());
+            userBill.setBalance(userBill.getBalance() - userBill.getTransactions());
         }
-        userDao.update(user,userbill);
+        userDao.update(user,userBill);
     }
 
     public User getNameCategoryId(User user) {
