@@ -2,7 +2,6 @@ package ru.milov.transactions.Menu;
 
 import ru.milov.transactions.dao.domain.userbills.User;
 import ru.milov.transactions.dao.domain.UserDao;
-import ru.milov.transactions.dao.domain.userbills.UserPerson;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -48,21 +47,6 @@ public class SQLActions {
                 break;
             case "Automobile":
                 user.setTransactionsId(4);
-                break;
-        }
-        return user;
-    }
-
-    public User getNameOfBillId(User user) {
-        switch (user.getNameOfBill()) {
-            case "Person":
-                user.setNameBillId(1);
-                break;
-            case "Work":
-                user.setNameBillId(2);
-                break;
-            case "Saving":
-                user.setNameBillId(3);
                 break;
         }
         return user;

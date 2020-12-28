@@ -39,15 +39,6 @@ public class MenuActions implements MenuFunc {
         password = digest.digest(reader.readLine());
         user.setEmail(email);
         user.setPassword(password);
-        /*user.setNameOfBill("Person");
-        user.setDate((String.valueOf(java.time.LocalDate.now())));
-        sqlActions.getNameOfBillId(user);
-        userDao.insert(user);
-        user.setNameOfBill("Work");
-        sqlActions.getNameOfBillId(user);
-        userDao.insert(user);
-        user.setNameOfBill("Saving");
-        sqlActions.getNameOfBillId(user);*/
         userDao.insert(user);
 
     }
