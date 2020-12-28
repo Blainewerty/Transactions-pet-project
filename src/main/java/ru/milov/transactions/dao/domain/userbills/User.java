@@ -95,8 +95,7 @@ public class User {
 
     @Override
     public String toString() {
-        return  "ID " + id + "\t" +
-                "Email " + email + "\t" +
+        return  "Email " + email + "\t" +
                 "Balance " + balance + "\t" +
                 "Name Category " + nameCategory + "\t" +
                 "Transactions " + transactions + "\t" +

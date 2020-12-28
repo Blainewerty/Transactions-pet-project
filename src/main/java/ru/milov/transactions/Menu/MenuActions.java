@@ -2,6 +2,9 @@ package ru.milov.transactions.Menu;
 
 import ru.milov.transactions.dao.domain.userbills.User;
 import ru.milov.transactions.dao.domain.UserDao;
+import ru.milov.transactions.dao.domain.userbills.UserPerson;
+import ru.milov.transactions.dao.domain.userbills.UserSaving;
+import ru.milov.transactions.dao.domain.userbills.UserWork;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,8 +27,9 @@ public class MenuActions implements MenuFunc {
 
     @Override
     public void view(String string) {
-        System.out.println("For " + string + " type email, password, bill");
+        System.out.println("For " + string + " type email, password");
     }
+
 
     @Override
     public void registration() throws IOException {
@@ -33,12 +37,17 @@ public class MenuActions implements MenuFunc {
         view("registration");
         email = reader.readLine();
         password = digest.digest(reader.readLine());
-        billName = reader.readLine();
         user.setEmail(email);
         user.setPassword(password);
-        user.setNameOfBill(billName);
+        /*user.setNameOfBill("Person");
         user.setDate((String.valueOf(java.time.LocalDate.now())));
-        sqlActions.getNameOfBill(user);
+        sqlActions.getNameOfBillId(user);
+        userDao.insert(user);
+        user.setNameOfBill("Work");
+        sqlActions.getNameOfBillId(user);
+        userDao.insert(user);
+        user.setNameOfBill("Saving");
+        sqlActions.getNameOfBillId(user);*/
         userDao.insert(user);
 
     }
@@ -46,45 +55,69 @@ public class MenuActions implements MenuFunc {
     @Override
     public void authentication() throws IOException {
         user = new User();
-        view("authentication");
-        email = reader.readLine();
-        password = digest.digest(reader.readLine());
-        user.setEmail(email);
-        user.setPassword(password);
+        do {
+            view("authentication");
+            email = reader.readLine();
+            password = digest.digest(reader.readLine());
+            user.setEmail(email);
+            user.setPassword(password);
+            userDao.getID(user);
+            if (user.getId() == null) {
+                System.out.println("Please check email and password and try again\n");
+            }
+        } while (user.getId() == null);
         System.out.println("Press name of Bill");
-        user.setNameOfBill(reader.readLine());
-        userDao.findById(user);
-        if (user.getId() != null) {
-            do {
-
-                System.out.println("What we do next?\n" +
-                        "1: Add Info\n" +
-                        "2: Get Current Info\n" +
-                        "3: Get All operations\n" +
-                        "4: Go back\n");
-                command = reader.readLine();
-                switch (command) {
-                    case "1":
-                        sqlActions.addInfoAboutUsersBillsToSQL(user);
-                        break;
-                    case "2":
-                        sqlActions.getInfoAboutUserFromSQL(user);
-                        break;
-                    case "3":
-                        List<User> userList = new ArrayList<>();
-                        userDao.findByAll(user,userList);
-                        for (User user: userList){
-                            System.out.println(user);
-                        }
-                        break;
-                    case "4":
-                        Menu menu = new Menu();
-                        menu.start();
-                }
-            } while (!command.equals("3"));
-        } else {
-            System.out.println("Please check email and password and try again or register a new user\n");
+        String nameOfBill = reader.readLine();
+        user.setNameOfBill(nameOfBill);
+        switch (nameOfBill) {
+            case "Person":
+                UserPerson userPerson = new UserPerson();
+                userDao.findById(user, userPerson);
+                workingWithSQL(user, userPerson);
+                break;
+            case "Work":
+                UserWork userWork = new UserWork();
+                userDao.findById(user, userWork);
+                workingWithSQL(user, userWork);
+                break;
+            case "Saving":
+                UserSaving userSaving = new UserSaving();
+                userDao.findById(user, userSaving);
+                workingWithSQL(user, userSaving);
+                break;
         }
+
+    }
+
+
+    private void workingWithSQL(User user, User userbill) throws IOException {
+        do {
+            System.out.println("What we do next?\n" +
+                    "1: Add Info\n" +
+                    "2: Get Current Info\n" +
+                    "3: Get All operations\n" +
+                    "4: Go back\n");
+            command = reader.readLine();
+            switch (command) {
+                case "1":
+                    sqlActions.addInfoAboutUsersBillsToSQL(user, userbill);
+                    break;
+                case "2":
+                    sqlActions.getInfoAboutUserFromSQL(user, userbill);
+                    break;
+                case "3":
+                    List<User> userList = new ArrayList<>();
+                    userDao.findByAll(user, userbill, userList);
+                    for (User userOperat : userList) {
+                        System.out.println(userOperat);
+                    }
+                    break;
+                case "4":
+                    Menu menu = new Menu();
+                    menu.start();
+            }
+        } while (!command.equals("4"));
     }
 }
+
 
