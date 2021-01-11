@@ -61,6 +61,7 @@ public class MenuActions {
 
     public void workingWithSQL(UserDto userDto) throws IOException {
         do {
+            getUserDao().findById(userDto);
             System.out.println("What we do next?\n" +
                     "1: Add Info\n" +
                     "2: Get Current Info\n" +
