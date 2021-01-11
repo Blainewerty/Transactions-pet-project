@@ -7,16 +7,22 @@ import ru.milov.transactions.dao.UserDao;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static ru.milov.transactions.dao.DaoFactory.getUserDao;
 
 public class SQLActions {
 
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public void registerNewUser(UserDto userDto){
+    public void registerNewUser(UserDto userDto) {
         getUserDao().insert(userDto);
         System.out.println("User with email: " + userDto.getEmail() + " has registered!");
     }
@@ -25,7 +31,7 @@ public class SQLActions {
         System.out.println(getUserDao().findById(userDto) + "\n");
     }
 
-    public void getAllOperationsOnBill(UserDto userDto){
+    public void getAllOperationsOnBill(UserDto userDto) {
         List<UserDto> userDtoList = new ArrayList<>();
         getUserDao().findByAll(userDto, userDtoList);
         for (UserDto userDtoOperat : userDtoList) {
@@ -34,36 +40,39 @@ public class SQLActions {
     }
 
     public void addInfoAboutUsersBillsToSQL(UserDto userDto) throws IOException {
-//        userBill.setDate(String.valueOf(java.time.LocalDate.now()));
-//        System.out.println("Add score of transaction");
-//        userBill.setTransactions(Integer.parseInt(reader.readLine()));
-//        System.out.println("Add name of category\n" +
-//                "Salary, Funnies, Automobile, Health");
-//        userBill.setNameCategory(reader.readLine());
-//        getNameCategoryId(userBill);
-//        if (userBill.getTransactionsId() == 1) {
-//            userBill.setBalance(userBill.getBalance() + userBill.getTransactions());
-//        } else {
-//            userBill.setBalance(userBill.getBalance() - userBill.getTransactions());
-//        }
-//        userDao.update(user,userBill);
+        getUserDao().findById(userDto);
+
+        Date date = new Date();
+        Timestamp ts1 = new Timestamp(date.getTime());
+
+        userDto.setDate(sdf.format(ts1));
+        System.out.println("Add score of transaction");
+        userDto.setLastTransaction(Integer.parseInt(reader.readLine()));
+        System.out.println("Add name of category\n" +
+                "Salary, Funnies, Automobile, Health");
+        userDto.setNameCategory(reader.readLine());
+        System.out.println("You want add, or subtract money?\n" +
+                "1 for add\n" +
+                "2 for subtract");
+        switch (Integer.parseInt(reader.readLine())) {
+            case 1:
+                userDto.setBalance(userDto.getBalance() + userDto.getLastTransaction());
+                getUserDao().update(userDto);
+                break;
+            case 2:
+                userDto.setBalance(userDto.getBalance() - userDto.getLastTransaction());
+                getUserDao().update(userDto);
+                break;
+        }
     }
 
-    public UserDto getNameCategoryId(UserDto userDto) {
-//        switch (user.getNameCategory()) {
-//            case "Salary":
-//                user.setTransactionsId(1);
-//                break;
-//            case "Funnies":
-//                user.setTransactionsId(2);
-//                break;
-//            case "Health":
-//                user.setTransactionsId(3);
-//                break;
-//            case "Automobile":
-//                user.setTransactionsId(4);
-//                break;
-//        }
-        return userDto;
+    public void showAllUsersBills(UserDto userdto) {
+        List <UserDto> listOfBills = new ArrayList<>();
+        getUserDao().findAllBills(userdto,listOfBills);
+        for (UserDto userDtoBill : listOfBills) {
+            System.out.println(userDtoBill);
+        }
     }
+
 }
+

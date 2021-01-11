@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 public class Menu {
 
-    MenuFunc menuFunc = new MenuActions();
+    MenuActions menuFunc = new MenuActions();
 
     String command;
 

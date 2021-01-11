@@ -29,12 +29,4 @@ public class SQLActionsTest extends TestCase {
         assertEquals(1, actual);
     }
 
-    @Test
-    public void testGetNameCategoryId_ok() {
-        int expected = 1;
-        UserDto actual = sqlActions.getNameCategoryId(userDto);
-
-    }
-
-
 }

@@ -14,7 +14,7 @@ import java.util.List;
 
 import static ru.milov.transactions.dao.DaoFactory.getUserDao;
 
-public class MenuActions implements MenuFunc {
+public class MenuActions {
 
 
     UserDto userDto;
@@ -28,13 +28,11 @@ public class MenuActions implements MenuFunc {
 
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    @Override
     public void view(String string) {
         System.out.println("For " + string + " type email, password");
     }
 
 
-    @Override
     public void registration() throws IOException {
         userDto = new UserDto();
         view("registration");
@@ -45,18 +43,17 @@ public class MenuActions implements MenuFunc {
         sqlActions.registerNewUser(userDto);
     }
 
-    @Override
     public void authentication() throws IOException {
         view("authentication");
         email = reader.readLine();
         password = reader.readLine();
-//        System.out.println("Press name of Bill: Person, Saving, Work");
-//
-//
         userDto = service.auth(email,password);
         System.out.println("Hello " + userDto.getEmail() + "\nPlease choose your bill:\n" +
-                "Person,Work,Saving ");
+                "Person,Work,Saving or show all ");
         String nameOfBill = reader.readLine();
+        if (nameOfBill.equals("all")){
+            sqlActions.showAllUsersBills(userDto);
+        }
         userDto.setNameOfBill(nameOfBill);
         workingWithSQL(userDto);
     }

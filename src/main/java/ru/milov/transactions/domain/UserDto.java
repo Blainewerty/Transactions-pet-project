@@ -8,8 +8,10 @@ public class UserDto {
     private int balance;
     private String transactionCategory;
     private String nameOfBill;
+    private int nameOfBillId;
     private String date;
     private int lastTransaction;
+    private int transactionsId;
 
     public Integer getId() {
         return id;
@@ -86,5 +88,45 @@ public class UserDto {
                 ", date='" + date + '\'' +
                 ", lastTransaction=" + lastTransaction +
                 '}';
+    }
+
+    private void setTransactionId(){
+        switch (getNameCategory()){
+            case "Salary":
+                transactionsId = 1;
+                break;
+            case "Funnies":
+                transactionsId = 2;
+                break;
+            case "Health":
+                transactionsId = 3;
+                break;
+            case "Automobile":
+                transactionsId = 4;
+        }
+    }
+
+    public int getTransactionsId() {
+        setTransactionId();
+        return transactionsId;
+    }
+
+    public int getNameOfBillId() {
+        setNameOfBillId();
+        return nameOfBillId;
+    }
+
+    private void setNameOfBillId() {
+        switch (getNameOfBill()){
+            case "Person":
+                nameOfBillId = 1;
+                break;
+            case "Work":
+                nameOfBillId = 2;
+                break;
+            case "Saving":
+                nameOfBillId = 3;
+                break;
+        }
     }
 }
