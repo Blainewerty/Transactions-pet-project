@@ -47,15 +47,16 @@ public class MenuActions {
         view("authentication");
         email = reader.readLine();
         password = reader.readLine();
-        userDto = service.auth(email,password);
+        userDto = service.auth(email, password);
         System.out.println("Hello " + userDto.getEmail() + "\nPlease choose your bill:\n" +
                 "Person,Work,Saving or show all ");
         String nameOfBill = reader.readLine();
-        if (nameOfBill.equals("all")){
+        if (nameOfBill.equals("all")) {
             sqlActions.showAllUsersBills(userDto);
+        } else {
+            userDto.setNameOfBill(nameOfBill);
+            workingWithSQL(userDto);
         }
-        userDto.setNameOfBill(nameOfBill);
-        workingWithSQL(userDto);
     }
 
 
@@ -66,8 +67,9 @@ public class MenuActions {
                     "1: Add Info\n" +
                     "2: Get Current Info\n" +
                     "3: Get All operations\n" +
-                    "4: Choose another Bill\n" +
-                    "5: Go back\n");
+                    "4: Transfer money to another Bill\n" +
+                    "5: Choose another Bill\n" +
+                    "6: Go back\n");
             command = reader.readLine();
             switch (command) {
                 case "1":
@@ -80,15 +82,23 @@ public class MenuActions {
                     sqlActions.getAllOperationsOnBill(userDto);
                     break;
                 case "4":
-                    System.out.println("Please choose your bill:\n" +
-                            "Person,Work,Saving ");
-                    String nameOfBill = reader.readLine();
-                    userDto.setNameOfBill(nameOfBill);
+                    sqlActions.transferFromBillToBill(userDto);
                     break;
                 case "5":
+                    System.out.println("Please choose your bill:\n" +
+                            "Person,Work,Saving or all ");
+                    String nameOfBill = reader.readLine();
+                    if (nameOfBill.equals("all")) {
+                        sqlActions.showAllUsersBills(userDto);
+                        command = "6";
+                    } else {
+                        userDto.setNameOfBill(nameOfBill);
+                    }
+                    break;
+                case "6":
                     break;
             }
-        } while (!command.equals("5"));
+        } while (!command.equals("6"));
     }
 }
 

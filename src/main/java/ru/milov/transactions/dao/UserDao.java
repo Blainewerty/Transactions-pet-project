@@ -53,8 +53,7 @@ public class UserDao implements Dao<UserDto, Integer> {
                 "         inner join name_bill nb on bills.name_bill_id = nb.name_bill_id\n" +
                 "where u.user_id = ? and name_bill = ? group by u.user_id, balance, date, name_category, transactions, name_bill, bill_id\n" +
                 "order by bill_id";
-
-        try (Connection connection = dataSource.getConnection()) {
+                try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(request);
             statement.setInt(1, userDto.getId());
             statement.setString(2, userDto.getNameOfBill());
@@ -62,7 +61,7 @@ public class UserDao implements Dao<UserDto, Integer> {
             ResultSet rSet = statement.executeQuery();
             while (rSet.next()) {
                 userDto.setBalance(rSet.getInt("balance"));
-                userDto.setDate(rSet.getString("date"));
+                userDto.setDate(String.valueOf(rSet.getTimestamp("date")));
                 userDto.setNameCategory(rSet.getString("name_category"));
                 userDto.setLastTransaction(rSet.getInt("transactions"));
 
@@ -105,35 +104,6 @@ public class UserDao implements Dao<UserDto, Integer> {
         }
         return userDtoList;
     }
-
-    public List <UserDto> findAllBills(UserDto userDto, List<UserDto> userDtoList){
-        try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement("select u.user_id, balance, date, name_category, transactions, name_bill\n" +
-                    "from bills\n" +
-                    "         inner join users u on bills.user_id = u.user_id\n" +
-                    "         inner join transaction_categ tc on bills.transaction_categ_id = tc.transaction_categ_id\n" +
-                    "         inner join name_bill nb on bills.name_bill_id = nb.name_bill_id\n" +
-                    "where u.user_id = ? group by u.user_id, balance, date, name_category, transactions, name_bill, bill_id\n" +
-                    "order by bill_id");
-            ps.setInt(1, userDto.getId());
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                UserDto userDtoBills = new UserDto();
-                userDtoBills.setBalance(rs.getInt("balance"));
-                userDtoBills.setDate(rs.getString("date"));
-                userDtoBills.setNameCategory(rs.getString("name_category"));
-                userDtoBills.setLastTransaction(rs.getInt("transactions"));
-                userDtoBills.setNameOfBill(rs.getString("name_bill"));
-                userDtoList.add(userDtoBills);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return userDtoList;
-    }
-
 
     @Override
     public UserDto insert(UserDto userDto) {

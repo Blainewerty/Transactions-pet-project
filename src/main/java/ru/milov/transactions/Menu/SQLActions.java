@@ -1,7 +1,6 @@
 package ru.milov.transactions.Menu;
 
 import ru.milov.transactions.domain.UserDto;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,6 +24,7 @@ public class SQLActions {
     }
 
     public void getInfoAboutUserFromSQL(UserDto userDto) {
+
         System.out.println(getUserDao().findById(userDto) + "\n");
     }
 
@@ -61,13 +61,33 @@ public class SQLActions {
         }
     }
 
-    public void showAllUsersBills(UserDto userdto) {
-        List<UserDto> listOfBills = new ArrayList<>();
-        getUserDao().findAllBills(userdto, listOfBills);
-        for (UserDto userDtoBill : listOfBills) {
-            System.out.println(userDtoBill);
-        }
+    public void showAllUsersBills(UserDto userDto) {
+        userDto.setNameOfBill("Person");
+        System.out.println(getUserDao().findById(userDto));
+        userDto.setNameOfBill("Work");
+        System.out.println(getUserDao().findById(userDto));
+        userDto.setNameOfBill("Saving");
+        System.out.println(getUserDao().findById(userDto));
     }
 
+    public UserDto transferFromBillToBill(UserDto userDto) throws IOException {
+        getUserDao().findById(userDto);
+        String tempNameOfBill = userDto.getNameOfBill();
+        int tempBalance = userDto.getBalance();
+        System.out.println("Where transfer?\n" +
+                "Person, Work, Saving");
+        String nameOfTransferBill = reader.readLine();
+        userDto.setNameOfBill(nameOfTransferBill);
+        getUserDao().findById(userDto);
+        System.out.println("Add score of transaction");
+        userDto.setLastTransaction(Integer.parseInt(reader.readLine()));
+        userDto.setBalance(userDto.getLastTransaction() + userDto.getBalance());
+        getUserDao().update(userDto);
+        userDto.setNameOfBill(tempNameOfBill);
+        userDto.setBalance(tempBalance - userDto.getLastTransaction());
+        getUserDao().update(userDto);
+        return userDto;
+    }
 }
+
 

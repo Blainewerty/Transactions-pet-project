@@ -1,5 +1,7 @@
 package ru.milov.transactions.domain;
 
+import java.sql.Timestamp;
+
 public class UserDto {
 
     private Integer id;
@@ -79,15 +81,12 @@ public class UserDto {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", balance=" + balance +
-                ", nameCategory='" + transactionCategory + '\'' +
-                ", nameOfBill='" + nameOfBill + '\'' +
-                ", date='" + date + '\'' +
-                ", lastTransaction=" + lastTransaction +
-                '}';
+        return  "Email= " + email + "\t" +
+                "Balance= " + balance + "\t" +
+                "Name Category= " + transactionCategory + "\t" +
+                "Name Of Bill= " + nameOfBill + "\t" +
+                "Date= " + date + "\t" +
+                "Last Transaction= " + lastTransaction;
     }
 
     private void setTransactionId(){
