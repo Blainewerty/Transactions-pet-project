@@ -1,8 +1,5 @@
-package ru.milov.transactions.dao;
+package ru.milov.transactions.service;
 
-import ru.milov.transactions.service.DigestService;
-import ru.milov.transactions.service.SecurityService;
-import ru.milov.transactions.service.ServiceConverter;
 import static ru.milov.transactions.dao.DaoFactory.getUserDao;
 
 public class ServiceFactory {
@@ -25,16 +22,16 @@ public class ServiceFactory {
         return serviceConverter;
     }
 
-    private static SecurityService securityService;
+    private static ServiceSecurity serviceSecurity;
 
-    public static SecurityService getSecurityService(){
-        if(securityService == null){
-            securityService = new SecurityService(
+    public static ServiceSecurity getServiceSecurity(){
+        if(serviceSecurity == null){
+            serviceSecurity = new ServiceSecurity(
                     getUserDao(),
                     getDigestService(),
                     getServiceConverter()
             );
         }
-        return securityService;
+        return serviceSecurity;
     }
 }

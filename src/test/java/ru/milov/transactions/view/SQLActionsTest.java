@@ -1,13 +1,13 @@
-package ru.milov.transactions.Menu;
+package ru.milov.transactions.view;
 
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import ru.milov.transactions.dao.UserDao;
 
-import ru.milov.transactions.domain.UserDto;
+import ru.milov.transactions.service.SQLActions;
+import ru.milov.transactions.service.domain.UserDto;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SQLActionsTest extends TestCase {

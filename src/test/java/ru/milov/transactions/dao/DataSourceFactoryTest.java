@@ -5,13 +5,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.matchers.Null;
 import org.mockito.runners.MockitoJUnitRunner;
 import ru.milov.transactions.service.DigestService;
-import ru.milov.transactions.service.SecurityService;
+import ru.milov.transactions.service.ServiceSecurity;
 import ru.milov.transactions.service.ServiceConverter;
-import ru.milov.transactions.domain.ServiceUser;
-import ru.milov.transactions.domain.UserDto;
+import ru.milov.transactions.service.domain.ServiceUser;
+import ru.milov.transactions.service.domain.UserDto;
 
 import static org.mockito.Mockito.when;
 
@@ -19,7 +18,7 @@ import static org.mockito.Mockito.when;
 public class DataSourceFactoryTest extends TestCase {
 
     @InjectMocks
-    SecurityService service;
+    ServiceSecurity service;
 
     @Mock UserDao userDao;
     @Mock

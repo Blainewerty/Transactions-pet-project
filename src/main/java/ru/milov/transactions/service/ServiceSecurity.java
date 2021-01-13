@@ -3,17 +3,17 @@ package ru.milov.transactions.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.milov.transactions.dao.UserDao;
-import ru.milov.transactions.domain.ServiceUser;
-import ru.milov.transactions.domain.UserDto;
+import ru.milov.transactions.service.domain.ServiceUser;
+import ru.milov.transactions.service.domain.UserDto;
 
-public class SecurityService {
+public class ServiceSecurity {
 
     private final UserDao userDao;
     private final DigestService digestService;
     private final ServiceConverter converter;
     private static Logger log = LogManager.getLogger(UserDao.class.getName());
 
-    public SecurityService(UserDao userDao, DigestService digestService, ServiceConverter converter) {
+    public ServiceSecurity(UserDao userDao, DigestService digestService, ServiceConverter converter) {
         this.userDao = userDao;
         this.digestService = digestService;
         this.converter = converter;

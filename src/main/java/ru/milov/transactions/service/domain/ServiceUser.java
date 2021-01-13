@@ -1,4 +1,4 @@
-package ru.milov.transactions.domain;
+package ru.milov.transactions.service.domain;
 
 public class ServiceUser {
 

@@ -1,7 +1,8 @@
 package ru.milov.transactions.service;
 
-import ru.milov.transactions.domain.ServiceUser;
-import ru.milov.transactions.domain.UserDto;
+import ru.milov.transactions.service.domain.ServiceUser;
+import ru.milov.transactions.service.domain.UserBill;
+import ru.milov.transactions.service.domain.UserDto;
 
 public class ServiceConverter {
 
@@ -10,6 +11,12 @@ public class ServiceConverter {
 
         target.setId(source.getId());
         target.setEmail(source.getEmail());
+
+        return target;
+    }
+
+    public UserBill convert (UserBill source){
+        UserBill target = new UserBill();
 
         return target;
     }

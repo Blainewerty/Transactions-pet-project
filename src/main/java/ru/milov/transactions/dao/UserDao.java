@@ -2,8 +2,8 @@ package ru.milov.transactions.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.milov.transactions.domain.ServiceUser;
-import ru.milov.transactions.domain.UserDto;
+import ru.milov.transactions.service.domain.ServiceUser;
+import ru.milov.transactions.service.domain.UserDto;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -29,7 +29,6 @@ public class UserDao implements Dao<UserDto, Integer> {
 
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
-                    serviceUser = new ServiceUser();
                     serviceUser.setId(rs.getInt("user_id"));
                     serviceUser.setEmail(rs.getString("email"));
                     serviceUser.setPassword(rs.getString("password"));
@@ -48,9 +47,9 @@ public class UserDao implements Dao<UserDto, Integer> {
         log.info("Starting filling user by id");
         String request = "select u.user_id, balance, date, name_category, transactions, name_bill\n" +
                 "from bills\n" +
-                "         inner join users u on bills.user_id = u.user_id\n" +
-                "         inner join transaction_categ tc on bills.transaction_categ_id = tc.transaction_categ_id\n" +
-                "         inner join name_bill nb on bills.name_bill_id = nb.name_bill_id\n" +
+                "         inner join users u on name.user_id = u.user_id\n" +
+                "         inner join transaction_categ tc on name.transaction_categ_id = tc.transaction_categ_id\n" +
+                "         inner join name_bill nb on name.name_bill_id = nb.name_bill_id\n" +
                 "where u.user_id = ? and name_bill = ? group by u.user_id, balance, date, name_category, transactions, name_bill, bill_id\n" +
                 "order by bill_id";
                 try (Connection connection = dataSource.getConnection()) {
@@ -79,9 +78,9 @@ public class UserDao implements Dao<UserDto, Integer> {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement ps = connection.prepareStatement("select u.user_id, balance, date, name_category, transactions, name_bill\n" +
                     "from bills\n" +
-                    "         inner join users u on bills.user_id = u.user_id\n" +
-                    "         inner join transaction_categ tc on bills.transaction_categ_id = tc.transaction_categ_id\n" +
-                    "         inner join name_bill nb on bills.name_bill_id = nb.name_bill_id\n" +
+                    "         inner join users u on name.user_id = u.user_id\n" +
+                    "         inner join transaction_categ tc on name.transaction_categ_id = tc.transaction_categ_id\n" +
+                    "         inner join name_bill nb on name.name_bill_id = nb.name_bill_id\n" +
                     "where u.user_id = ? and name_bill=? group by u.user_id, balance, date, name_category, transactions, name_bill, bill_id\n" +
                     "order by bill_id");
             ps.setInt(1, userDto.getId());
