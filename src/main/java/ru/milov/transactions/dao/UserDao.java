@@ -45,24 +45,16 @@ public class UserDao implements Dao<UserDto, Integer> {
     @Override
     public UserDto findById(UserDto userDto) {
         log.info("Starting filling user by id");
-        String request = "select u.user_id, balance, date, name_category, transactions, name_bill\n" +
-                "from bills\n" +
-                "         inner join users u on name.user_id = u.user_id\n" +
-                "         inner join transaction_categ tc on name.transaction_categ_id = tc.transaction_categ_id\n" +
-                "         inner join name_bill nb on name.name_bill_id = nb.name_bill_id\n" +
-                "where u.user_id = ? and name_bill = ? group by u.user_id, balance, date, name_category, transactions, name_bill, bill_id\n" +
-                "order by bill_id";
+        String request = "select * from bills where user_id = ?";
                 try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(request);
             statement.setInt(1, userDto.getId());
-            statement.setString(2, userDto.getNameOfBill());
+
 
             ResultSet rSet = statement.executeQuery();
             while (rSet.next()) {
-                userDto.setBalance(rSet.getInt("balance"));
-                userDto.setDate(String.valueOf(rSet.getTimestamp("date")));
-                userDto.setNameCategory(rSet.getString("name_category"));
-                userDto.setLastTransaction(rSet.getInt("transactions"));
+                userDto.setFirstName(rSet.getString("first_name"));
+                userDto.setLastName(rSet.getString("last_name"));
 
                 log.trace("Complete! " + userDto);
             }
@@ -76,26 +68,15 @@ public class UserDao implements Dao<UserDto, Integer> {
     @Override
     public List<UserDto> findByAll(UserDto userDto, List<UserDto> userDtoList) {
         try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement("select u.user_id, balance, date, name_category, transactions, name_bill\n" +
-                    "from bills\n" +
-                    "         inner join users u on name.user_id = u.user_id\n" +
-                    "         inner join transaction_categ tc on name.transaction_categ_id = tc.transaction_categ_id\n" +
-                    "         inner join name_bill nb on name.name_bill_id = nb.name_bill_id\n" +
-                    "where u.user_id = ? and name_bill=? group by u.user_id, balance, date, name_category, transactions, name_bill, bill_id\n" +
-                    "order by bill_id");
+            PreparedStatement ps = connection.prepareStatement("");
             ps.setInt(1, userDto.getId());
-            ps.setString(2, userDto.getNameOfBill());
+
 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 UserDto userDtoOperat = new UserDto();
                 userDtoOperat.setEmail("email");
-                userDtoOperat.setBalance(rs.getInt("balance"));
-                userDtoOperat.setDate(rs.getString("date"));
-                userDtoOperat.setNameCategory(rs.getString("name_category"));
-                userDtoOperat.setLastTransaction(rs.getInt("transactions"));
-                userDtoOperat.setNameOfBill(rs.getString("name_bill"));
                 userDtoList.add(userDtoOperat);
             }
         } catch (SQLException throwables) {
@@ -106,15 +87,16 @@ public class UserDao implements Dao<UserDto, Integer> {
 
     @Override
     public UserDto insert(UserDto userDto) {
+        String request = "insert into users(email, password, first_name, last_name) values (?,?,?,?)";
         try (Connection connection = dataSource.getConnection()) {
-            System.out.println(userDto);
             if (userDto.getId() == null) {
-                PreparedStatement ps = connection.prepareStatement("insert into users (email, password) \n" +
-                                "values (?,?)",
+                PreparedStatement ps = connection.prepareStatement(request,
                         Statement.RETURN_GENERATED_KEYS);
 
                 ps.setString(1, userDto.getEmail());
                 ps.setString(2, userDto.getPassword());
+                ps.setString(3, userDto.getFirstName());
+                ps.setString(4, userDto.getLastName());
 
                 int affectedRows = ps.executeUpdate();
 
@@ -139,16 +121,13 @@ public class UserDao implements Dao<UserDto, Integer> {
 
     @Override
     public UserDto update(UserDto userDto) {
+
         System.out.println(userDto);
         try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement("insert into bills (user_id, name_bill_id, balance, date, transactions, transaction_categ_id) \n" +
-                    "values (?,?,?,?,?,?)");
+            PreparedStatement ps = connection.prepareStatement("");
             ps.setInt(1, userDto.getId());
-            ps.setInt(2, userDto.getNameOfBillId());
-            ps.setInt(3, userDto.getBalance());
-            ps.setTimestamp(4, Timestamp.valueOf(userDto.getDate()));
-            ps.setInt(5, userDto.getLastTransaction());
-            ps.setInt(6, userDto.getTransactionsId());
+            //ps.setTimestamp(4, Timestamp.valueOf(userDto.getDate()));
+
 
             ps.execute();
 

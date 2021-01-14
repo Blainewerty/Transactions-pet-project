@@ -2,9 +2,11 @@ package ru.milov.transactions.view;
 
 import ru.milov.transactions.service.domain.UserDto;
 
-import java.io.IOException;
-
 public interface MenuButtons {
+
+    public void start();
+
+    public void start(UserDto userDto);
 
     public void buttonOne();
 

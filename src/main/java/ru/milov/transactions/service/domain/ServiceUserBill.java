@@ -1,18 +1,9 @@
 package ru.milov.transactions.service.domain;
 
-public class UserBill {
+public class ServiceUserBill {
 
-    private Integer id;
     private String name;
     private int balance;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -28,13 +19,5 @@ public class UserBill {
 
     public void setBalance(int balance) {
         this.balance = balance;
-    }
-
-    @Override
-    public String toString() {
-        return "UserBill{" +
-                "name='" + name + '\'' +
-                ", balance=" + balance +
-                '}';
     }
 }

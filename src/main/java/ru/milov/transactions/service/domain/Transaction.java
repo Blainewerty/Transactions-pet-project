@@ -1,10 +1,19 @@
 package ru.milov.transactions.service.domain;
 
-public class OperationWithBill {
+public class Transaction {
 
-    String date;
-    String nameOfTransaction;
+    private Integer id;
+    private String date;
+    private String nameOfTransaction;
     int lastTransaction;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getDate() {
         return date;

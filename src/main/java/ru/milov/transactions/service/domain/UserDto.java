@@ -56,4 +56,16 @@ public class UserDto {
     public void setTotalBalance(int totalBalance) {
         this.totalBalance = totalBalance;
     }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", totalBalance=" + totalBalance +
+                '}';
+    }
 }

@@ -15,6 +15,15 @@ public class DaoFactory {
         return userDao;
     }
 
+    private static UserBillDao userBillDao;
+
+    public static UserBillDao getUserBillDao() {
+        if (userBillDao == null) {
+            userBillDao = new UserBillDao(getDataSource());
+        }
+        return userBillDao;
+    }
+
     private static DataSource dataSource;
 
     public static DataSource getDataSource() {

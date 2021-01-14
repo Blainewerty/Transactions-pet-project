@@ -1,29 +1,28 @@
 package ru.milov.transactions.view;
 
-import ru.milov.transactions.service.ServiceFactory;
+import ru.milov.transactions.service.ServiceApp;
+import ru.milov.transactions.service.TypeExceptions;
 import ru.milov.transactions.service.domain.UserDto;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static ru.milov.transactions.dao.DaoFactory.getUserDao;
-
 public class Menu implements MenuButtons {
 
-    String email;
-    String password;
-    String command;
-    UserDto userDto;
+    private String email;
+    private String password;
+    private String command;
 
-    MenuAfterAuth menuAfterAuth = new MenuAfterAuth();
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private  ServiceApp serviceApp = new ServiceApp();
+    private MenuAfterAuth menuAfterAuth = new MenuAfterAuth();
+    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public void startApp() {
+    @Override
+    public void start() {
         do {
             System.out.println("Hello! \nYou want authentication or registration?\n" +
-                    "1: Authentication\n" +
-                    "2: Registration\n" +
+                    "1: Registration\n" +
+                    "2: Authentication\n" +
                     "3: Exit");
 
             try {
@@ -43,32 +42,33 @@ public class Menu implements MenuButtons {
         } while (!command.equals("3"));
     }
 
+    @Override
+    public void start(UserDto userDto) {
+
+    }
 
     @Override
     public void buttonOne() {
         try {
-            UserDto userDto = new UserDto();
             System.out.println("For register type email, password");
             email = reader.readLine();
-            password = ServiceFactory.getDigestService().digest(reader.readLine());
-            userDto.setEmail(email);
-            userDto.setPassword(password);
+            password = reader.readLine();
 
-            System.out.println("For register type your first name, last name and balance");
+            UserDto userDto = serviceApp.checkIfUserInDb(email, password);
+
+            System.out.println("For register type your first name, last name");
+
             String firstName = reader.readLine();
             String lastName = reader.readLine();
-            int balance = reader.read();
 
             userDto.setFirstName(firstName);
             userDto.setLastName(lastName);
-            userDto.setTotalBalance(balance);
 
-            getUserDao().insert(userDto);
             System.out.println("User with email: " + userDto.getEmail() + " has registered!");
 
-            menuAfterAuth.startMenuAfterAuth(userDto);
+            menuAfterAuth.start(serviceApp.registerUser(userDto));
 
-        } catch (IOException e) {
+        } catch (IOException | TypeExceptions e) {
             e.printStackTrace();
         }
     }
@@ -84,15 +84,10 @@ public class Menu implements MenuButtons {
             System.out.println("For authentication type email, password");
             email = reader.readLine();
             password = reader.readLine();
-            userDto = ServiceFactory.getServiceSecurity().auth(email, password);
-            if (userDto != null) {
-                menuAfterAuth.startMenuAfterAuth(userDto);
-            } else {
-                System.out.println("Please try again!");
-                startApp();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+            UserDto userDto = serviceApp.authInApp(email, password);
+            menuAfterAuth.start(userDto);
+        } catch (IOException | TypeExceptions e) {
+            System.out.println("Please try again!");;
         }
     }
 

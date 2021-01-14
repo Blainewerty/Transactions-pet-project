@@ -60,7 +60,7 @@ public class DataSourceFactoryTest extends TestCase {
 
         when(userDao.findByEmail("jb@mail.ru")).thenReturn(serviceUser);
         when(digestService.digest("1234")).thenReturn("pass");
-        when(converter.convert(serviceUser)).thenReturn(userDto);
+        when(converter.convertAuth(serviceUser)).thenReturn(userDto);
 
         UserDto userDtoFromService = service.auth("jb@mail.ru", "1234");
 

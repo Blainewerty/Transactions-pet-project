@@ -18,7 +18,6 @@ public class SQLActionsTest extends TestCase {
 
     @Before
     public void setUp() throws Exception {
-        userDto.setNameCategory("Salary");
         userDto.setEmail("jb@mail.ru");
         userDto.setPassword("81dc9bdb52d04dc20036dbd8313ed055");
     }

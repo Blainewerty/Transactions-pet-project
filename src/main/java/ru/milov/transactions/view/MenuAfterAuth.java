@@ -1,23 +1,28 @@
 package ru.milov.transactions.view;
 
-import ru.milov.transactions.service.SQLActions;
-import ru.milov.transactions.service.domain.OperationWithBill;
-import ru.milov.transactions.service.domain.UserBill;
-import ru.milov.transactions.service.domain.UserDto;
 
+import ru.milov.transactions.service.ServiceApp;
+import ru.milov.transactions.service.TypeExceptions;
+import ru.milov.transactions.service.domain.UserDto;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class MenuAfterAuth implements MenuButtons {
 
-    String command;
-    SQLActions sqlActions = new SQLActions();
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private String command;
+    private  ServiceApp serviceApp = new ServiceApp();
+    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public void startMenuAfterAuth(UserDto userDto) {
+    @Override
+    public void start() {
+    }
+
+    @Override
+    public void start(UserDto userDto) {
         do {
-            System.out.println("What we do next?\n" +
+            System.out.println("Hello " + userDto.getFirstName() + " Your Total balance is " + userDto.getTotalBalance() + "\n"+
+                    "What we do next?\n" +
                     "1: Create Bill\n" +
                     "2: Add Info\n" +
                     "3: Get Current Info\n" +
@@ -61,26 +66,21 @@ public class MenuAfterAuth implements MenuButtons {
     @Override
     public void buttonOne(UserDto userDto) {
         try {
-            System.out.println(userDto);
-            UserBill userBill = new UserBill();
-            OperationWithBill operation = new OperationWithBill();
+            System.out.println("How do we name it?");
+            String nameOfTransaction = reader.readLine();
+
             System.out.println("Add Score of Transaction");
-            operation.setLastTransaction(reader.read());
+            int valueOfTransaction = Integer.parseInt(reader.readLine());
+
+
             System.out.println("You want add or subtract?\n" +
                     "1: Add\n" +
                     "2: Subtract\n" +
                     "3: Abort");
             command = reader.readLine();
-            if (command.equals("1")) {
-                userBill.setBalance(userBill.getBalance() + operation.getLastTransaction());
-            }
-            if (command.equals("2")) {
-                userBill.setBalance(userBill.getBalance() - operation.getLastTransaction());
-            }
-            if (command.equals("3")) {
-                startMenuAfterAuth(userDto);
-            }
-            sqlActions.addInfoAboutUsersBillsToSQL(userBill, operation);
+
+            serviceApp.startingOperationWithBill(userDto, nameOfTransaction, valueOfTransaction, command);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,7 +93,7 @@ public class MenuAfterAuth implements MenuButtons {
 
     @Override
     public void buttonTwo(UserDto userDto) {
-        sqlActions.getInfoAboutUserFromSQL(userDto);
+
     }
 
     @Override
@@ -103,7 +103,11 @@ public class MenuAfterAuth implements MenuButtons {
 
     @Override
     public void buttonThree(UserDto userDto) {
-
+        try {
+            serviceApp.getInfoAboutUser(userDto);
+        } catch (TypeExceptions typeExceptions) {
+            typeExceptions.printStackTrace();
+        }
     }
 
     @Override

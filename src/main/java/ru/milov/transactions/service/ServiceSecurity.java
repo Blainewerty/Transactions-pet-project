@@ -20,15 +20,28 @@ public class ServiceSecurity {
     }
 
 
+    public UserDto checkIfUserInDb(String email, String password) {
+        ServiceUser serviceUserCheck = userDao.findByEmail(email);
+        if (serviceUserCheck == null) {
+            String passwordHash = digestService.digest(password);
+            ServiceUser serviceUser = new ServiceUser();
+
+            serviceUser.setEmail(email);
+            serviceUser.setPassword(passwordHash);
+            return converter.convertRegister(serviceUser);
+        }
+        return null;
+    }
+
+
     public UserDto auth(String email, String password) {
         log.trace("Starting authorization " + email);
         ServiceUser serviceUser = userDao.findByEmail(email);
-
         if (serviceUser != null) {
             String passwordHash = digestService.digest(password);
 
             if (passwordHash.equals(serviceUser.getPassword())) {
-                return converter.convert(serviceUser);
+                return converter.convertAuth(serviceUser);
             }
         }
         return null;
