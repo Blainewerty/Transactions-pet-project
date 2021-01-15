@@ -6,7 +6,6 @@ import ru.milov.transactions.service.services.serviceapp.ServiceAppUser;
 import ru.milov.transactions.service.services.servicesql.ServiceSQLBill;
 import ru.milov.transactions.service.services.servicesql.ServiceSQLTransaction;
 import ru.milov.transactions.service.services.servicesql.ServiceSQLUser;
-
 import static ru.milov.transactions.dao.DaoFactory.getUserDao;
 
 public class ServiceFactory {

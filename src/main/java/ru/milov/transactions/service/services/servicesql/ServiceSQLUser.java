@@ -1,7 +1,6 @@
 package ru.milov.transactions.service.services.servicesql;
 
 import ru.milov.transactions.service.domain.UserDto;
-
 import static ru.milov.transactions.dao.DaoFactory.getUserDao;
 
 public class ServiceSQLUser {
