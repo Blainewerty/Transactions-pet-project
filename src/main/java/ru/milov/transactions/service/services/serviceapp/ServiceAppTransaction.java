@@ -1,10 +1,11 @@
-package ru.milov.transactions.service.services;
+package ru.milov.transactions.service.services.serviceapp;
 
 
 import ru.milov.transactions.service.domain.Transaction;
 import ru.milov.transactions.service.domain.UserBill;
-import ru.milov.transactions.service.sqlactions.SQLActionsBill;
-import ru.milov.transactions.service.sqlactions.SQLActionsTransaction;
+import ru.milov.transactions.service.services.ServiceFactory;
+import ru.milov.transactions.service.services.servicesql.ServiceSQLBill;
+import ru.milov.transactions.service.services.servicesql.ServiceSQLTransaction;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -17,8 +18,8 @@ public class ServiceAppTransaction {
     private final Date date = new Date();
     private final Timestamp currentDate = new Timestamp(date.getTime());
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    SQLActionsBill sqlActionsBill = new SQLActionsBill();
-    SQLActionsTransaction sqlActionsTransaction = new SQLActionsTransaction();
+    private final ServiceSQLBill serviceSqlBill = ServiceFactory.getServiceSqlBill();
+    private final ServiceSQLTransaction serviceSqlTransaction = ServiceFactory.getServiceSqlTransaction();
 
     public void startingOperationWithBill(UserBill userBill, String nameOfTransaction, int valueOfOperation, String command) {
 
@@ -31,11 +32,11 @@ public class ServiceAppTransaction {
 
         if (command.equals("1")) {
             userBill.setBalance(userBill.getBalance() + transaction.getValueOfTransaction());
-            sqlActionsTransaction.addOperationOfBillToSQL(transaction);
+            serviceSqlTransaction.addOperationOfBillToSQL(transaction);
         }
         if (command.equals("2")) {
             userBill.setBalance(userBill.getBalance() - transaction.getValueOfTransaction());
-            sqlActionsTransaction.addOperationOfBillToSQL(transaction);
+            serviceSqlTransaction.addOperationOfBillToSQL(transaction);
         }
         updateUserBill(userBill);
     }
@@ -56,7 +57,7 @@ public class ServiceAppTransaction {
         fromWhichBill.setBalance(fromWhichBill.getBalance() - valueOfTransaction);
         updateUserBill(fromWhichBill);
 
-        sqlActionsTransaction.addOperationOfBillToSQL(transactionFromFirstBill);
+        serviceSqlTransaction.addOperationOfBillToSQL(transactionFromFirstBill);
 
         Transaction transactionToSecondBill = new Transaction();
         transactionToSecondBill.setUser_id(toWhichBill.getUser_id());
@@ -69,7 +70,7 @@ public class ServiceAppTransaction {
         toWhichBill.setBalance(toWhichBill.getBalance() + valueOfTransaction);
         updateUserBill(toWhichBill);
 
-        sqlActionsTransaction.addOperationOfBillToSQL(transactionToSecondBill);
+        serviceSqlTransaction.addOperationOfBillToSQL(transactionToSecondBill);
     }
 
     public List getInfoAboutBillTransactions(UserBill userBill){
@@ -77,11 +78,11 @@ public class ServiceAppTransaction {
         Transaction transaction = new Transaction();
         transaction.setUser_id(userBill.getUser_id());
         transaction.setBill_id(userBill.getBill_id());
-         return sqlActionsTransaction.getInfoAboutAllTransactions(transaction, transactionList);
+         return serviceSqlTransaction.getInfoAboutAllTransactions(transaction, transactionList);
     }
 
     public void updateUserBill(UserBill userBill){
-        sqlActionsBill.updateBillInfo(userBill);
+        serviceSqlBill.updateBillInfo(userBill);
     }
 
 }

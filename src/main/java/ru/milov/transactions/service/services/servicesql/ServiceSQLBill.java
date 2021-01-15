@@ -1,11 +1,11 @@
-package ru.milov.transactions.service.sqlactions;
+package ru.milov.transactions.service.services.servicesql;
 
 import ru.milov.transactions.service.domain.UserBill;
 import java.util.*;
 import static ru.milov.transactions.dao.DaoFactory.getUserBillDao;
 
 
-public class SQLActionsBill {
+public class ServiceSQLBill {
 
     public UserBill createBill(UserBill userBill) {
         return getUserBillDao().insert(userBill);

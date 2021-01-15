@@ -11,7 +11,7 @@ public class ServiceSecurity {
     private final UserDao userDao;
     private final DigestService digestService;
     private final ServiceConverter converter;
-    private static Logger log = LogManager.getLogger(UserDao.class.getName());
+    private static final Logger log = LogManager.getLogger(UserDao.class.getName());
 
     public ServiceSecurity(UserDao userDao, DigestService digestService, ServiceConverter converter) {
         this.userDao = userDao;

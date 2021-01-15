@@ -1,8 +1,9 @@
 package ru.milov.transactions.view;
 
-import ru.milov.transactions.service.services.ServiceAppUser;
+import ru.milov.transactions.service.services.serviceapp.ServiceAppUser;
 import ru.milov.transactions.service.TypeExceptions;
 import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.services.ServiceFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,7 +14,7 @@ public class Menu implements MenuButtons <UserDto> {
     private String password;
     private String command;
 
-    private final ServiceAppUser serviceAppUser = new ServiceAppUser();
+    private final ServiceAppUser serviceAppUser = ServiceFactory.getServiceAppUser();
     private final MenuUser menuUser = new MenuUser();
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 

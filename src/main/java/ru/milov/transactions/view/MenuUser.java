@@ -4,8 +4,9 @@ package ru.milov.transactions.view;
 import ru.milov.transactions.service.TypeExceptions;
 import ru.milov.transactions.service.domain.UserBill;
 import ru.milov.transactions.service.domain.UserDto;
-import ru.milov.transactions.service.services.ServiceAppBill;
-import ru.milov.transactions.service.services.ServiceAppTransaction;
+import ru.milov.transactions.service.services.serviceapp.ServiceAppBill;
+import ru.milov.transactions.service.services.serviceapp.ServiceAppTransaction;
+import ru.milov.transactions.service.services.ServiceFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,8 +17,8 @@ public class MenuUser implements MenuButtons<UserDto> {
 
     private String command;
     List<UserBill> billList;
-    private final ServiceAppBill serviceAppBill = new ServiceAppBill();
-    private final ServiceAppTransaction serviceAppTransaction = new ServiceAppTransaction();
+    private final ServiceAppBill serviceAppBill = ServiceFactory.getServiceAppBill();
+    private final ServiceAppTransaction serviceAppTransaction = ServiceFactory.getServiceAppTransaction();
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     @Override

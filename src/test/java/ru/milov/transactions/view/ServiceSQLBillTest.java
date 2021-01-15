@@ -6,15 +6,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ru.milov.transactions.service.sqlactions.SQLActionsBill;
+import ru.milov.transactions.service.services.servicesql.ServiceSQLBill;
 import ru.milov.transactions.service.domain.UserDto;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SQLActionsBillTest extends TestCase {
+public class ServiceSQLBillTest extends TestCase {
 
     UserDto userDto = new UserDto();
 
-    SQLActionsBill sqlActionsBill = new SQLActionsBill();
+    ServiceSQLBill serviceSqlBill = new ServiceSQLBill();
 
     @Before
     public void setUp(){
