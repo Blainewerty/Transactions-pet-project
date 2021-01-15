@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.milov.transactions.service.domain.ServiceUser;
 import ru.milov.transactions.service.domain.UserDto;
-
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
@@ -23,15 +22,18 @@ public class UserDao implements Dao<UserDto, Integer> {
         log.info("Start finding user in DB by email: " + email);
         String request = "select * from users where email = ?";
         ServiceUser serviceUser = null;
+
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(request);
             statement.setString(1, email);
 
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
+                    serviceUser = new ServiceUser();
                     serviceUser.setId(rs.getInt("user_id"));
                     serviceUser.setEmail(rs.getString("email"));
                     serviceUser.setPassword(rs.getString("password"));
+                    connection.close();
                     log.trace("User with email " + email + " was found");
                 }
             }
@@ -44,18 +46,18 @@ public class UserDao implements Dao<UserDto, Integer> {
 
     @Override
     public UserDto findById(UserDto userDto) {
+
         log.info("Starting filling user by id");
-        String request = "select * from bills where user_id = ?";
-                try (Connection connection = dataSource.getConnection()) {
+        String request = "select * from users where user_id = ?";
+        try(Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(request);
             statement.setInt(1, userDto.getId());
-
 
             ResultSet rSet = statement.executeQuery();
             while (rSet.next()) {
                 userDto.setFirstName(rSet.getString("first_name"));
                 userDto.setLastName(rSet.getString("last_name"));
-
+                userDto.setTotalBalance(rSet.getInt("total_balance"));
                 log.trace("Complete! " + userDto);
             }
         } catch (SQLException throwables) {
@@ -66,23 +68,8 @@ public class UserDao implements Dao<UserDto, Integer> {
     }
 
     @Override
-    public List<UserDto> findByAll(UserDto userDto, List<UserDto> userDtoList) {
-        try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement("");
-            ps.setInt(1, userDto.getId());
-
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                UserDto userDtoOperat = new UserDto();
-                userDtoOperat.setEmail("email");
-                userDtoList.add(userDtoOperat);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return userDtoList;
+    public List<UserDto> findByAll(UserDto userDto, List<UserDto> transactionMap) {
+        return null;
     }
 
     @Override
@@ -121,17 +108,14 @@ public class UserDao implements Dao<UserDto, Integer> {
 
     @Override
     public UserDto update(UserDto userDto) {
+        String request = "update users set total_balance = (select sum(balance) from bills) where user_id = ?";
+        try(Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(request);
+            statement.setInt(1, userDto.getId());
 
-        System.out.println(userDto);
-        try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement("");
-            ps.setInt(1, userDto.getId());
-            //ps.setTimestamp(4, Timestamp.valueOf(userDto.getDate()));
-
-
-            ps.execute();
-
+            statement.executeUpdate();
         } catch (SQLException throwables) {
+            log.error("Failure to filling user by id");
             throwables.printStackTrace();
         }
         return userDto;

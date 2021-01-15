@@ -1,4 +1,4 @@
-package ru.milov.transactions.service;
+package ru.milov.transactions.service.services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,11 +24,8 @@ public class ServiceSecurity {
         ServiceUser serviceUserCheck = userDao.findByEmail(email);
         if (serviceUserCheck == null) {
             String passwordHash = digestService.digest(password);
-            ServiceUser serviceUser = new ServiceUser();
 
-            serviceUser.setEmail(email);
-            serviceUser.setPassword(passwordHash);
-            return converter.convertRegister(serviceUser);
+            return converter.convertRegister(email, passwordHash);
         }
         return null;
     }

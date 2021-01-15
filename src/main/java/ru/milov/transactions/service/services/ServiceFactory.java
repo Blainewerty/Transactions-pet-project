@@ -1,4 +1,4 @@
-package ru.milov.transactions.service;
+package ru.milov.transactions.service.services;
 
 import static ru.milov.transactions.dao.DaoFactory.getUserDao;
 
@@ -11,7 +11,6 @@ public class ServiceFactory {
     }
 
     private static ServiceConverter serviceConverter = new ServiceConverter();
-    ;
 
     public static ServiceConverter getServiceConverter() {
         return serviceConverter;

@@ -6,9 +6,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import ru.milov.transactions.service.DigestService;
-import ru.milov.transactions.service.ServiceSecurity;
-import ru.milov.transactions.service.ServiceConverter;
+import ru.milov.transactions.service.services.DigestService;
+import ru.milov.transactions.service.services.ServiceSecurity;
+import ru.milov.transactions.service.services.ServiceConverter;
 import ru.milov.transactions.service.domain.ServiceUser;
 import ru.milov.transactions.service.domain.UserDto;
 

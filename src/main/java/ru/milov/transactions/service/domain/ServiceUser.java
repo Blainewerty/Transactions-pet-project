@@ -2,7 +2,7 @@ package ru.milov.transactions.service.domain;
 
 public class ServiceUser {
 
-    private Integer id;
+    private int id;
     private String email;
     private String password;
 
@@ -10,7 +10,7 @@ public class ServiceUser {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -1,4 +1,4 @@
-package ru.milov.transactions.service;
+package ru.milov.transactions.service.services;
 
 import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 

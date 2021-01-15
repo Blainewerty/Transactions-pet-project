@@ -6,18 +6,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import ru.milov.transactions.service.SQLActions;
+import ru.milov.transactions.service.sqlactions.SQLActionsBill;
 import ru.milov.transactions.service.domain.UserDto;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SQLActionsTest extends TestCase {
+public class SQLActionsBillTest extends TestCase {
 
     UserDto userDto = new UserDto();
 
-    SQLActions sqlActions = new SQLActions();
+    SQLActionsBill sqlActionsBill = new SQLActionsBill();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         userDto.setEmail("jb@mail.ru");
         userDto.setPassword("81dc9bdb52d04dc20036dbd8313ed055");
     }

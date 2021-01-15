@@ -1,38 +1,25 @@
 package ru.milov.transactions.view;
 
-import ru.milov.transactions.service.domain.UserDto;
+public interface MenuButtons <DOMAIN>{
 
-public interface MenuButtons {
+    void start();
 
-    public void start();
+    void start(DOMAIN domain);
 
-    public void start(UserDto userDto);
+    void buttonOne();
 
-    public void buttonOne();
+    void buttonOne(DOMAIN domain);
 
-    public void buttonOne(UserDto userDto);
+    void buttonTwo();
 
-    public void buttonTwo();
+    void buttonTwo(DOMAIN domain);
 
-    public void buttonTwo(UserDto userDto);
+    void buttonThree(DOMAIN domain);
 
-    public void buttonThree();
+    void buttonFour(DOMAIN domain);
 
-    public void buttonThree(UserDto userDto);
+    void buttonFive(DOMAIN domain);
 
-    public void buttonFour();
+    void buttonClose();
 
-    public void buttonFour(UserDto userDto);
-
-    public void buttonFive();
-
-    public void buttonFive(UserDto userDto);
-
-    public void buttonSix();
-
-    public void buttonSix(UserDto userDto);
-
-    public void buttonClose();
-
-    public void buttonReturn();
 }

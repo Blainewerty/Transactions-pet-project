@@ -1,7 +1,6 @@
-package ru.milov.transactions.service;
+package ru.milov.transactions.service.services;
 
 import ru.milov.transactions.service.domain.ServiceUser;
-import ru.milov.transactions.service.domain.UserBill;
 import ru.milov.transactions.service.domain.UserDto;
 
 public class ServiceConverter {
@@ -15,18 +14,13 @@ public class ServiceConverter {
         return target;
     }
 
-    public UserDto convertRegister(ServiceUser source){
+    public UserDto convertRegister(String email, String passwordHash){
         UserDto target = new UserDto();
 
-        target.setEmail(source.getEmail());
-        target.setPassword(source.getPassword());
+        target.setEmail(email);
+        target.setPassword(passwordHash);
 
         return target;
     }
 
-    public UserBill convertAuth(UserBill source){
-        UserBill target = new UserBill();
-
-        return target;
-    }
 }

@@ -2,17 +2,35 @@ package ru.milov.transactions.service.domain;
 
 public class Transaction {
 
-    private Integer id;
+    private Integer transaction_id;
+    private Integer user_id;
+    private Integer bill_id;
     private String date;
     private String nameOfTransaction;
-    int lastTransaction;
+    int valueOfTransaction;
 
-    public int getId() {
-        return id;
+    public Integer getTransaction_id() {
+        return transaction_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTransaction_id(Integer transaction_id) {
+        this.transaction_id = transaction_id;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
+    public Integer getBill_id() {
+        return bill_id;
+    }
+
+    public void setBill_id(Integer bill_id) {
+        this.bill_id = bill_id;
     }
 
     public String getDate() {
@@ -31,12 +49,12 @@ public class Transaction {
         this.nameOfTransaction = nameOfTransaction;
     }
 
-    public int getLastTransaction() {
-        return lastTransaction;
+    public int getValueOfTransaction() {
+        return valueOfTransaction;
     }
 
-    public void setLastTransaction(int lastTransaction) {
-        this.lastTransaction = lastTransaction;
+    public void setValueOfTransaction(int valueOfTransaction) {
+        this.valueOfTransaction = valueOfTransaction;
     }
 
     @Override
@@ -44,7 +62,7 @@ public class Transaction {
         return "OperationWithBill{" +
                 "date='" + date + '\'' +
                 ", nameOfTransaction='" + nameOfTransaction + '\'' +
-                ", lastTransaction=" + lastTransaction +
+                ", lastTransaction=" + valueOfTransaction +
                 '}';
     }
 }

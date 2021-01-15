@@ -24,6 +24,15 @@ public class DaoFactory {
         return userBillDao;
     }
 
+    private static TransactionDao transactionDao;
+
+    public static TransactionDao getTransactionDao() {
+        if (transactionDao == null) {
+            transactionDao = new TransactionDao(getDataSource());
+        }
+        return transactionDao;
+    }
+
     private static DataSource dataSource;
 
     public static DataSource getDataSource() {

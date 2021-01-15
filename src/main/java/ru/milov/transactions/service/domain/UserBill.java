@@ -2,16 +2,29 @@ package ru.milov.transactions.service.domain;
 
 public class UserBill {
 
-    private Integer id;
+    private Integer user_id;
+    private Integer bill_id;
     private String name;
     private int balance;
 
-    public int getId() {
-        return id;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
+    public Integer getBill_id() {
+        return bill_id;
+    }
+
+    public void setBill_id(Integer bill_id) {
+        this.bill_id = bill_id;
     }
 
     public String getName() {
@@ -32,9 +45,8 @@ public class UserBill {
 
     @Override
     public String toString() {
-        return "UserBill{" +
-                "name='" + name + '\'' +
-                ", balance=" + balance +
-                '}';
+        return name + '\t' + balance ;
+
+
     }
 }

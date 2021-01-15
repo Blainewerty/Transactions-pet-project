@@ -1,21 +1,21 @@
 package ru.milov.transactions.view;
 
-import ru.milov.transactions.service.ServiceApp;
+import ru.milov.transactions.service.services.ServiceAppUser;
 import ru.milov.transactions.service.TypeExceptions;
 import ru.milov.transactions.service.domain.UserDto;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Menu implements MenuButtons {
+public class Menu implements MenuButtons <UserDto> {
 
     private String email;
     private String password;
     private String command;
 
-    private  ServiceApp serviceApp = new ServiceApp();
-    private MenuAfterAuth menuAfterAuth = new MenuAfterAuth();
-    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private final ServiceAppUser serviceAppUser = new ServiceAppUser();
+    private final MenuUser menuUser = new MenuUser();
+    private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     @Override
     public void start() {
@@ -54,7 +54,11 @@ public class Menu implements MenuButtons {
             email = reader.readLine();
             password = reader.readLine();
 
-            UserDto userDto = serviceApp.checkIfUserInDb(email, password);
+            if (email.equals("q") | password.equals("q")){
+                start();
+            }
+
+            UserDto userDto = serviceAppUser.checkIfUserInDb(email, password);
 
             System.out.println("For register type your first name, last name");
 
@@ -66,7 +70,7 @@ public class Menu implements MenuButtons {
 
             System.out.println("User with email: " + userDto.getEmail() + " has registered!");
 
-            menuAfterAuth.start(serviceApp.registerUser(userDto));
+            menuUser.start(serviceAppUser.registerUser(userDto));
 
         } catch (IOException | TypeExceptions e) {
             e.printStackTrace();
@@ -84,10 +88,14 @@ public class Menu implements MenuButtons {
             System.out.println("For authentication type email, password");
             email = reader.readLine();
             password = reader.readLine();
-            UserDto userDto = serviceApp.authInApp(email, password);
-            menuAfterAuth.start(userDto);
+
+            UserDto userDto = serviceAppUser.authInApp(email, password);
+
+            serviceAppUser.updateUserInfo(userDto);
+
+            menuUser.start(userDto);
         } catch (IOException | TypeExceptions e) {
-            System.out.println("Please try again!");;
+            System.out.println("Please try again!");
         }
     }
 
@@ -97,17 +105,7 @@ public class Menu implements MenuButtons {
     }
 
     @Override
-    public void buttonThree() {
-
-    }
-
-    @Override
     public void buttonThree(UserDto userDto) {
-
-    }
-
-    @Override
-    public void buttonFour() {
 
     }
 
@@ -117,22 +115,7 @@ public class Menu implements MenuButtons {
     }
 
     @Override
-    public void buttonFive() {
-
-    }
-
-    @Override
     public void buttonFive(UserDto userDto) {
-
-    }
-
-    @Override
-    public void buttonSix() {
-
-    }
-
-    @Override
-    public void buttonSix(UserDto userDto) {
 
     }
 
@@ -141,8 +124,4 @@ public class Menu implements MenuButtons {
         System.out.println("GoodBye!");
     }
 
-    @Override
-    public void buttonReturn() {
-
-    }
 }
