@@ -1,11 +1,13 @@
 package ru.milov.transactions.view;
 
+import ru.milov.transactions.service.TypeExceptions;
 import ru.milov.transactions.service.services.ServiceAppTransaction;
 import ru.milov.transactions.service.domain.UserBill;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class MenuOfBill implements MenuButtons<UserBill> {
 
@@ -25,7 +27,7 @@ public class MenuOfBill implements MenuButtons<UserBill> {
                 System.out.println(userBill + "\n" +
                         "What would you do next?" + "\n" +
                         "1: Update bill" + "\n" +
-                        "2: Transfer to another bill" + "\n" +
+                        "2: Get bill operations" + "\n" +
                         "3: Delete bill");
 
                 command = reader.readLine();
@@ -91,22 +93,32 @@ public class MenuOfBill implements MenuButtons<UserBill> {
     }
 
     @Override
-    public void buttonTwo(UserBill userDto) {
+    public void buttonTwo(UserBill userBill) {
+        List transactionList = serviceAppTransaction.getInfoAboutBillTransactions(userBill);
+
+        System.out.println("You Have: ");
+        for (Object transaction: transactionList) {
+            System.out.println(transaction);
+        }
+
+        if (command.equals("q")) {
+            start(userBill);
+        }
 
     }
 
     @Override
-    public void buttonThree(UserBill userDto) {
+    public void buttonThree(UserBill userBill) {
 
     }
 
     @Override
-    public void buttonFour(UserBill userDto) {
+    public void buttonFour(UserBill userBill) {
 
     }
 
     @Override
-    public void buttonFive(UserBill userDto) {
+    public void buttonFive(UserBill userBill) {
 
     }
 

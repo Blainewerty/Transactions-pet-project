@@ -11,12 +11,6 @@ public class ServiceAppBill {
 
     SQLActionsBill sqlActionsBill = new SQLActionsBill();
 
-    public List<?> showInfoAboutUserBills(UserDto userDto) throws TypeExceptions {
-        if (userDto != null) {
-            return getInfoAboutAllBillsOfUser(userDto);
-        } else throw new TypeExceptions("Problem with User Info!");
-    }
-
     public List getInfoAboutAllBillsOfUser(UserDto userDto) throws TypeExceptions {
         if (userDto != null) {
             UserBill userBill = new UserBill();
@@ -35,9 +29,4 @@ public class ServiceAppBill {
 
         sqlActionsBill.createBill(userBill);
     }
-
-    public void updateUserBill(UserBill userBill){
-        sqlActionsBill.updateBillInfo(userBill);
-    }
-
 }

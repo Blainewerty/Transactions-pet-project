@@ -33,9 +33,9 @@ public class MenuUser implements MenuButtons<UserDto> {
                     "1: Create Bill\n" +
                     "2: Choose Bill\n" +
                     "3: Get Current Info\n" +
-                    "4: Get All operations\n" +
                     "5: Transfer from bill to bill\n" +
                     "6: Go back\n");
+
             try {
                 command = reader.readLine();
                 if (command.equals("1")) {
@@ -114,9 +114,9 @@ public class MenuUser implements MenuButtons<UserDto> {
     @Override
     public void buttonThree(UserDto userDto) {
         try {
-            if (serviceAppBill.showInfoAboutUserBills(userDto) == null) {
+            if (serviceAppBill.getInfoAboutAllBillsOfUser(userDto) == null) {
                 System.out.println("There is no bills yet!");
-            } else for (Object bills : serviceAppBill.showInfoAboutUserBills(userDto)) {
+            } else for (Object bills : serviceAppBill.getInfoAboutAllBillsOfUser(userDto)) {
                 System.out.println(bills);
             }
         } catch (TypeExceptions typeExceptions) {
@@ -162,7 +162,6 @@ public class MenuUser implements MenuButtons<UserDto> {
         } catch (IOException | TypeExceptions e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

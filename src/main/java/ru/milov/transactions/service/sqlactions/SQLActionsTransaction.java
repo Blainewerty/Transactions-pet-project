@@ -1,17 +1,18 @@
 package ru.milov.transactions.service.sqlactions;
 
 import ru.milov.transactions.service.domain.Transaction;
+import java.util.List;
 
 import static ru.milov.transactions.dao.DaoFactory.getTransactionDao;
 
 public class SQLActionsTransaction {
 
-    public void transactionFromBillToBill(Transaction transaction){
+    public void addOperationOfBillToSQL(Transaction transaction){
         getTransactionDao().insert(transaction);
     }
 
-    public void addOperationOfBillToSQL (Transaction transaction){
-
-        getTransactionDao().insert(transaction);
+    public List getInfoAboutAllTransactions(Transaction transaction, List transactionList){
+        return getTransactionDao().findByAll(transaction, transactionList);
     }
+
 }

@@ -38,7 +38,7 @@ public class UserBillDao implements Dao <UserBill, Integer>{
 
     @Override
     public List findByAll(UserBill userBill, List list) {
-        String request = "select * from bills where user_id = ?";
+        String request = "select * from bills where user_id = ? order by bill_id";
 
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(request);

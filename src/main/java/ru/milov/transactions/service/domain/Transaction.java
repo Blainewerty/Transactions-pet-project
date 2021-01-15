@@ -59,10 +59,6 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "OperationWithBill{" +
-                "date='" + date + '\'' +
-                ", nameOfTransaction='" + nameOfTransaction + '\'' +
-                ", lastTransaction=" + valueOfTransaction +
-                '}';
+        return  date + '\t' + nameOfTransaction + '\t' + valueOfTransaction;
     }
 }
