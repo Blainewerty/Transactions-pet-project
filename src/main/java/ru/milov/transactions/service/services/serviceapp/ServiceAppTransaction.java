@@ -6,17 +6,11 @@ import ru.milov.transactions.service.domain.UserBill;
 import ru.milov.transactions.service.services.ServiceFactory;
 import ru.milov.transactions.service.services.servicesql.ServiceSQLBill;
 import ru.milov.transactions.service.services.servicesql.ServiceSQLTransaction;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ServiceAppTransaction {
 
-    private final Date date = new Date();
-    private final Timestamp currentDate = new Timestamp(date.getTime());
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private final ServiceSQLBill serviceSqlBill = ServiceFactory.getServiceSqlBill();
     private final ServiceSQLTransaction serviceSqlTransaction = ServiceFactory.getServiceSqlTransaction();
 
@@ -27,7 +21,6 @@ public class ServiceAppTransaction {
         transaction.setBill_id(userBill.getBill_id());
         transaction.setNameOfTransaction(nameOfTransaction);
         transaction.setValueOfTransaction(valueOfOperation);
-        transaction.setDate(sdf.format(currentDate));
 
         if (command.equals("1")) {
             userBill.setBalance(userBill.getBalance() + transaction.getValueOfTransaction());
@@ -51,7 +44,6 @@ public class ServiceAppTransaction {
         transactionFromFirstBill.setNameOfTransaction("Transfer from " + fromWhichBill.getName() +
                 " to " + toWhichBill.getName());
         transactionFromFirstBill.setValueOfTransaction(valueOfTransaction);
-        transactionFromFirstBill.setDate(sdf.format(currentDate));
 
         fromWhichBill.setBalance(fromWhichBill.getBalance() - valueOfTransaction);
         updateUserBill(fromWhichBill);
@@ -64,7 +56,6 @@ public class ServiceAppTransaction {
         transactionToSecondBill.setNameOfTransaction("Transfer to " + toWhichBill.getName() +
                 " from " + fromWhichBill.getName());
         transactionToSecondBill.setValueOfTransaction(valueOfTransaction);
-        transactionToSecondBill.setDate(sdf.format(currentDate));
 
         toWhichBill.setBalance(toWhichBill.getBalance() + valueOfTransaction);
         updateUserBill(toWhichBill);

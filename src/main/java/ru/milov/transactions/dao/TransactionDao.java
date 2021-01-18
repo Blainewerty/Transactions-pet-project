@@ -1,8 +1,6 @@
 package ru.milov.transactions.dao;
 
 import ru.milov.transactions.service.domain.Transaction;
-import ru.milov.transactions.service.domain.UserBill;
-
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
@@ -50,16 +48,15 @@ public class TransactionDao implements Dao<Transaction, Integer> {
 
     @Override
     public Transaction insert(Transaction transaction) {
-        String request = "insert into transaction (user_id, bill_id, transaction_name, transaction_date, transaction_value) " +
-                "values (?,?,?,?,?)";
+        String request = "insert into transaction (user_id, bill_id, transaction_name, transaction_value) " +
+                "values (?,?,?,?)";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(request, Statement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, transaction.getUser_id());
             ps.setInt(2, transaction.getBill_id());
             ps.setString(3, transaction.getNameOfTransaction());
-            ps.setTimestamp(4, Timestamp.valueOf(transaction.getDate()));
-            ps.setInt(5,transaction.getValueOfTransaction());
+            ps.setInt(4,transaction.getValueOfTransaction());
 
             int affectedRows = ps.executeUpdate();
 

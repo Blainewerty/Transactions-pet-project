@@ -24,7 +24,7 @@ create table transaction
     user_id           int,
     bill_id           int,
     transaction_name  varchar(255),
-    transaction_date  timestamp,
+    transaction_date  timestamp not null default CURRENT_TIMESTAMP,
     transaction_value int check ( transaction_value >= 0 ),
     FOREIGN KEY (user_id)
         REFERENCES users (user_id),
