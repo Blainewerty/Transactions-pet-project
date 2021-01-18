@@ -8,6 +8,7 @@ import ru.milov.transactions.service.domain.UserDto;
 
 public class ServiceAppUser {
 
+
     private final ServiceSQLUser serviceSqlUser = ServiceFactory.getServiceSqlUser();
 
     private final ServiceSecurity serviceSecurity = ServiceFactory.getServiceSecurity();

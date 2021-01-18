@@ -20,10 +20,12 @@ public class DataSourceFactoryTest extends TestCase {
     @InjectMocks
     ServiceSecurity service;
 
-    @Mock UserDao userDao;
+    @Mock
+    UserDao userDao;
     @Mock
     DigestService digestService;
-    @Mock ServiceConverter converter;
+    @Mock
+    ServiceConverter converter;
 
     @Test
     public void testAuth_NotFoundByEmail() {
