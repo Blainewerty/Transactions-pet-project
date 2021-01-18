@@ -7,6 +7,9 @@ import static ru.milov.transactions.dao.DaoFactory.getUserBillDao;
 
 public class ServiceSQLBill {
 
+    public ServiceSQLBill() {
+    }
+
     public UserBill createBill(UserBill userBill) {
         return getUserBillDao().insert(userBill);
     }

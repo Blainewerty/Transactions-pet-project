@@ -5,6 +5,7 @@ import ru.milov.transactions.service.domain.UserBill;
 import ru.milov.transactions.service.domain.UserDto;
 import ru.milov.transactions.service.services.ServiceFactory;
 import ru.milov.transactions.service.services.servicesql.ServiceSQLBill;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +28,10 @@ public class ServiceAppBill {
         userBill.setUser_id(userDto.getId());
         userBill.setBalance(balance);
         userBill.setName(nameOfBill);
-
         serviceSqlBill.createBill(userBill);
+    }
+
+    public boolean countOfBillsMustBeBelowFive(UserDto userDto) throws TypeExceptions {
+        return getInfoAboutAllBillsOfUser(userDto).size() <= 5;
     }
 }

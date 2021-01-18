@@ -69,8 +69,6 @@ public class Menu implements MenuButtons <UserDto> {
             userDto.setFirstName(firstName);
             userDto.setLastName(lastName);
 
-            System.out.println("User with email: " + userDto.getEmail() + " has registered!");
-
             menuUser.start(serviceAppUser.registerUser(userDto));
 
         } catch (IOException | TypeExceptions e) {

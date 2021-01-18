@@ -6,20 +6,27 @@ import ru.milov.transactions.service.services.serviceapp.ServiceAppUser;
 import ru.milov.transactions.service.services.servicesql.ServiceSQLBill;
 import ru.milov.transactions.service.services.servicesql.ServiceSQLTransaction;
 import ru.milov.transactions.service.services.servicesql.ServiceSQLUser;
+
 import static ru.milov.transactions.dao.DaoFactory.getUserDao;
 
 public class ServiceFactory {
 
-    private static final DigestService digestService = new DigestService();
+    private static DigestService digestService;
 
     public static DigestService getDigestService() {
+        if (digestService == null) {
+            digestService = new DigestService();
+        }
         return digestService;
     }
 
-    private static final ServiceConverter serviceConverter = new ServiceConverter();
+    private static ServiceConverter serviceConverter;
 
     public static ServiceConverter getServiceConverter() {
-        return serviceConverter;
+        if (serviceConverter == null){
+            serviceConverter = new ServiceConverter();
+        }
+            return serviceConverter;
     }
 
     private static final ServiceSecurity serviceSecurity = new ServiceSecurity(
@@ -32,40 +39,58 @@ public class ServiceFactory {
         return serviceSecurity;
     }
 
-    private static final ServiceAppBill serviceAppBill = new ServiceAppBill();
+    private static ServiceAppBill serviceAppBill;
 
-    public static ServiceAppBill getServiceAppBill(){
+    public static ServiceAppBill getServiceAppBill() {
+        if (serviceAppBill == null){
+            serviceAppBill = new ServiceAppBill();
+        }
         return serviceAppBill;
     }
 
-    private static final ServiceAppUser serviceAppUser = new ServiceAppUser();
+    private static ServiceAppUser serviceAppUser;
 
-    public static ServiceAppUser getServiceAppUser(){
+    public static ServiceAppUser getServiceAppUser() {
+        if(serviceAppUser == null){
+            serviceAppUser = new ServiceAppUser();
+        }
         return serviceAppUser;
     }
 
-    private static final ServiceAppTransaction serviceAppTransaction = new ServiceAppTransaction();
+    private static ServiceAppTransaction serviceAppTransaction;
 
-    public static ServiceAppTransaction getServiceAppTransaction(){
+    public static ServiceAppTransaction getServiceAppTransaction() {
+        if (serviceAppTransaction == null){
+            serviceAppTransaction = new ServiceAppTransaction();
+        }
         return serviceAppTransaction;
     }
 
-    private static final ServiceSQLBill SERVICE_SQL_BILL = new ServiceSQLBill();
+    private static ServiceSQLBill serviceSQLBill;
 
-    public static ServiceSQLBill getServiceSqlBill(){
-        return SERVICE_SQL_BILL;
+    public static ServiceSQLBill getServiceSqlBill() {
+        if(serviceSQLBill == null){
+            serviceSQLBill = new ServiceSQLBill();
+        }
+        return serviceSQLBill;
     }
 
-    private static final ServiceSQLTransaction SERVICE_SQL_TRANSACTION = new ServiceSQLTransaction();
+    private static ServiceSQLTransaction serviceSQLTransaction;
 
-    public static ServiceSQLTransaction getServiceSqlTransaction(){
-        return SERVICE_SQL_TRANSACTION;
+    public static ServiceSQLTransaction getServiceSqlTransaction() {
+        if (serviceSQLTransaction == null) {
+            serviceSQLTransaction = new ServiceSQLTransaction();
+        }
+        return serviceSQLTransaction;
     }
 
-    private static final ServiceSQLUser SERVICE_SQL_USER = new ServiceSQLUser();
+    private static ServiceSQLUser serviceSQLUser;
 
-    public static ServiceSQLUser getServiceSqlUser(){
-        return SERVICE_SQL_USER;
+    public static ServiceSQLUser getServiceSqlUser() {
+        if (serviceSQLUser == null) {
+            serviceSQLUser = new ServiceSQLUser();
+        }
+        return serviceSQLUser;
     }
 
 }

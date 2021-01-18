@@ -7,6 +7,7 @@ import ru.milov.transactions.service.domain.UserDto;
 import ru.milov.transactions.service.services.serviceapp.ServiceAppBill;
 import ru.milov.transactions.service.services.serviceapp.ServiceAppTransaction;
 import ru.milov.transactions.service.services.ServiceFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -70,17 +71,21 @@ public class MenuUser implements MenuButtons<UserDto> {
     @Override
     public void buttonOne(UserDto userDto) {
         try {
-            System.out.println("Type name of bill");
-            String nameOfBill = reader.readLine();
-            System.out.println("Type balance of bill");
-            int balance = Integer.parseInt(reader.readLine());
-            System.out.println(nameOfBill + " " + balance + "\n" +
-                    "Correct ?");
-            command = reader.readLine();
-            if (command.equals("y")) {
-                serviceAppBill.createUserBill(userDto, nameOfBill, balance);
-            } else buttonOne(userDto);
-        } catch (IOException e) {
+            if (!serviceAppBill.countOfBillsMustBeBelowFive(userDto)) {
+                System.out.println("Type name of bill");
+                String nameOfBill = reader.readLine();
+                System.out.println("Type balance of bill");
+                int balance = Integer.parseInt(reader.readLine());
+                System.out.println(nameOfBill + " " + balance + "\n" +
+                        "Correct ?");
+                command = reader.readLine();
+                if (command.equals("y")) {
+                    serviceAppBill.createUserBill(userDto, nameOfBill, balance);
+                } else buttonOne(userDto);
+            } else {
+                System.out.println("Too many bills for user\n");
+            }
+        } catch (IOException | TypeExceptions e) {
             e.printStackTrace();
         }
 
@@ -148,12 +153,12 @@ public class MenuUser implements MenuButtons<UserDto> {
             System.out.println("Type value of transaction");
             int valueOfTransaction = Integer.parseInt(reader.readLine());
 
-            if (valueOfTransaction > billList.get(fromBill).getBalance()){
+            if (valueOfTransaction > billList.get(fromBill).getBalance()) {
                 System.out.println("The value is larger than bill balance");
                 start(userDto);
             }
 
-                serviceAppTransaction.transferFromBillToBill(billList, fromBill, toBill, valueOfTransaction);
+            serviceAppTransaction.transferFromBillToBill(billList, fromBill, toBill, valueOfTransaction);
 
             if (command.equals("q")) {
                 start(userDto);

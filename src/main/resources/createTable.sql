@@ -10,7 +10,7 @@ create table users
 
 create table bills
 (
-    bill_id serial primary key,
+    bill_id serial primary key check (bill_id <= 5),
     user_id int,
     name    varchar(255),
     balance int check ( balance >= 0 ),
