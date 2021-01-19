@@ -3,6 +3,7 @@ package ru.milov.transactions.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.milov.transactions.service.domain.ServiceUser;
+import ru.milov.transactions.service.domain.Transaction;
 import ru.milov.transactions.service.domain.UserDto;
 import javax.sql.DataSource;
 import java.sql.*;
@@ -104,6 +105,11 @@ public class UserDao implements Dao<UserDto, Integer> {
             throwables.printStackTrace();
         }
         return userDto;
+    }
+
+    @Override
+    public Transaction insert(Transaction transaction, Connection connection) {
+        return null;
     }
 
     @Override

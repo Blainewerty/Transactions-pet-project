@@ -1,6 +1,5 @@
 package ru.milov.transactions.view;
 
-
 import ru.milov.transactions.service.services.serviceapp.ServiceAppTransaction;
 import ru.milov.transactions.service.domain.UserBill;
 import ru.milov.transactions.service.services.ServiceFactory;
@@ -62,7 +61,7 @@ public class MenuOfBill implements MenuButtons<UserBill> {
 
             command = reader.readLine();
 
-            if (command.equals("q")){
+            if (command.equals("q")) {
                 start(userBill);
             }
 
@@ -70,8 +69,8 @@ public class MenuOfBill implements MenuButtons<UserBill> {
 
             int valueOfOperation = Integer.parseInt(reader.readLine());
 
-            if (valueOfOperation>userBill.getBalance()){
-                System.out.println("Transaction is more than value on bill! \n"+
+            if (valueOfOperation > userBill.getBalance()) {
+                System.out.println("Transaction is more than value on bill! \n" +
                         "Try again!");
                 buttonOne(userBill);
             }
@@ -80,7 +79,7 @@ public class MenuOfBill implements MenuButtons<UserBill> {
 
             String nameOfTransaction = reader.readLine();
 
-            serviceAppTransaction.startingOperationWithBill(userBill,nameOfTransaction,valueOfOperation,command);
+            serviceAppTransaction.startingOperationWithBill(userBill, nameOfTransaction, valueOfOperation, command);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,7 +96,7 @@ public class MenuOfBill implements MenuButtons<UserBill> {
         List transactionList = serviceAppTransaction.getInfoAboutBillTransactions(userBill);
 
         System.out.println("You Have: ");
-        for (Object transaction: transactionList) {
+        for (Object transaction : transactionList) {
             System.out.println(transaction);
         }
 

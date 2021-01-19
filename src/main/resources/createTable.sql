@@ -10,7 +10,7 @@ create table users
 
 create table bills
 (
-    bill_id serial primary key check (bill_id <= 5),
+    bill_id serial primary key,
     user_id int,
     name    varchar(255),
     balance int check ( balance >= 0 ),
@@ -29,7 +29,7 @@ create table transaction
     FOREIGN KEY (user_id)
         REFERENCES users (user_id),
     FOREIGN KEY (bill_id)
-        REFERENCES bills (bill_id),
-    FOREIGN KEY (transaction_id)
-        REFERENCES transaction (transaction_id)
+        REFERENCES bills (bill_id)
+--     FOREIGN KEY (transaction_id)
+--         REFERENCES transaction (transaction_id)
 );

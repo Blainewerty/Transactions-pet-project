@@ -1,36 +1,63 @@
 package ru.milov.transactions.service.services.serviceapp;
 
 
+import ru.milov.transactions.dao.DaoFactory;
 import ru.milov.transactions.service.domain.Transaction;
 import ru.milov.transactions.service.domain.UserBill;
 import ru.milov.transactions.service.services.ServiceFactory;
-import ru.milov.transactions.service.services.servicesql.ServiceSQLBill;
-import ru.milov.transactions.service.services.servicesql.ServiceSQLTransaction;
+import static ru.milov.transactions.dao.DaoFactory.getTransactionDao;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ServiceAppTransaction {
 
-    private final ServiceSQLBill serviceSqlBill = ServiceFactory.getServiceSqlBill();
-    private final ServiceSQLTransaction serviceSqlTransaction = ServiceFactory.getServiceSqlTransaction();
+    Connection connection;
+    private final DataSource dataSource = DaoFactory.getDataSource();
 
     public void startingOperationWithBill(UserBill userBill, String nameOfTransaction, int valueOfOperation, String command) {
+        try {
+            connection = dataSource.getConnection();
+            connection.setAutoCommit(false);
 
-        Transaction transaction = new Transaction();
-        transaction.setUser_id(userBill.getUser_id());
-        transaction.setBill_id(userBill.getBill_id());
-        transaction.setNameOfTransaction(nameOfTransaction);
-        transaction.setValueOfTransaction(valueOfOperation);
+            Transaction transaction = new Transaction();
+            transaction.setUser_id(userBill.getUser_id());
+            transaction.setBill_id(userBill.getBill_id());
+            transaction.setNameOfTransaction(nameOfTransaction);
+            transaction.setValueOfTransaction(valueOfOperation);
 
-        if (command.equals("1")) {
-            userBill.setBalance(userBill.getBalance() + transaction.getValueOfTransaction());
-            serviceSqlTransaction.addOperationOfBillToSQL(transaction);
+            if (command.equals("1")) {
+                userBill.setBalance(userBill.getBalance() + transaction.getValueOfTransaction());
+                transaction.setTransactionStatus("+");
+                getTransactionDao().insert(transaction, connection);
+            }
+            if (command.equals("2")) {
+                userBill.setBalance(userBill.getBalance() - transaction.getValueOfTransaction());
+                transaction.setTransactionStatus("-");
+                getTransactionDao().insert(transaction, connection);
+            }
+            updateUserBill(userBill);
+
+            connection.commit();
+        } catch (SQLException ignored) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         }
-        if (command.equals("2")) {
-            userBill.setBalance(userBill.getBalance() - transaction.getValueOfTransaction());
-            serviceSqlTransaction.addOperationOfBillToSQL(transaction);
-        }
-        updateUserBill(userBill);
     }
 
     public void transferFromBillToBill(List<UserBill> billList, int fromBill, int toBill, int valueOfTransaction) {
@@ -44,11 +71,10 @@ public class ServiceAppTransaction {
         transactionFromFirstBill.setNameOfTransaction("Transfer from " + fromWhichBill.getName() +
                 " to " + toWhichBill.getName());
         transactionFromFirstBill.setValueOfTransaction(valueOfTransaction);
+        transactionFromFirstBill.setTransactionStatus("-");
 
-        fromWhichBill.setBalance(fromWhichBill.getBalance() - valueOfTransaction);
-        updateUserBill(fromWhichBill);
-
-        serviceSqlTransaction.addOperationOfBillToSQL(transactionFromFirstBill);
+        startingOperationWithBill(fromWhichBill, transactionFromFirstBill.getNameOfTransaction()
+                , transactionFromFirstBill.getValueOfTransaction(), "2");
 
         Transaction transactionToSecondBill = new Transaction();
         transactionToSecondBill.setUser_id(toWhichBill.getUser_id());
@@ -56,23 +82,23 @@ public class ServiceAppTransaction {
         transactionToSecondBill.setNameOfTransaction("Transfer to " + toWhichBill.getName() +
                 " from " + fromWhichBill.getName());
         transactionToSecondBill.setValueOfTransaction(valueOfTransaction);
+        transactionFromFirstBill.setTransactionStatus("+");
 
-        toWhichBill.setBalance(toWhichBill.getBalance() + valueOfTransaction);
-        updateUserBill(toWhichBill);
-
-        serviceSqlTransaction.addOperationOfBillToSQL(transactionToSecondBill);
+        startingOperationWithBill(toWhichBill, transactionToSecondBill.getNameOfTransaction()
+                , transactionToSecondBill.getValueOfTransaction(), "1");
     }
 
-    public List getInfoAboutBillTransactions(UserBill userBill){
+    public List getInfoAboutBillTransactions(UserBill userBill) {
         List<Transaction> transactionList = new LinkedList<>();
         Transaction transaction = new Transaction();
         transaction.setUser_id(userBill.getUser_id());
         transaction.setBill_id(userBill.getBill_id());
-         return serviceSqlTransaction.getInfoAboutAllTransactions(transaction, transactionList);
+        return getTransactionDao().findByAll(transaction, transactionList);
     }
 
-    public void updateUserBill(UserBill userBill){
-        serviceSqlBill.updateBillInfo(userBill);
+    public void updateUserBill(UserBill userBill) {
+        ServiceAppBill serviceAppBill = ServiceFactory.getServiceAppBill();
+        serviceAppBill.updateUserBill(userBill);
     }
 
 }

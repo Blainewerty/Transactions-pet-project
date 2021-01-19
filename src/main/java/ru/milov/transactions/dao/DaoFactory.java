@@ -1,8 +1,18 @@
 package ru.milov.transactions.dao;
 
 import com.zaxxer.hikari.HikariDataSource;
+import liquibase.Contexts;
+import liquibase.Liquibase;
+import liquibase.database.Database;
+import liquibase.database.DatabaseConnection;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.exception.DatabaseException;
+import liquibase.exception.LiquibaseException;
+import liquibase.resource.ClassLoaderResourceAccessor;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 public class DaoFactory {
 
@@ -38,12 +48,31 @@ public class DaoFactory {
     public static DataSource getDataSource() {
         if (dataSource == null) {
             HikariDataSource ds = new HikariDataSource();
-            ds.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
-            ds.setUsername("postgres");
-            ds.setPassword("admin");
+            ds.setJdbcUrl(System.getProperty("jdbcUrl", "jdbc:postgresql://localhost:5432/postgres"));
+            ds.setUsername(System.getProperty("jdbcUsername","postgres"));
+            ds.setPassword(System.getProperty("jdbcPassword","admin"));
 
             dataSource = ds;
+
+            initDataBase();
         }
         return dataSource;
+    }
+
+    private static void initDataBase() {
+        try {
+            DatabaseConnection connection = new JdbcConnection(dataSource.getConnection());
+            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(connection);
+
+            Liquibase liquibase = new Liquibase(
+                    "liquibase.xml",
+                    new ClassLoaderResourceAccessor(),
+                    database
+            );
+
+            liquibase.update(new Contexts());
+        } catch (SQLException | LiquibaseException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

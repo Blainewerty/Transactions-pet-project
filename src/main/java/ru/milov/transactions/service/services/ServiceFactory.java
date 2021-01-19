@@ -3,10 +3,6 @@ package ru.milov.transactions.service.services;
 import ru.milov.transactions.service.services.serviceapp.ServiceAppBill;
 import ru.milov.transactions.service.services.serviceapp.ServiceAppTransaction;
 import ru.milov.transactions.service.services.serviceapp.ServiceAppUser;
-import ru.milov.transactions.service.services.servicesql.ServiceSQLBill;
-import ru.milov.transactions.service.services.servicesql.ServiceSQLTransaction;
-import ru.milov.transactions.service.services.servicesql.ServiceSQLUser;
-
 import static ru.milov.transactions.dao.DaoFactory.getUserDao;
 
 public class ServiceFactory {
@@ -65,32 +61,4 @@ public class ServiceFactory {
         }
         return serviceAppTransaction;
     }
-
-    private static ServiceSQLBill serviceSQLBill;
-
-    public static ServiceSQLBill getServiceSqlBill() {
-        if(serviceSQLBill == null){
-            serviceSQLBill = new ServiceSQLBill();
-        }
-        return serviceSQLBill;
-    }
-
-    private static ServiceSQLTransaction serviceSQLTransaction;
-
-    public static ServiceSQLTransaction getServiceSqlTransaction() {
-        if (serviceSQLTransaction == null) {
-            serviceSQLTransaction = new ServiceSQLTransaction();
-        }
-        return serviceSQLTransaction;
-    }
-
-    private static ServiceSQLUser serviceSQLUser;
-
-    public static ServiceSQLUser getServiceSqlUser() {
-        if (serviceSQLUser == null) {
-            serviceSQLUser = new ServiceSQLUser();
-        }
-        return serviceSQLUser;
-    }
-
 }

@@ -7,7 +7,6 @@ import ru.milov.transactions.service.domain.UserDto;
 import ru.milov.transactions.service.services.serviceapp.ServiceAppBill;
 import ru.milov.transactions.service.services.serviceapp.ServiceAppTransaction;
 import ru.milov.transactions.service.services.ServiceFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -71,7 +70,7 @@ public class MenuUser implements MenuButtons<UserDto> {
     @Override
     public void buttonOne(UserDto userDto) {
         try {
-            if (!serviceAppBill.countOfBillsMustBeBelowFive(userDto)) {
+            if (serviceAppBill.countOfBillsMustBeBelowFive(userDto) < 5) {
                 System.out.println("Type name of bill");
                 String nameOfBill = reader.readLine();
                 System.out.println("Type balance of bill");

@@ -1,5 +1,6 @@
 package ru.milov.transactions.dao;
 
+import ru.milov.transactions.service.domain.Transaction;
 import ru.milov.transactions.service.domain.UserBill;
 import javax.sql.DataSource;
 import java.sql.*;
@@ -87,6 +88,11 @@ public class UserBillDao implements Dao <UserBill, Integer>{
             throwables.printStackTrace();
         }
         return userBill;
+    }
+
+    @Override
+    public Transaction insert(Transaction transaction, Connection connection) {
+        return null;
     }
 
     @Override
