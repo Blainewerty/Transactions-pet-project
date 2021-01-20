@@ -14,7 +14,7 @@ public interface Dao <DOMAIN, ID> {
 
     DOMAIN insert (DOMAIN domain);
 
-    Transaction insert(Transaction transaction, Connection connection);
+    DOMAIN insert(DOMAIN domain, Connection connection);
 
     DOMAIN update (DOMAIN domain);
 

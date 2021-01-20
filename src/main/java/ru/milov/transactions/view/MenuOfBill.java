@@ -1,5 +1,6 @@
 package ru.milov.transactions.view;
 
+import ru.milov.transactions.service.services.serviceapp.ServiceAppBill;
 import ru.milov.transactions.service.services.serviceapp.ServiceAppTransaction;
 import ru.milov.transactions.service.domain.UserBill;
 import ru.milov.transactions.service.services.ServiceFactory;
@@ -11,8 +12,9 @@ import java.util.List;
 public class MenuOfBill implements MenuButtons<UserBill> {
 
     private String command;
-    private final ServiceAppTransaction serviceAppTransaction = ServiceFactory.getServiceAppTransaction();
+    private final ServiceAppBill serviceAppBill = ServiceFactory.getServiceAppBill();
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private final ServiceAppTransaction serviceAppTransaction = ServiceFactory.getServiceAppTransaction();
 
     @Override
     public void start() {
@@ -108,7 +110,22 @@ public class MenuOfBill implements MenuButtons<UserBill> {
 
     @Override
     public void buttonThree(UserBill userBill) {
+        try {
+            System.out.println("You want to delete " + userBill.getName() + " ?\n"+
+                    "1: Yes\n" +
+                    "2: No");
 
+            command = reader.readLine();
+
+            if (command.equals("1")){
+                serviceAppBill.deleteUserBill(userBill);
+            }
+            if (command.equals("2")){
+                start(userBill);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

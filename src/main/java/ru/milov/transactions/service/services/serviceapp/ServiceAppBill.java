@@ -34,4 +34,8 @@ public class ServiceAppBill {
     public void updateUserBill(UserBill userBill){
         getUserBillDao().update(userBill);
     }
+
+    public void deleteUserBill(UserBill userBill){
+        getUserBillDao().delete(userBill.getBill_id());
+    }
 }

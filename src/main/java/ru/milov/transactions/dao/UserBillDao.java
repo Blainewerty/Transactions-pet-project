@@ -1,6 +1,5 @@
 package ru.milov.transactions.dao;
 
-import ru.milov.transactions.service.domain.Transaction;
 import ru.milov.transactions.service.domain.UserBill;
 import javax.sql.DataSource;
 import java.sql.*;
@@ -91,7 +90,7 @@ public class UserBillDao implements Dao <UserBill, Integer>{
     }
 
     @Override
-    public Transaction insert(Transaction transaction, Connection connection) {
+    public UserBill insert(UserBill userBill, Connection connection) {
         return null;
     }
 
@@ -112,7 +111,18 @@ public class UserBillDao implements Dao <UserBill, Integer>{
     }
 
     @Override
-    public boolean delete(Integer integer) {
+    public boolean delete(Integer bill_id) {
+        String request = "delete from bills where bill_id = ?";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(request);
+
+            ps.setInt(1, bill_id);
+
+            ps.executeUpdate();
+
+            } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
