@@ -1,20 +1,26 @@
 package ru.milov.transactions.view;
 
-import ru.milov.transactions.service.services.serviceapp.ServiceAppBill;
-import ru.milov.transactions.service.services.serviceapp.ServiceAppTransaction;
+import org.springframework.stereotype.Service;
+import ru.milov.transactions.service.services.ServiceAppBill;
+import ru.milov.transactions.service.services.ServiceAppTransaction;
 import ru.milov.transactions.service.domain.UserBill;
-import ru.milov.transactions.service.services.ServiceFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+@Service
 public class MenuOfBill implements MenuButtons<UserBill> {
 
     private String command;
-    private final ServiceAppBill serviceAppBill = ServiceFactory.getServiceAppBill();
+    private final ServiceAppBill serviceAppBill;
+    private final ServiceAppTransaction serviceAppTransaction;
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private final ServiceAppTransaction serviceAppTransaction = ServiceFactory.getServiceAppTransaction();
+
+    public MenuOfBill(ServiceAppBill serviceAppBill, ServiceAppTransaction serviceAppTransaction) {
+        this.serviceAppBill = serviceAppBill;
+        this.serviceAppTransaction = serviceAppTransaction;
+    }
 
     @Override
     public void start() {
@@ -29,7 +35,8 @@ public class MenuOfBill implements MenuButtons<UserBill> {
                         "What would you do next?" + "\n" +
                         "1: Update bill" + "\n" +
                         "2: Get bill operations" + "\n" +
-                        "3: Delete bill");
+                        "3: Delete bill\n" +
+                        "q: Return");
 
                 command = reader.readLine();
 
@@ -95,6 +102,7 @@ public class MenuOfBill implements MenuButtons<UserBill> {
 
     @Override
     public void buttonTwo(UserBill userBill) {
+
         List transactionList = serviceAppTransaction.getInfoAboutBillTransactions(userBill);
 
         System.out.println("You Have: ");
@@ -111,16 +119,19 @@ public class MenuOfBill implements MenuButtons<UserBill> {
     @Override
     public void buttonThree(UserBill userBill) {
         try {
-            System.out.println("You want to delete " + userBill.getName() + " ?\n"+
+            System.out.println("You want to delete " + userBill.getName() + " ?\n" +
                     "1: Yes\n" +
                     "2: No");
 
             command = reader.readLine();
 
-            if (command.equals("1")){
-                serviceAppBill.deleteUserBill(userBill);
+            if (command.equals("1")) {
+                if (serviceAppBill.deleteUserBill(userBill)) {
+                    System.out.println("Complete !");
+                    command = "q";
+                }
             }
-            if (command.equals("2")){
+            if (command.equals("2")) {
                 start(userBill);
             }
         } catch (IOException e) {

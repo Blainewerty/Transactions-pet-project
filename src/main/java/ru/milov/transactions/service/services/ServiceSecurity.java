@@ -2,10 +2,12 @@ package ru.milov.transactions.service.services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 import ru.milov.transactions.dao.UserDao;
 import ru.milov.transactions.service.domain.ServiceUser;
 import ru.milov.transactions.service.domain.UserDto;
 
+@Service
 public class ServiceSecurity {
 
     private final UserDao userDao;

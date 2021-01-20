@@ -2,7 +2,6 @@ package ru.milov.transactions.service.services.serviceapp;
 
 import org.junit.Before;
 import org.junit.Test;
-import ru.milov.transactions.dao.DaoFactory;
 import ru.milov.transactions.dao.TransactionDao;
 import ru.milov.transactions.dao.UserBillDao;
 import ru.milov.transactions.service.domain.Transaction;
@@ -19,14 +18,18 @@ public class ServiceAppTransactionTest {
     TransactionDao transactionDao;
     UserBillDao userBillDao;
 
+    public ServiceAppTransactionTest(TransactionDao transactionDaoMock, TransactionDao transactionDao, UserBillDao userBillDao) {
+        this.transactionDaoMock = transactionDaoMock;
+        this.transactionDao = transactionDao;
+        this.userBillDao = userBillDao;
+    }
+
     @Before
     public void setUp(){
         System.setProperty("jdbcUrl","jdbc:h2:mem:testDatabase");
         System.setProperty("jdbcUser","user");
         System.setProperty("jdbcPassword","");
 
-        userBillDao = DaoFactory.getUserBillDao();
-        transactionDao = DaoFactory.getTransactionDao();
         transactionDaoMock = mock(TransactionDao.class);
 
     }

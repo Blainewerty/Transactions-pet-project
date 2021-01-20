@@ -1,24 +1,35 @@
 package ru.milov.transactions.view;
 
-
+import org.springframework.stereotype.Service;
 import ru.milov.transactions.service.TypeExceptions;
 import ru.milov.transactions.service.domain.UserBill;
 import ru.milov.transactions.service.domain.UserDto;
-import ru.milov.transactions.service.services.serviceapp.ServiceAppBill;
-import ru.milov.transactions.service.services.serviceapp.ServiceAppTransaction;
-import ru.milov.transactions.service.services.ServiceFactory;
+import ru.milov.transactions.service.services.ServiceAppBill;
+import ru.milov.transactions.service.services.ServiceAppTransaction;
+import ru.milov.transactions.service.services.ServiceAppUser;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+@Service
 public class MenuUser implements MenuButtons<UserDto> {
 
     private String command;
     List<UserBill> billList;
-    private final ServiceAppBill serviceAppBill = ServiceFactory.getServiceAppBill();
-    private final ServiceAppTransaction serviceAppTransaction = ServiceFactory.getServiceAppTransaction();
+
+    private final ServiceAppUser serviceAppUser;
+    private final ServiceAppBill serviceAppBill;
+    private final ServiceAppTransaction serviceAppTransaction;
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+    public MenuUser(ServiceAppUser serviceAppUser, ServiceAppBill serviceAppBill, ServiceAppTransaction serviceAppTransaction) {
+        this.serviceAppUser = serviceAppUser;
+        this.serviceAppBill = serviceAppBill;
+        this.serviceAppTransaction = serviceAppTransaction;
+    }
+
 
     @Override
     public void start() {
@@ -33,8 +44,9 @@ public class MenuUser implements MenuButtons<UserDto> {
                     "1: Create Bill\n" +
                     "2: Choose Bill\n" +
                     "3: Get Current Info\n" +
-                    "5: Transfer from bill to bill\n" +
-                    "6: Go back\n");
+                    "4: Transfer from bill to bill\n" +
+                    "5: Delete User\n" +
+                    "q: Go back\n");
 
             try {
                 command = reader.readLine();
@@ -53,13 +65,13 @@ public class MenuUser implements MenuButtons<UserDto> {
                 if (command.equals("5")) {
                     buttonFive(userDto);
                 }
-                if (command.equals("6")) {
+                if (command.equals("q")) {
                     buttonClose();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } while (!command.equals("6"));
+        } while (!command.equals("q"));
     }
 
     @Override
@@ -97,7 +109,7 @@ public class MenuUser implements MenuButtons<UserDto> {
 
     @Override
     public void buttonTwo(UserDto userDto) {
-        MenuButtons menu = new MenuOfBill();
+        MenuButtons menu = new MenuOfBill(serviceAppBill, serviceAppTransaction);
         try {
             billList = serviceAppBill.getInfoAboutAllBillsOfUser(userDto);
 
@@ -118,7 +130,7 @@ public class MenuUser implements MenuButtons<UserDto> {
     @Override
     public void buttonThree(UserDto userDto) {
         try {
-            if (serviceAppBill.getInfoAboutAllBillsOfUser(userDto) == null) {
+            if (serviceAppBill.getInfoAboutAllBillsOfUser(userDto).size() == 0) {
                 System.out.println("There is no bills yet!");
             } else for (Object bills : serviceAppBill.getInfoAboutAllBillsOfUser(userDto)) {
                 System.out.println(bills);
@@ -130,11 +142,6 @@ public class MenuUser implements MenuButtons<UserDto> {
 
     @Override
     public void buttonFour(UserDto userDto) {
-
-    }
-
-    @Override
-    public void buttonFive(UserDto userDto) {
         try {
             billList = serviceAppBill.getInfoAboutAllBillsOfUser(userDto);
 
@@ -164,6 +171,29 @@ public class MenuUser implements MenuButtons<UserDto> {
             }
 
         } catch (IOException | TypeExceptions e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void buttonFive(UserDto userDto) {
+        try {
+            System.out.println("You want to delete " + userDto.getEmail() + " ?\n" +
+                    "1: Yes\n" +
+                    "2: No");
+
+            command = reader.readLine();
+
+            if (command.equals("1")) {
+                if (serviceAppUser.deleteUserFromDb(userDto)) {
+                    System.out.println("Complete !");
+                    command = "q";
+                }
+            }
+            if (command.equals("2")) {
+                start(userDto);
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

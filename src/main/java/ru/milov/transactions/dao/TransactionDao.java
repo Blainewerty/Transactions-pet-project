@@ -1,10 +1,12 @@
 package ru.milov.transactions.dao;
 
+import org.springframework.stereotype.Service;
 import ru.milov.transactions.service.domain.Transaction;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
 
+@Service
 public class TransactionDao implements Dao<Transaction, Integer> {
 
     private final DataSource dataSource;
@@ -137,7 +139,18 @@ public class TransactionDao implements Dao<Transaction, Integer> {
     }
 
     @Override
-    public boolean delete(Integer integer) {
+    public boolean delete(Integer transaction_id) {
+        String request = "delete from transaction where transaction_id = ?";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(request);
+
+            ps.setInt(1, transaction_id);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }

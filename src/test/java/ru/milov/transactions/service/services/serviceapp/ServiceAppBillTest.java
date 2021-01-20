@@ -1,10 +1,8 @@
 package ru.milov.transactions.service.services.serviceapp;
 
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import ru.milov.transactions.dao.DaoFactory;
 import ru.milov.transactions.dao.UserBillDao;
 import ru.milov.transactions.service.domain.UserBill;
 import java.util.LinkedList;
@@ -14,13 +12,15 @@ public class ServiceAppBillTest {
 
     UserBillDao userBillDao;
 
+    public ServiceAppBillTest(UserBillDao userBillDao) {
+        this.userBillDao = userBillDao;
+    }
+
     @Before
     public void setUp() {
         System.setProperty("jdbcUrl", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
         System.setProperty("jdbcUser", "user");
         System.setProperty("jdbcPassword", "");
-
-        userBillDao = DaoFactory.getUserBillDao();
     }
 
     @Test

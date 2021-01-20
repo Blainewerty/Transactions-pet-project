@@ -1,17 +1,21 @@
-package ru.milov.transactions.service.services.serviceapp;
+package ru.milov.transactions.service.services;
 
-import ru.milov.transactions.dao.DaoFactory;
+import org.springframework.stereotype.Service;
 import ru.milov.transactions.dao.UserDao;
-import ru.milov.transactions.service.services.ServiceFactory;
-import ru.milov.transactions.service.services.ServiceSecurity;
 import ru.milov.transactions.service.TypeExceptions;
 import ru.milov.transactions.service.domain.UserDto;
 
+@Service
 public class ServiceAppUser {
 
-    private final UserDao userDao = DaoFactory.getUserDao();
+    private final UserDao userDao;
+    private final ServiceSecurity serviceSecurity;
 
-    private final ServiceSecurity serviceSecurity = ServiceFactory.getServiceSecurity();
+    public ServiceAppUser(UserDao userDao, ServiceSecurity serviceSecurity) {
+        this.userDao = userDao;
+        this.serviceSecurity = serviceSecurity;
+    }
+
 
     public UserDto checkIfUserInDb(String email, String password) throws TypeExceptions {
         UserDto userDto = serviceSecurity.checkIfUserInDb(email, password);
@@ -35,5 +39,9 @@ public class ServiceAppUser {
         if (userDto != null) {
             return userDao.findById(userDto);
         } else throw new TypeExceptions("There is no such user in DB!");
+    }
+
+    public boolean deleteUserFromDb(UserDto userDto){
+        return userDao.delete(userDto.getId());
     }
 }

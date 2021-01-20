@@ -1,11 +1,16 @@
 package ru.milov.transactions;
 
-import ru.milov.transactions.view.Menu;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.milov.transactions.view.MenuStart;
+import ru.milov.transactions.view.MenuButtons;
+import ru.milov.transactions.view.MenuConfiguration;
 
 public class Main {
 
     public static void main(String[] args) {
-        Menu menu = new Menu();
+        ApplicationContext context = new AnnotationConfigApplicationContext(MenuConfiguration.class);
+        MenuButtons menu = context.getBean(MenuStart.class);
         menu.start();
     }
 }

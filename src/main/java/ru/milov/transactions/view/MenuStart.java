@@ -1,22 +1,28 @@
 package ru.milov.transactions.view;
 
-import ru.milov.transactions.service.services.serviceapp.ServiceAppUser;
+import org.springframework.stereotype.Service;
 import ru.milov.transactions.service.TypeExceptions;
+import ru.milov.transactions.service.services.ServiceAppUser;
 import ru.milov.transactions.service.domain.UserDto;
-import ru.milov.transactions.service.services.ServiceFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Menu implements MenuButtons <UserDto> {
+@Service
+public class MenuStart implements MenuButtons <UserDto> {
 
     private String email;
     private String password;
     private String command;
 
-    private final ServiceAppUser serviceAppUser = ServiceFactory.getServiceAppUser();
-    private final MenuUser menuUser = new MenuUser();
+    private final MenuUser menuUser;
+    private final ServiceAppUser serviceAppUser;
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+    public MenuStart(MenuUser menuUser, ServiceAppUser serviceAppUser) {
+        this.menuUser = menuUser;
+        this.serviceAppUser = serviceAppUser;
+    }
 
     @Override
     public void start() {
@@ -24,7 +30,7 @@ public class Menu implements MenuButtons <UserDto> {
             System.out.println("Hello! \nYou want authentication or registration?\n" +
                     "1: Registration\n" +
                     "2: Authentication\n" +
-                    "3: Exit");
+                    "q: Exit");
 
             try {
                 command = reader.readLine();
@@ -34,13 +40,13 @@ public class Menu implements MenuButtons <UserDto> {
                 if (command.equals("2")) {
                     buttonTwo();
                 }
-                if (command.equals("3")) {
+                if (command.equals("q")) {
                     buttonClose();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } while (!command.equals("3"));
+        } while (!command.equals("q"));
     }
 
     @Override

@@ -1,8 +1,5 @@
 package ru.milov.transactions.dao;
 
-
-import ru.milov.transactions.service.domain.Transaction;
-
 import java.sql.Connection;
 import java.util.List;
 

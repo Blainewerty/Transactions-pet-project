@@ -2,10 +2,8 @@ package ru.milov.transactions.service.services.serviceapp;
 
 import junit.framework.TestCase;
 import org.junit.Before;
-import ru.milov.transactions.dao.DaoFactory;
 import ru.milov.transactions.dao.UserDao;
 import ru.milov.transactions.service.domain.UserDto;
-import ru.milov.transactions.service.services.ServiceFactory;
 import ru.milov.transactions.service.services.ServiceSecurity;
 
 public class ServiceAppUserTest extends TestCase {
@@ -13,14 +11,18 @@ public class ServiceAppUserTest extends TestCase {
     UserDao userDao;
     ServiceSecurity serviceSecurity;
 
+    public ServiceAppUserTest() {
+    }
+
+    public ServiceAppUserTest(String name) {
+        super(name);
+    }
+
     @Before
     public void setUp() {
         System.setProperty("jdbcUrl", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
         System.setProperty("jdbcUser", "user");
         System.setProperty("jdbcPassword", "");
-
-        userDao = DaoFactory.getUserDao();
-        serviceSecurity = ServiceFactory.getServiceSecurity();
     }
 
     public void testRegisterUser() {

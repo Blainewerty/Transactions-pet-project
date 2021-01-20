@@ -68,13 +68,15 @@
 
         <addForeignKeyConstraint baseTableName="bills" baseColumnNames="user_id"
                                  constraintName="bills_user_id"
-                                 referencedTableName="users" referencedColumnNames="user_id"/>
-
+                                 referencedTableName="users" referencedColumnNames="user_id"
+                                 onDelete="CASCADE"/>
         <addForeignKeyConstraint baseTableName="transaction" baseColumnNames="user_id"
                                  constraintName="transaction_user_id"
-                                 referencedTableName="users" referencedColumnNames="user_id"/>
+                                 referencedTableName="users" referencedColumnNames="user_id"
+                                 onDelete="CASCADE"/>
         <addForeignKeyConstraint baseTableName="transaction" baseColumnNames="bill_id"
                                  constraintName="transaction_bill_id"
-                                 referencedTableName="bills" referencedColumnNames="bill_id"/>
+                                 referencedTableName="bills" referencedColumnNames="bill_id"
+                                 onDelete="CASCADE"/>
     </changeSet>
 </databaseChangeLog>

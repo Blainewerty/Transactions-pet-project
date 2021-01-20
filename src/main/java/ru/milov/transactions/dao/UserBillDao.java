@@ -1,10 +1,12 @@
 package ru.milov.transactions.dao;
 
+import org.springframework.stereotype.Service;
 import ru.milov.transactions.service.domain.UserBill;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
 
+@Service
 public class UserBillDao implements Dao <UserBill, Integer>{
 
     private final DataSource dataSource;
@@ -123,7 +125,7 @@ public class UserBillDao implements Dao <UserBill, Integer>{
             } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return true;
     }
 
 }

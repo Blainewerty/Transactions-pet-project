@@ -2,12 +2,15 @@ package ru.milov.transactions.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 import ru.milov.transactions.service.domain.ServiceUser;
 import ru.milov.transactions.service.domain.UserDto;
+
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
 
+@Service
 public class UserDao implements Dao<UserDto, Integer> {
 
     private final DataSource dataSource;
@@ -49,7 +52,7 @@ public class UserDao implements Dao<UserDto, Integer> {
 
         log.info("Starting filling user by id");
         String request = "select * from users where user_id = ?";
-        try(Connection connection = dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(request);
             statement.setInt(1, userDto.getId());
 
@@ -114,7 +117,7 @@ public class UserDao implements Dao<UserDto, Integer> {
     @Override
     public UserDto update(UserDto userDto) {
         String request = "update users set total_balance = (select sum(balance) from bills) where user_id = ?";
-        try(Connection connection = dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(request);
             statement.setInt(1, userDto.getId());
 
@@ -127,8 +130,19 @@ public class UserDao implements Dao<UserDto, Integer> {
     }
 
     @Override
-    public boolean delete(Integer integer) {
-        return false;
+    public boolean delete(Integer user_id) {
+        String request = "delete from users where user_id = ?";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(request);
+
+            ps.setInt(1, user_id);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
 

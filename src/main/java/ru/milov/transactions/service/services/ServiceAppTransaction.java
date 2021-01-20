@@ -1,23 +1,30 @@
-package ru.milov.transactions.service.services.serviceapp;
+package ru.milov.transactions.service.services;
 
-
-import ru.milov.transactions.dao.DaoFactory;
+import org.springframework.stereotype.Service;
+import ru.milov.transactions.dao.TransactionDao;
 import ru.milov.transactions.service.domain.Transaction;
 import ru.milov.transactions.service.domain.UserBill;
-import ru.milov.transactions.service.services.ServiceFactory;
-import static ru.milov.transactions.dao.DaoFactory.getTransactionDao;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+@Service
 public class ServiceAppTransaction {
 
-    Connection connection;
-    private final DataSource dataSource = DaoFactory.getDataSource();
+    private final DataSource dataSource;
+    private final TransactionDao transactionDao;
+    private final ServiceAppBill serviceAppBill;
+
+    public ServiceAppTransaction(DataSource dataSource, TransactionDao transactionDao, ServiceAppBill serviceAppBill) {
+        this.dataSource = dataSource;
+        this.transactionDao = transactionDao;
+        this.serviceAppBill = serviceAppBill;
+    }
 
     public void startingOperationWithBill(UserBill userBill, String nameOfTransaction, int valueOfOperation, String command) {
+        Connection connection = null;
         try {
             connection = dataSource.getConnection();
             connection.setAutoCommit(false);
@@ -31,12 +38,12 @@ public class ServiceAppTransaction {
             if (command.equals("1")) {
                 userBill.setBalance(userBill.getBalance() + transaction.getValueOfTransaction());
                 transaction.setTransactionStatus("+");
-                getTransactionDao().insert(transaction, connection);
+                transactionDao.insert(transaction, connection);
             }
             if (command.equals("2")) {
                 userBill.setBalance(userBill.getBalance() - transaction.getValueOfTransaction());
                 transaction.setTransactionStatus("-");
-                getTransactionDao().insert(transaction, connection);
+                transactionDao.insert(transaction, connection);
             }
             updateUserBill(userBill);
 
@@ -93,11 +100,10 @@ public class ServiceAppTransaction {
         Transaction transaction = new Transaction();
         transaction.setUser_id(userBill.getUser_id());
         transaction.setBill_id(userBill.getBill_id());
-        return getTransactionDao().findByAll(transaction, transactionList);
+        return transactionDao.findByAll(transaction, transactionList);
     }
 
     public void updateUserBill(UserBill userBill) {
-        ServiceAppBill serviceAppBill = ServiceFactory.getServiceAppBill();
         serviceAppBill.updateUserBill(userBill);
     }
 

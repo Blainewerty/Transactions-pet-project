@@ -1,8 +1,10 @@
 package ru.milov.transactions.service.services;
 
+import org.springframework.stereotype.Service;
 import ru.milov.transactions.service.domain.ServiceUser;
 import ru.milov.transactions.service.domain.UserDto;
 
+@Service
 public class ServiceConverter {
 
     public UserDto convertAuth(ServiceUser source){
