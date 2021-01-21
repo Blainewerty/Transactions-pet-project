@@ -2,7 +2,7 @@ package ru.milov.transactions.service.services;
 
 import org.springframework.stereotype.Service;
 import ru.milov.transactions.dao.UserDao;
-import ru.milov.transactions.service.TypeExceptions;
+import ru.milov.transactions.view.TypeExceptions;
 import ru.milov.transactions.service.domain.UserDto;
 
 @Service

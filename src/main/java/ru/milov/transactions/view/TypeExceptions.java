@@ -1,4 +1,4 @@
-package ru.milov.transactions.service;
+package ru.milov.transactions.view;
 
 public class TypeExceptions extends Exception {
 

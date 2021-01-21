@@ -1,7 +1,6 @@
 package ru.milov.transactions.view;
 
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.service.TypeExceptions;
 import ru.milov.transactions.service.services.ServiceAppUser;
 import ru.milov.transactions.service.domain.UserDto;
 import java.io.BufferedReader;

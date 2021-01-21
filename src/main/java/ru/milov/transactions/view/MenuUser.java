@@ -1,13 +1,11 @@
 package ru.milov.transactions.view;
 
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.service.TypeExceptions;
 import ru.milov.transactions.service.domain.UserBill;
 import ru.milov.transactions.service.domain.UserDto;
 import ru.milov.transactions.service.services.ServiceAppBill;
 import ru.milov.transactions.service.services.ServiceAppTransaction;
 import ru.milov.transactions.service.services.ServiceAppUser;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
