@@ -35,4 +35,14 @@
         <url-pattern>/reg</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ServletBills</servlet-name>
+        <servlet-class>ru.milov.transactions.servlets.ServletBills</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ServletBills</servlet-name>
+        <url-pattern>/bills</url-pattern>
+    </servlet-mapping>
+
 </web-app>

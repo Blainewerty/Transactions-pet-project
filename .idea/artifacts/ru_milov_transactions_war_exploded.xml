@@ -60,6 +60,7 @@
         </element>
       </element>
       <element id="javaee-facet-resources" facet="ru.milov.transactions/web/Web" />
+      <element id="javaee-facet-resources" facet="ru.milov.transactions/web/Web" />
     </root>
   </artifact>
 </component>
