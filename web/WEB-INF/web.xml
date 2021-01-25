@@ -12,37 +12,7 @@
 
     <servlet-mapping>
         <servlet-name>ServletMain</servlet-name>
-        <url-pattern>/hello</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>ServletAuth</servlet-name>
-        <servlet-class>ru.milov.transactions.servlets.ServletAuth</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>ServletAuth</servlet-name>
-        <url-pattern>/auth</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>ServletRegistration</servlet-name>
-        <servlet-class>ru.milov.transactions.servlets.ServletRegistration</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>ServletRegistration</servlet-name>
-        <url-pattern>/reg</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>ServletBills</servlet-name>
-        <servlet-class>ru.milov.transactions.servlets.ServletBills</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>ServletBills</servlet-name>
-        <url-pattern>/bills</url-pattern>
+        <url-pattern>/**</url-pattern>
     </servlet-mapping>
 
 </web-app>

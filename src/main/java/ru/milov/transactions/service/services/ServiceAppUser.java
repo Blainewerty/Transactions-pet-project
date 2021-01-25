@@ -1,21 +1,17 @@
 package ru.milov.transactions.service.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.dao.UserDao;
+import ru.milov.transactions.dao.Dao;
 import ru.milov.transactions.view.TypeExceptions;
 import ru.milov.transactions.service.domain.UserDto;
 
 @Service
+@RequiredArgsConstructor
 public class ServiceAppUser {
 
-    private final UserDao userDao;
+    private final Dao<UserDto, Integer> userDao;
     private final ServiceSecurity serviceSecurity;
-
-    public ServiceAppUser(UserDao userDao, ServiceSecurity serviceSecurity) {
-        this.userDao = userDao;
-        this.serviceSecurity = serviceSecurity;
-    }
-
 
     public UserDto checkIfUserInDb(String email, String password) throws TypeExceptions {
         UserDto userDto = serviceSecurity.checkIfUserInDb(email, password);

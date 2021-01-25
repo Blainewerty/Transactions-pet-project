@@ -15,7 +15,6 @@ public class TransactionDao implements Dao<Transaction, Integer> {
         this.dataSource = dataSource;
     }
 
-
     @Override
     public Transaction findById(Transaction transaction) {
         String request = "select * from transaction where user_id = ? and bill_id = ?";

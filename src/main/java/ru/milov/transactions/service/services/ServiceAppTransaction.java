@@ -1,7 +1,8 @@
 package ru.milov.transactions.service.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.dao.TransactionDao;
+import ru.milov.transactions.dao.Dao;
 import ru.milov.transactions.service.domain.Transaction;
 import ru.milov.transactions.service.domain.UserBill;
 import javax.sql.DataSource;
@@ -11,17 +12,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ServiceAppTransaction {
 
     private final DataSource dataSource;
-    private final TransactionDao transactionDao;
+    private final Dao<Transaction, Integer> transactionDao;
     private final ServiceAppBill serviceAppBill;
-
-    public ServiceAppTransaction(DataSource dataSource, TransactionDao transactionDao, ServiceAppBill serviceAppBill) {
-        this.dataSource = dataSource;
-        this.transactionDao = transactionDao;
-        this.serviceAppBill = serviceAppBill;
-    }
 
     public void startingOperationWithBill(UserBill userBill, String nameOfTransaction, int valueOfOperation, String command) {
         Connection connection = null;

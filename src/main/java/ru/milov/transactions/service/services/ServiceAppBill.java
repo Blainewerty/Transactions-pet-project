@@ -1,21 +1,22 @@
 package ru.milov.transactions.service.services;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.dao.UserBillDao;
+import ru.milov.transactions.dao.Dao;
 import ru.milov.transactions.view.TypeExceptions;
 import ru.milov.transactions.service.domain.UserBill;
 import ru.milov.transactions.service.domain.UserDto;
+
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ServiceAppBill {
 
-    private final UserBillDao userBillDao;
-
-    public ServiceAppBill(UserBillDao userBillDao) {
-        this.userBillDao = userBillDao;
-    }
+    private final Dao <UserBill, Integer> userBillDao;
 
     public List getInfoAboutAllBillsOfUser(UserDto userDto) throws TypeExceptions {
         if (userDto != null) {
