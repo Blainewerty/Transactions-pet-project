@@ -8,6 +8,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import ru.milov.transactions.dao.UserDao;
 import ru.milov.transactions.service.domain.UserDto;
 
+import java.math.BigDecimal;
+
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -65,7 +67,7 @@ public class ServiceSQLUserTest extends TestCase {
 
         UserDto userDtoWithInfo = new UserDto();
 
-        userDtoWithInfo.setTotalBalance(15);
+        userDtoWithInfo.setTotalBalance(BigDecimal.valueOf(15));
 
         when(userDao.findById(userDto)).thenReturn(userDtoWithInfo);
 

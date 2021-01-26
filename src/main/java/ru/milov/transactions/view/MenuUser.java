@@ -9,6 +9,7 @@ import ru.milov.transactions.service.services.ServiceAppUser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -155,12 +156,12 @@ public class MenuUser implements MenuButtons<UserDto> {
             int toBill = Integer.parseInt(reader.readLine());
 
             System.out.println("Type value of transaction");
-            int valueOfTransaction = Integer.parseInt(reader.readLine());
+            BigDecimal valueOfTransaction = BigDecimal.valueOf(Long.parseLong(reader.readLine()));
 
-            if (valueOfTransaction > billList.get(fromBill).getBalance()) {
-                System.out.println("The value is larger than bill balance");
-                start(userDto);
-            }
+//            if (valueOfTransaction.compareTo(billList.get(fromBill).getBalance())) {
+//                System.out.println("The value is larger than bill balance");
+//                start(userDto);
+//            }
 
             serviceAppTransaction.transferFromBillToBill(billList, fromBill, toBill, valueOfTransaction);
 

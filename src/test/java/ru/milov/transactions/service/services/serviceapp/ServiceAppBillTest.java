@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.milov.transactions.dao.UserBillDao;
 import ru.milov.transactions.service.domain.UserBill;
+
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class ServiceAppBillTest {
 
         userBill.setUser_id(1);
         userBill.setName("Any name");
-        userBill.setBalance(200);
+        userBill.setBalance(BigDecimal.valueOf(200));
 
         userBillDao.insert(userBill);
 
@@ -60,7 +62,7 @@ public class ServiceAppBillTest {
         userBill.setUser_id(1);
         UserBill userBillFromDb = userBillDao.findById(userBill);
 
-        userBillFromDb.setBalance(600);
+        userBillFromDb.setBalance(BigDecimal.valueOf(600));
         userBillDao.update(userBillFromDb);
 
         Assert.assertEquals(userBillFromDb.getBalance(), userBillDao.findById(userBill).getBalance());

@@ -1,9 +1,6 @@
 package ru.milov.transactions.servlets.responce;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import org.springframework.stereotype.Service;
 import ru.milov.transactions.service.domain.UserBill;
 import ru.milov.transactions.service.domain.UserDto;

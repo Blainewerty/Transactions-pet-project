@@ -2,6 +2,7 @@ package ru.milov.transactions.service.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ public class Transaction {
     private String date;
     private String nameOfTransaction;
     private String transactionStatus;
-    int valueOfTransaction;
+    BigDecimal valueOfTransaction;
 
     @Override
     public String toString() {

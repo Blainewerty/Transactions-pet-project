@@ -7,6 +7,7 @@ import ru.milov.transactions.service.domain.UserBill;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -76,13 +77,13 @@ public class MenuOfBill implements MenuButtons<UserBill> {
 
             System.out.println("Value of operation ?");
 
-            int valueOfOperation = Integer.parseInt(reader.readLine());
+            BigDecimal valueOfOperation = BigDecimal.valueOf(Long.parseLong(reader.readLine()));
 
-            if (valueOfOperation > userBill.getBalance()) {
-                System.out.println("Transaction is more than value on bill! \n" +
-                        "Try again!");
-                buttonOne(userBill);
-            }
+//            if (valueOfOperation.compareTo(userBill.getBalance())) {
+//                System.out.println("Transaction is more than value on bill! \n" +
+//                        "Try again!");
+//                buttonOne(userBill);
+//            }
 
             System.out.println("How do we name a transaction ?");
 

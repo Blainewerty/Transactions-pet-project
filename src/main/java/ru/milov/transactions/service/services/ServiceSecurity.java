@@ -1,6 +1,5 @@
 package ru.milov.transactions.service.services;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.milov.transactions.dao.UserDao;

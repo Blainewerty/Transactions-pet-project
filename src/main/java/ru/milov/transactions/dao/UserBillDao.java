@@ -27,7 +27,7 @@ public class UserBillDao implements Dao <UserBill, Integer>{
             ResultSet rSet = statement.executeQuery();
             while (rSet.next()) {
                 userBill.setName(rSet.getString("name"));
-                userBill.setBalance(rSet.getInt("balance"));
+                userBill.setBalance(rSet.getBigDecimal("balance"));
             }
         } catch (SQLException throwables) {
 
@@ -50,7 +50,7 @@ public class UserBillDao implements Dao <UserBill, Integer>{
                 userBill.setUser_id(rSet.getInt("user_id"));
                 userBill.setBill_id(rSet.getInt("bill_id"));
                 userBill.setName(rSet.getString("name"));
-                userBill.setBalance(rSet.getInt("balance"));
+                userBill.setBalance(rSet.getBigDecimal("balance"));
                 list.add(userBill);
             }
         } catch (SQLException throwables) {
@@ -68,7 +68,7 @@ public class UserBillDao implements Dao <UserBill, Integer>{
 
                 ps.setInt(1, userBill.getUser_id());
                 ps.setString(2, userBill.getName());
-                ps.setInt(3, userBill.getBalance());
+                ps.setBigDecimal(3, userBill.getBalance());
 
             int affectedRows = ps.executeUpdate();
 
@@ -101,7 +101,7 @@ public class UserBillDao implements Dao <UserBill, Integer>{
         String request = "update bills set balance = ? where user_id = ? and bill_id = ?";
         try(Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(request);
-            statement.setInt(1, userBill.getBalance());
+            statement.setBigDecimal(1, userBill.getBalance());
             statement.setInt(2, userBill.getUser_id());
             statement.setInt(3, userBill.getBill_id());
 

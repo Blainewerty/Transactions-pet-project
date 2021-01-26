@@ -1,13 +1,11 @@
 package ru.milov.transactions.service.services;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.milov.transactions.dao.Dao;
 import ru.milov.transactions.view.TypeExceptions;
 import ru.milov.transactions.service.domain.UserBill;
 import ru.milov.transactions.service.domain.UserDto;
-
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +29,7 @@ public class ServiceAppBill {
         UserBill userBill = new UserBill();
 
         userBill.setUser_id(userDto.getId());
-        userBill.setBalance(balance);
+        userBill.setBalance(BigDecimal.valueOf(balance));
         userBill.setName(nameOfBill);
         userBillDao.insert(userBill);
     }

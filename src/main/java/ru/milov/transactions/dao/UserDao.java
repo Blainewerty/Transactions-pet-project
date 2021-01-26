@@ -60,7 +60,7 @@ public class UserDao implements Dao<UserDto, Integer> {
             while (rSet.next()) {
                 userDto.setFirstName(rSet.getString("first_name"));
                 userDto.setLastName(rSet.getString("last_name"));
-                userDto.setTotalBalance(rSet.getInt("total_balance"));
+                userDto.setTotalBalance(rSet.getBigDecimal("total_balance"));
                 log.trace("Complete! " + userDto);
             }
         } catch (SQLException throwables) {

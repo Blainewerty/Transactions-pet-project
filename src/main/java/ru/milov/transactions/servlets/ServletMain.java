@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class ServletMain extends HttpServlet {
 
-    private ObjectMapper om = new ObjectMapper();
+    private final ObjectMapper om = new ObjectMapper();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

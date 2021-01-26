@@ -2,7 +2,6 @@ package ru.milov.transactions.service.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 
 @Getter
@@ -14,7 +13,7 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String password;
-    private int totalBalance;
+    private BigDecimal totalBalance;
 
     @Override
     public String toString() {

@@ -27,7 +27,7 @@ public class TransactionDao implements Dao<Transaction, Integer> {
             while (rSet.next()) {
                 transaction.setDate(String.valueOf(rSet.getTimestamp("transaction_date")));
                 transaction.setNameOfTransaction(rSet.getString("transaction_name"));
-                transaction.setValueOfTransaction(rSet.getInt("transaction_value"));
+                transaction.setValueOfTransaction(rSet.getBigDecimal("transaction_value"));
                 transaction.setTransactionStatus(rSet.getString("transaction_status"));
             }
         } catch (SQLException throwables) {
@@ -54,7 +54,7 @@ public class TransactionDao implements Dao<Transaction, Integer> {
                 transaction.setBill_id(rSet.getInt("bill_id"));
                 transaction.setNameOfTransaction(rSet.getString("transaction_name"));
                 transaction.setDate(String.valueOf(rSet.getTimestamp("transaction_date")));
-                transaction.setValueOfTransaction(rSet.getInt("transaction_value"));
+                transaction.setValueOfTransaction(rSet.getBigDecimal("transaction_value"));
                 transaction.setTransactionStatus(rSet.getString("transaction_status"));
                 list.add(transaction);
             }
@@ -75,7 +75,7 @@ public class TransactionDao implements Dao<Transaction, Integer> {
             ps.setInt(1, transaction.getUser_id());
             ps.setInt(2, transaction.getBill_id());
             ps.setString(3, transaction.getNameOfTransaction());
-            ps.setInt(4, transaction.getValueOfTransaction());
+            ps.setBigDecimal(4, transaction.getValueOfTransaction());
             ps.setString(5, transaction.getTransactionStatus());
 
             int affectedRows = ps.executeUpdate();
@@ -108,7 +108,7 @@ public class TransactionDao implements Dao<Transaction, Integer> {
             ps.setInt(1, transaction.getUser_id());
             ps.setInt(2, transaction.getBill_id());
             ps.setString(3, transaction.getNameOfTransaction());
-            ps.setInt(4, transaction.getValueOfTransaction());
+            ps.setBigDecimal(4, transaction.getValueOfTransaction());
             ps.setString(5, transaction.getTransactionStatus());
 
             int affectedRows = ps.executeUpdate();

@@ -6,6 +6,7 @@ import ru.milov.transactions.dao.Dao;
 import ru.milov.transactions.service.domain.Transaction;
 import ru.milov.transactions.service.domain.UserBill;
 import javax.sql.DataSource;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -19,7 +20,7 @@ public class ServiceAppTransaction {
     private final Dao<Transaction, Integer> transactionDao;
     private final ServiceAppBill serviceAppBill;
 
-    public void startingOperationWithBill(UserBill userBill, String nameOfTransaction, int valueOfOperation, String command) {
+    public void startingOperationWithBill(UserBill userBill, String nameOfTransaction, BigDecimal valueOfOperation, String command) {
         Connection connection = null;
         try {
             connection = dataSource.getConnection();
@@ -32,12 +33,12 @@ public class ServiceAppTransaction {
             transaction.setValueOfTransaction(valueOfOperation);
 
             if (command.equals("1")) {
-                userBill.setBalance(userBill.getBalance() + transaction.getValueOfTransaction());
+                userBill.setBalance(userBill.getBalance().add(transaction.getValueOfTransaction()));
                 transaction.setTransactionStatus("+");
                 transactionDao.insert(transaction, connection);
             }
             if (command.equals("2")) {
-                userBill.setBalance(userBill.getBalance() - transaction.getValueOfTransaction());
+                userBill.setBalance(userBill.getBalance().subtract(transaction.getValueOfTransaction()));
                 transaction.setTransactionStatus("-");
                 transactionDao.insert(transaction, connection);
             }
@@ -63,7 +64,7 @@ public class ServiceAppTransaction {
         }
     }
 
-    public void transferFromBillToBill(List<UserBill> billList, int fromBill, int toBill, int valueOfTransaction) {
+    public void transferFromBillToBill(List<UserBill> billList, int fromBill, int toBill, BigDecimal valueOfTransaction) {
 
         UserBill fromWhichBill = billList.get(fromBill);
         UserBill toWhichBill = billList.get(toBill);

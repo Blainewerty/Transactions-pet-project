@@ -6,6 +6,8 @@ import ru.milov.transactions.dao.TransactionDao;
 import ru.milov.transactions.dao.UserBillDao;
 import ru.milov.transactions.service.domain.Transaction;
 import ru.milov.transactions.service.domain.UserBill;
+
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import static junit.framework.TestCase.assertEquals;
@@ -39,7 +41,7 @@ public class ServiceAppTransactionTest {
         Transaction transaction = new Transaction();
         transaction.setUser_id(1);
         transaction.setBill_id(1);
-        transaction.setValueOfTransaction(100);
+        transaction.setValueOfTransaction(BigDecimal.valueOf(100));
 
         transactionDao.insert(transaction);
     }
@@ -49,11 +51,11 @@ public class ServiceAppTransactionTest {
         UserBill fromWhichBill = new UserBill();
         UserBill toWhichBill = new UserBill();
 
-        fromWhichBill.setBalance(400);
+        fromWhichBill.setBalance(BigDecimal.valueOf(400));
         fromWhichBill.setUser_id(1);
         fromWhichBill.setBill_id(1);
 
-        toWhichBill.setBalance(0);
+        toWhichBill.setBalance(BigDecimal.valueOf(0));
         toWhichBill.setUser_id(1);
         toWhichBill.setBill_id(2);
 
@@ -62,9 +64,9 @@ public class ServiceAppTransactionTest {
         transactionFromFirstBill.setBill_id(fromWhichBill.getBill_id());
         transactionFromFirstBill.setNameOfTransaction("Transfer from " + fromWhichBill.getName() +
                 " to " + toWhichBill.getName());
-        transactionFromFirstBill.setValueOfTransaction(100);
+        transactionFromFirstBill.setValueOfTransaction(BigDecimal.valueOf(100));
 
-        fromWhichBill.setBalance(fromWhichBill.getBalance() - 100);
+        fromWhichBill.setBalance(fromWhichBill.getBalance().subtract(BigDecimal.valueOf(100)));
 
         transactionDao.insert(transactionFromFirstBill);
 
@@ -75,9 +77,9 @@ public class ServiceAppTransactionTest {
         transactionToSecondBill.setBill_id(toWhichBill.getBill_id());
         transactionToSecondBill.setNameOfTransaction("Transfer to " + toWhichBill.getName() +
                 " from " + fromWhichBill.getName());
-        transactionToSecondBill.setValueOfTransaction(100);
+        transactionToSecondBill.setValueOfTransaction(BigDecimal.valueOf(100));
 
-        toWhichBill.setBalance(toWhichBill.getBalance() + 100);
+        toWhichBill.setBalance(toWhichBill.getBalance().add(BigDecimal.valueOf(100)));
 
         userBillDao.update(toWhichBill);
 
@@ -94,7 +96,7 @@ public class ServiceAppTransactionTest {
 
         transaction.setUser_id(1);
         transaction.setBill_id(1);
-        transaction.setValueOfTransaction(100);
+        transaction.setValueOfTransaction(BigDecimal.valueOf(100));
         transaction.setNameOfTransaction("Someone");
         transactionDao.insert(transaction);
 
@@ -102,7 +104,7 @@ public class ServiceAppTransactionTest {
 
         transaction.setUser_id(1);
         transaction.setBill_id(1);
-        transaction.setValueOfTransaction(300);
+        transaction.setValueOfTransaction(BigDecimal.valueOf(300));
         transaction.setNameOfTransaction("Someone");
         transactionDao.insert(transaction);
 

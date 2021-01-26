@@ -6,6 +6,8 @@ import ru.milov.transactions.dao.UserDao;
 import ru.milov.transactions.service.domain.UserDto;
 import ru.milov.transactions.service.services.ServiceSecurity;
 
+import java.math.BigDecimal;
+
 public class ServiceAppUserTest extends TestCase {
 
     UserDao userDao;
@@ -28,7 +30,7 @@ public class ServiceAppUserTest extends TestCase {
     public void testRegisterUser() {
         UserDto userDto = new UserDto();
         userDto.setId(1);
-        userDto.setTotalBalance(0);
+        userDto.setTotalBalance(BigDecimal.valueOf(0));
         userDto.setEmail("SomeOne");
 
         userDao.insert(userDto);
