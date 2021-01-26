@@ -4,12 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.springframework.stereotype.Service;
+import ru.milov.transactions.service.domain.UserBill;
+import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.services.ServiceAppBill;
+import ru.milov.transactions.view.TypeExceptions;
 
-@Data
+import java.util.List;
+
+@Service
 @AllArgsConstructor
-@NoArgsConstructor
-@Accessors(chain = true)
 public class LoginResponse {
 
-    private boolean success;
+    ServiceAppBill serviceAppBill;
+
+    public List<UserBill> showUserBills(UserDto userDto) {
+        try {
+            return serviceAppBill.getInfoAboutAllBillsOfUser(userDto);
+        } catch (TypeExceptions typeExceptions) {
+            typeExceptions.printStackTrace();
+        }
+        return null;
+    }
+
 }

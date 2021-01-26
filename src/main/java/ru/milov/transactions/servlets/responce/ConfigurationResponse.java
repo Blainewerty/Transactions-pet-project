@@ -1,14 +1,12 @@
-package ru.milov.transactions.servlets.controllers;
-
+package ru.milov.transactions.servlets.responce;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import ru.milov.transactions.servlets.responce.ConfigurationResponse;
+import ru.milov.transactions.service.services.ServiceConfiguration;
 
 @Configuration
 @ComponentScan
-@Import(ConfigurationResponse.class)
-public class ControllerConfiguration {
-
+@Import(ServiceConfiguration.class)
+public class ConfigurationResponse {
 }

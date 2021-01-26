@@ -57,6 +57,9 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-core:5.3.3" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.3.3" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.3.3" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.12.1" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.12.1" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.12.1" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="ru.milov.transactions/web/Web" />

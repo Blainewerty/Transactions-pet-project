@@ -6,6 +6,8 @@
         <fileset id="fileset" name="ServiceConfiguration" removed="false">
           <file>file://$MODULE_DIR$/src/main/java/ru/milov/transactions/service/services/ServiceConfiguration.java</file>
           <file>file://$MODULE_DIR$/src/main/java/ru/milov/transactions/view/MenuConfiguration.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/ru/milov/transactions/servlets/responce/ConfigurationResponse.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/ru/milov/transactions/servlets/controllers/ControllerConfiguration.java</file>
         </fileset>
       </configuration>
     </facet>
@@ -94,10 +96,8 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:jsp-api:2.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.16" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.10" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.10" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.12.1" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.12.1" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.12.1" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.12.1" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.12.1" level="project" />
   </component>
 </module>
