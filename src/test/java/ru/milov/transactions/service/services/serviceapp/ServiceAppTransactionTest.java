@@ -4,8 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.milov.transactions.dao.TransactionDao;
 import ru.milov.transactions.dao.UserBillDao;
-import ru.milov.transactions.service.domain.Transaction;
-import ru.milov.transactions.service.domain.UserBill;
+import ru.milov.transactions.service.entity.Transaction;
+import ru.milov.transactions.service.entity.UserBill;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;

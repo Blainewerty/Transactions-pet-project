@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import ru.milov.transactions.dao.UserDao;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.entity.UserDto;
 
 import java.math.BigDecimal;
 

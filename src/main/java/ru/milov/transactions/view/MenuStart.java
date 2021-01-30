@@ -2,7 +2,7 @@ package ru.milov.transactions.view;
 
 import org.springframework.stereotype.Service;
 import ru.milov.transactions.service.services.ServiceAppUser;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.entity.UserDto;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

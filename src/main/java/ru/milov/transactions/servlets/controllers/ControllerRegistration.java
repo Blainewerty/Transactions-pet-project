@@ -2,7 +2,7 @@ package ru.milov.transactions.servlets.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.entity.UserDto;
 import ru.milov.transactions.service.services.ServiceAppUser;
 import ru.milov.transactions.servlets.request.RegisterRequest;
 import ru.milov.transactions.servlets.responce.RegistrationResponse;

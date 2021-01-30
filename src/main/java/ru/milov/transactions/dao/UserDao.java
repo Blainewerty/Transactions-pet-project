@@ -3,8 +3,8 @@ package ru.milov.transactions.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.service.domain.ServiceUser;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.entity.ServiceUser;
+import ru.milov.transactions.service.entity.UserDto;
 
 import javax.sql.DataSource;
 import java.sql.*;

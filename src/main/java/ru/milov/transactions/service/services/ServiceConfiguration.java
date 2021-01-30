@@ -4,9 +4,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import ru.milov.transactions.dao.DaoConfiguration;
+import ru.milov.transactions.dao.JpaConfiguration;
 
 @ComponentScan
-@Import(DaoConfiguration.class)
+@Import(JpaConfiguration.class)
 @Configuration
 public class ServiceConfiguration {
 

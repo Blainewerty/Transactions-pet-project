@@ -9,8 +9,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import ru.milov.transactions.service.services.DigestService;
 import ru.milov.transactions.service.services.ServiceSecurity;
 import ru.milov.transactions.service.services.ServiceConverter;
-import ru.milov.transactions.service.domain.ServiceUser;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.entity.ServiceUser;
+import ru.milov.transactions.service.entity.UserDto;
 
 import static org.mockito.Mockito.when;
 

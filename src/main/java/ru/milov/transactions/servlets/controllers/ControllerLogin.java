@@ -1,13 +1,10 @@
 package ru.milov.transactions.servlets.controllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.service.domain.UserBill;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.entity.UserBill;
+import ru.milov.transactions.service.entity.UserDto;
 import ru.milov.transactions.service.services.ServiceAppUser;
-import ru.milov.transactions.service.services.ServiceConfiguration;
 import ru.milov.transactions.servlets.request.LoginRequest;
 import ru.milov.transactions.servlets.responce.LoginResponse;
 import ru.milov.transactions.view.TypeExceptions;

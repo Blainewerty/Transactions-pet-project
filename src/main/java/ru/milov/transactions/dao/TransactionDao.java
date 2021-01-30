@@ -1,7 +1,7 @@
 package ru.milov.transactions.dao;
 
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.service.domain.Transaction;
+import ru.milov.transactions.service.entity.Transaction;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ru.milov.transactions.service.domain;
+package ru.milov.transactions.service.entity;
 
 import lombok.Getter;
 import lombok.Setter;

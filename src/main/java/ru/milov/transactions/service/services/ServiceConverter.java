@@ -1,8 +1,8 @@
 package ru.milov.transactions.service.services;
 
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.service.domain.ServiceUser;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.entity.ServiceUser;
+import ru.milov.transactions.service.entity.UserDto;
 
 @Service
 public class ServiceConverter {

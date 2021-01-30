@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.milov.transactions.dao.Dao;
 import ru.milov.transactions.view.TypeExceptions;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.entity.UserDto;
 
 @Service
 @RequiredArgsConstructor
