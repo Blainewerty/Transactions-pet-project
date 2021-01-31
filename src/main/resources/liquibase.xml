@@ -22,7 +22,7 @@
             <column name="last_name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="total_balance" type="VARCHAR(255)">
+            <column name="total_balance" type="DECIMAL">
                 <constraints checkConstraint="CHECK (total_balance >=0)"/>
             </column>
         </createTable>
@@ -37,7 +37,7 @@
             <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="balance" type="BIGINT">
+            <column name="balance" type="DECIMAL">
                 <constraints checkConstraint="CHECK (balance >=0)"/>
             </column>
         </createTable>
@@ -58,7 +58,7 @@
             <column name="transaction_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="transaction_value" type="BIGINT">
+            <column name="transaction_value" type="DECIMAL">
                 <constraints checkConstraint="CHECK (transaction_value >=0)"/>
             </column>
             <column name="transaction_status" type="VARCHAR(16)">

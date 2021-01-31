@@ -5,7 +5,7 @@ create table users
     password      varchar(255),
     first_name    varchar(255),
     last_name     varchar(255),
-    total_balance int check ( total_balance > 0 )
+    total_balance decimal check ( total_balance > 0 )
 );
 
 create table bills
@@ -13,7 +13,7 @@ create table bills
     bill_id serial primary key,
     user_id int,
     name    varchar(255),
-    balance int check ( balance >= 0 ),
+    balance decimal check ( balance >= 0 ),
     FOREIGN KEY (user_id)
         REFERENCES users (user_id)
 );
@@ -25,7 +25,7 @@ create table transaction
     bill_id           int,
     transaction_name  varchar(255),
     transaction_date  timestamp not null default CURRENT_TIMESTAMP,
-    transaction_value int check ( transaction_value >= 0 ),
+    transaction_value decimal check ( transaction_value >= 0 ),
     FOREIGN KEY (user_id)
         REFERENCES users (user_id),
     FOREIGN KEY (bill_id)
