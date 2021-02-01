@@ -3,14 +3,14 @@ package ru.milov.transactions.service.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.milov.transactions.dao.Dao;
-import ru.milov.transactions.view.TypeExceptions;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.TypeExceptions;
+import ru.milov.transactions.service.entity.UserDto;
 
 @Service
 @RequiredArgsConstructor
 public class ServiceAppUser {
 
-    private final Dao<UserDto, Integer> userDao;
+    private final Dao<UserDto, Long> userDao;
     private final ServiceSecurity serviceSecurity;
 
     public UserDto checkIfUserInDb(String email, String password) throws TypeExceptions {
@@ -38,6 +38,6 @@ public class ServiceAppUser {
     }
 
     public boolean deleteUserFromDb(UserDto userDto){
-        return userDao.delete(userDto.getId());
+        return userDao.delete(userDto.getUser_id());
     }
 }

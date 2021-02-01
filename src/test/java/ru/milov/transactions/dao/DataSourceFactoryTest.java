@@ -9,8 +9,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import ru.milov.transactions.service.services.DigestService;
 import ru.milov.transactions.service.services.ServiceSecurity;
 import ru.milov.transactions.service.services.ServiceConverter;
-import ru.milov.transactions.service.domain.ServiceUser;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.entity.ServiceUser;
+import ru.milov.transactions.service.entity.UserDto;
 
 import static org.mockito.Mockito.when;
 
@@ -53,10 +53,10 @@ public class DataSourceFactoryTest extends TestCase {
     @Test
     public void testAuth_ok() {
         UserDto userDto = new UserDto();
-        userDto.setId(1);
+        userDto.setUser_id(1L);
 
         ServiceUser serviceUser = new ServiceUser();
-        serviceUser.setId(1);
+        serviceUser.setId(1L);
         serviceUser.setPassword("pass");
 
 

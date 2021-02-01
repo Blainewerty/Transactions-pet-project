@@ -1,13 +1,13 @@
 package ru.milov.transactions.dao;
 
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.service.domain.Transaction;
+import ru.milov.transactions.service.entity.Transaction;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
 
 @Service
-public class TransactionDao implements Dao<Transaction, Integer> {
+public class TransactionDao implements Dao<Transaction, Long> {
 
     private final DataSource dataSource;
 
@@ -20,15 +20,14 @@ public class TransactionDao implements Dao<Transaction, Integer> {
         String request = "select * from transaction where user_id = ? and bill_id = ?";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(request);
-            statement.setInt(1, transaction.getUser_id());
-            statement.setInt(1, transaction.getBill_id());
+            statement.setLong(1, transaction.getUser_id());
+            statement.setLong(1, transaction.getBill_id());
 
             ResultSet rSet = statement.executeQuery();
             while (rSet.next()) {
                 transaction.setDate(String.valueOf(rSet.getTimestamp("transaction_date")));
                 transaction.setNameOfTransaction(rSet.getString("transaction_name"));
                 transaction.setValueOfTransaction(rSet.getBigDecimal("transaction_value"));
-                transaction.setTransactionStatus(rSet.getString("transaction_status"));
             }
         } catch (SQLException throwables) {
 
@@ -43,19 +42,18 @@ public class TransactionDao implements Dao<Transaction, Integer> {
 
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(request);
-            statement.setInt(1, transaction.getUser_id());
-            statement.setInt(2, transaction.getBill_id());
+            statement.setLong(1, transaction.getUser_id());
+            statement.setLong(2, transaction.getBill_id());
 
             ResultSet rSet = statement.executeQuery();
             while (rSet.next()) {
                 transaction = new Transaction();
-                transaction.setTransaction_id(rSet.getInt("transaction_id"));
-                transaction.setUser_id(rSet.getInt("user_id"));
-                transaction.setBill_id(rSet.getInt("bill_id"));
+                transaction.setTransaction_id(rSet.getLong("transaction_id"));
+                transaction.setUser_id(rSet.getLong("user_id"));
+                transaction.setBill_id(rSet.getLong("bill_id"));
                 transaction.setNameOfTransaction(rSet.getString("transaction_name"));
                 transaction.setDate(String.valueOf(rSet.getTimestamp("transaction_date")));
                 transaction.setValueOfTransaction(rSet.getBigDecimal("transaction_value"));
-                transaction.setTransactionStatus(rSet.getString("transaction_status"));
                 list.add(transaction);
             }
         } catch (SQLException throwables) {
@@ -67,16 +65,15 @@ public class TransactionDao implements Dao<Transaction, Integer> {
 
     @Override
     public Transaction insert(Transaction transaction) {
-        String request = "insert into transaction (user_id, bill_id, transaction_name, transaction_value,transaction_status) " +
-                "values (?,?,?,?,?)";
+        String request = "insert into transaction (user_id, bill_id,name_of_transaction, value_of_transaction) " +
+                "values (?,?,?,?)";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(request, Statement.RETURN_GENERATED_KEYS);
 
-            ps.setInt(1, transaction.getUser_id());
-            ps.setInt(2, transaction.getBill_id());
+            ps.setLong(1, transaction.getUser_id());
+            ps.setLong(2, transaction.getBill_id());
             ps.setString(3, transaction.getNameOfTransaction());
             ps.setBigDecimal(4, transaction.getValueOfTransaction());
-            ps.setString(5, transaction.getTransactionStatus());
 
             int affectedRows = ps.executeUpdate();
 
@@ -87,7 +84,7 @@ public class TransactionDao implements Dao<Transaction, Integer> {
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
 
-                    transaction.setTransaction_id(generatedKeys.getInt(1));
+                    transaction.setTransaction_id(generatedKeys.getLong(1));
                 } else {
                     throw new SQLException("Creating transaction failed, no ID obtained.");
                 }
@@ -100,16 +97,15 @@ public class TransactionDao implements Dao<Transaction, Integer> {
     }
 
     public Transaction insert(Transaction transaction, Connection connection) {
-        String request = "insert into transaction (user_id, bill_id, transaction_name, transaction_value,transaction_status) " +
-                "values (?,?,?,?,?)";
+        String request = "insert into transaction (user_id, bill_id, name_of_transaction, value_of_transaction) " +
+                "values (?,?,?,?)";
         try {
             PreparedStatement ps = connection.prepareStatement(request, Statement.RETURN_GENERATED_KEYS);
 
-            ps.setInt(1, transaction.getUser_id());
-            ps.setInt(2, transaction.getBill_id());
+            ps.setLong(1, transaction.getUser_id());
+            ps.setLong(2, transaction.getBill_id());
             ps.setString(3, transaction.getNameOfTransaction());
             ps.setBigDecimal(4, transaction.getValueOfTransaction());
-            ps.setString(5, transaction.getTransactionStatus());
 
             int affectedRows = ps.executeUpdate();
 
@@ -120,7 +116,7 @@ public class TransactionDao implements Dao<Transaction, Integer> {
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
 
-                    transaction.setTransaction_id(generatedKeys.getInt(1));
+                    transaction.setTransaction_id(generatedKeys.getLong(1));
                 } else {
                     throw new SQLException("Creating transaction failed, no ID obtained.");
                 }
@@ -138,12 +134,12 @@ public class TransactionDao implements Dao<Transaction, Integer> {
     }
 
     @Override
-    public boolean delete(Integer transaction_id) {
+    public boolean delete(Long transaction_id) {
         String request = "delete from transaction where transaction_id = ?";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(request);
 
-            ps.setInt(1, transaction_id);
+            ps.setLong(1, transaction_id);
 
             ps.executeUpdate();
 

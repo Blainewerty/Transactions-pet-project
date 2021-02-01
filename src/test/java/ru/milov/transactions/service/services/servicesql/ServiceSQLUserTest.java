@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import ru.milov.transactions.dao.UserDao;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.entity.UserDto;
 
 import java.math.BigDecimal;
 
@@ -26,10 +26,10 @@ public class ServiceSQLUserTest extends TestCase {
         userDto.setFirstName("Alex");
 
         UserDto userDtoInserted = new UserDto();
-        userDtoInserted.setId(1);
+        userDtoInserted.setUser_id(1L);
 
         when(userDao.insert(userDto)).thenReturn(userDtoInserted);
-        assertNotNull(userDtoInserted.getId());
+        assertNotNull(userDtoInserted.getUser_id());
     }
 
     @Test
@@ -40,16 +40,16 @@ public class ServiceSQLUserTest extends TestCase {
         userDto.setFirstName("Alex");
 
         UserDto userDtoInserted = new UserDto();
-        userDtoInserted.setId(null);
+        userDtoInserted.setUser_id(null);
 
         when(userDao.insert(userDto)).thenReturn(userDtoInserted);
-        assertNull(userDtoInserted.getId());
+        assertNull(userDtoInserted.getUser_id());
     }
 
     @Test
     public void testFillingUserInfo_Ok() {
         UserDto userDto = new UserDto();
-        userDto.setId(1);
+        userDto.setUser_id(1L);
 
         UserDto userDtoWithInfo = new UserDto();
 
@@ -63,7 +63,7 @@ public class ServiceSQLUserTest extends TestCase {
     @Test
     public void testUpdateUserInfo_Ok() {
         UserDto userDto = new UserDto();
-        userDto.setId(1);
+        userDto.setUser_id(1L);
 
         UserDto userDtoWithInfo = new UserDto();
 

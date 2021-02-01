@@ -1,17 +1,15 @@
 package ru.milov.transactions.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.service.domain.ServiceUser;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.entity.ServiceUser;
+import ru.milov.transactions.service.entity.UserDto;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
 
 @Service
-public class UserDao implements Dao<UserDto, Integer> {
+public class UserDao implements Dao<UserDto, Long> {
 
     private final DataSource dataSource;
 
@@ -19,10 +17,7 @@ public class UserDao implements Dao<UserDto, Integer> {
         this.dataSource = dataSource;
     }
 
-    private static Logger log = LogManager.getLogger(UserDao.class.getName());
-
     public ServiceUser findByEmail(String email) {
-        log.info("Start finding user in DB by email: " + email);
         String request = "select * from users where email = ?";
         ServiceUser serviceUser = null;
 
@@ -33,15 +28,13 @@ public class UserDao implements Dao<UserDto, Integer> {
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     serviceUser = new ServiceUser();
-                    serviceUser.setId(rs.getInt("user_id"));
+                    serviceUser.setId(rs.getLong("user_id"));
                     serviceUser.setEmail(rs.getString("email"));
                     serviceUser.setPassword(rs.getString("password"));
                     connection.close();
-                    log.trace("User with email " + email + " was found");
                 }
             }
         } catch (SQLException throwables) {
-            log.error("There is no such user in DB");
             throwables.printStackTrace();
         }
         return serviceUser;
@@ -50,21 +43,18 @@ public class UserDao implements Dao<UserDto, Integer> {
     @Override
     public UserDto findById(UserDto userDto) {
 
-        log.info("Starting filling user by id");
         String request = "select * from users where user_id = ?";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(request);
-            statement.setInt(1, userDto.getId());
+            statement.setLong(1, userDto.getUser_id());
 
             ResultSet rSet = statement.executeQuery();
             while (rSet.next()) {
                 userDto.setFirstName(rSet.getString("first_name"));
                 userDto.setLastName(rSet.getString("last_name"));
                 userDto.setTotalBalance(rSet.getBigDecimal("total_balance"));
-                log.trace("Complete! " + userDto);
             }
         } catch (SQLException throwables) {
-            log.error("Failure to filling user by id");
             throwables.printStackTrace();
         }
         return userDto;
@@ -79,7 +69,7 @@ public class UserDao implements Dao<UserDto, Integer> {
     public UserDto insert(UserDto userDto) {
         String request = "insert into users(email, password, first_name, last_name) values (?,?,?,?)";
         try (Connection connection = dataSource.getConnection()) {
-            if (userDto.getId() == null) {
+            if (userDto.getUser_id() == null) {
                 PreparedStatement ps = connection.prepareStatement(request,
                         Statement.RETURN_GENERATED_KEYS);
 
@@ -96,7 +86,7 @@ public class UserDao implements Dao<UserDto, Integer> {
 
                 try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        userDto.setId(generatedKeys.getInt(1));
+                        userDto.setUser_id(generatedKeys.getLong(1));
                     } else {
                         throw new SQLException("Creating user failed, no ID obtained.");
                     }
@@ -119,23 +109,22 @@ public class UserDao implements Dao<UserDto, Integer> {
         String request = "update users set total_balance = (select sum(balance) from bills) where user_id = ?";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(request);
-            statement.setInt(1, userDto.getId());
+            statement.setLong(1, userDto.getUser_id());
 
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            log.error("Failure to filling user by id");
             throwables.printStackTrace();
         }
         return userDto;
     }
 
     @Override
-    public boolean delete(Integer user_id) {
+    public boolean delete(Long user_id) {
         String request = "delete from users where user_id = ?";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(request);
 
-            ps.setInt(1, user_id);
+            ps.setLong(1, user_id);
 
             ps.executeUpdate();
 

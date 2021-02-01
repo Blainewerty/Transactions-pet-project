@@ -3,9 +3,9 @@ package ru.milov.transactions.service.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.milov.transactions.dao.Dao;
-import ru.milov.transactions.view.TypeExceptions;
-import ru.milov.transactions.service.domain.UserBill;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.TypeExceptions;
+import ru.milov.transactions.service.entity.UserBill;
+import ru.milov.transactions.service.entity.UserDto;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,12 +14,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ServiceAppBill {
 
-    private final Dao <UserBill, Integer> userBillDao;
+    private final Dao <UserBill, Long> userBillDao;
 
     public List getInfoAboutAllBillsOfUser(UserDto userDto) throws TypeExceptions {
         if (userDto != null) {
             UserBill userBill = new UserBill();
-            userBill.setUser_id(userDto.getId());
+            userBill.setUser_id(userDto.getUser_id());
             List<UserBill> billList = new LinkedList<>();
             return userBillDao.findByAll(userBill, billList);
         } else throw new TypeExceptions("Problem with User Info!");
@@ -28,7 +28,7 @@ public class ServiceAppBill {
     public void createUserBill(UserDto userDto, String nameOfBill, int balance) {
         UserBill userBill = new UserBill();
 
-        userBill.setUser_id(userDto.getId());
+        userBill.setUser_id(userDto.getUser_id());
         userBill.setBalance(BigDecimal.valueOf(balance));
         userBill.setName(nameOfBill);
         userBillDao.insert(userBill);

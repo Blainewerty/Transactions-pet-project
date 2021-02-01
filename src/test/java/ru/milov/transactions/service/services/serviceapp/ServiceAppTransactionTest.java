@@ -4,8 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.milov.transactions.dao.TransactionDao;
 import ru.milov.transactions.dao.UserBillDao;
-import ru.milov.transactions.service.domain.Transaction;
-import ru.milov.transactions.service.domain.UserBill;
+import ru.milov.transactions.service.entity.Transaction;
+import ru.milov.transactions.service.entity.UserBill;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
@@ -39,8 +39,8 @@ public class ServiceAppTransactionTest {
     @Test
     public void testStartingOperationWithBill_Ok() {
         Transaction transaction = new Transaction();
-        transaction.setUser_id(1);
-        transaction.setBill_id(1);
+        transaction.setUser_id(1L);
+        transaction.setBill_id(1L);
         transaction.setValueOfTransaction(BigDecimal.valueOf(100));
 
         transactionDao.insert(transaction);
@@ -52,12 +52,12 @@ public class ServiceAppTransactionTest {
         UserBill toWhichBill = new UserBill();
 
         fromWhichBill.setBalance(BigDecimal.valueOf(400));
-        fromWhichBill.setUser_id(1);
-        fromWhichBill.setBill_id(1);
+        fromWhichBill.setUser_id(1L);
+        fromWhichBill.setBill_id(1L);
 
         toWhichBill.setBalance(BigDecimal.valueOf(0));
-        toWhichBill.setUser_id(1);
-        toWhichBill.setBill_id(2);
+        toWhichBill.setUser_id(1L);
+        toWhichBill.setBill_id(2L);
 
         Transaction transactionFromFirstBill = new Transaction();
         transactionFromFirstBill.setUser_id(fromWhichBill.getUser_id());
@@ -94,16 +94,16 @@ public class ServiceAppTransactionTest {
         List<Transaction> transactionList = new LinkedList<>();
         Transaction transaction = new Transaction();
 
-        transaction.setUser_id(1);
-        transaction.setBill_id(1);
+        transaction.setUser_id(1L);
+        transaction.setBill_id(1L);
         transaction.setValueOfTransaction(BigDecimal.valueOf(100));
         transaction.setNameOfTransaction("Someone");
         transactionDao.insert(transaction);
 
         transactionList.add(transactionDao.findById(transaction));
 
-        transaction.setUser_id(1);
-        transaction.setBill_id(1);
+        transaction.setUser_id(1L);
+        transaction.setBill_id(1L);
         transaction.setValueOfTransaction(BigDecimal.valueOf(300));
         transaction.setNameOfTransaction("Someone");
         transactionDao.insert(transaction);

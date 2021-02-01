@@ -3,7 +3,7 @@ package ru.milov.transactions.service.services.serviceapp;
 import junit.framework.TestCase;
 import org.junit.Before;
 import ru.milov.transactions.dao.UserDao;
-import ru.milov.transactions.service.domain.UserDto;
+import ru.milov.transactions.service.entity.UserDto;
 import ru.milov.transactions.service.services.ServiceSecurity;
 
 import java.math.BigDecimal;
@@ -29,7 +29,7 @@ public class ServiceAppUserTest extends TestCase {
 
     public void testRegisterUser() {
         UserDto userDto = new UserDto();
-        userDto.setId(1);
+        userDto.setUser_id(1L);
         userDto.setTotalBalance(BigDecimal.valueOf(0));
         userDto.setEmail("SomeOne");
 
