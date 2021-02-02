@@ -18,11 +18,9 @@ public class UserBill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bill_id;
 
-    private Long user_id;
-
-//    @ManyToOne
-//    @JoinColumn
-//    private UserDto userDto;
+    @ManyToOne
+    @JoinColumn
+    private UserDto userDto;
 
     private String name;
 

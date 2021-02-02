@@ -1,16 +1,16 @@
 package ru.milov.transactions.service.services;
 
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.service.entity.ServiceUser;
+import ru.milov.transactions.dao.response.ResponseUserDto;
 import ru.milov.transactions.service.entity.UserDto;
 
 @Service
 public class ServiceConverter {
 
-    public UserDto convertAuth(ServiceUser source){
+    public UserDto convertAuth(ResponseUserDto source){
         UserDto target = new UserDto();
 
-        target.setUser_id(source.getId());
+        target.setUser_id(source.getUser_id());
         target.setEmail(source.getEmail());
 
         return target;

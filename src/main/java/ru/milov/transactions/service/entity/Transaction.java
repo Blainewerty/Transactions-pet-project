@@ -4,8 +4,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -19,14 +17,18 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transaction_id;
-    private Long user_id;
-    private Long bill_id;
-    private String date;
-    private String nameOfTransaction;
-    BigDecimal valueOfTransaction;
 
-    @Override
-    public String toString() {
-        return  date + '\t' + nameOfTransaction + '\t' + valueOfTransaction + '\t';
-    }
+    @ManyToOne
+    @JoinColumn
+    private UserDto userDto;
+
+    @ManyToOne
+    @JoinColumn
+    private UserBill userBill;
+
+    private String date;
+
+    private String nameOfTransaction;
+
+    private BigDecimal valueOfTransaction;
 }
