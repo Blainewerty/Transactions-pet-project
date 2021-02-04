@@ -7,7 +7,7 @@
     <changeSet author="milov" id="1">
 
         <createTable tableName="users">
-            <column autoIncrement="true" name="user_id" type="BIGSERIAL">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints unique="true" nullable="false" primaryKey="true"/>
             </column>
             <column name="email" type="VARCHAR(255)">
@@ -24,11 +24,12 @@
             </column>
             <column name="total_balance" type="DECIMAL">
                 <constraints checkConstraint="CHECK (total_balance >=0)"/>
+
             </column>
         </createTable>
 
         <createTable tableName="bills">
-            <column autoIncrement="true" name="bill_id" type="BIGSERIAL">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints unique="true" nullable="false" primaryKey="true"/>
             </column>
             <column name="user_id" type="BIGINT">
@@ -43,7 +44,7 @@
         </createTable>
 
         <createTable tableName="transaction">
-            <column autoIncrement="true" name="transaction_id" type="BIGSERIAL">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints unique="true" nullable="false" primaryKey="true"/>
             </column>
             <column name="user_id" type="BIGINT">
@@ -65,15 +66,19 @@
 
         <addForeignKeyConstraint baseTableName="bills" baseColumnNames="user_id"
                                  constraintName="bills_user_id"
-                                 referencedTableName="users" referencedColumnNames="user_id"
+                                 referencedTableName="users" referencedColumnNames="id"
                                  onDelete="CASCADE"/>
         <addForeignKeyConstraint baseTableName="transaction" baseColumnNames="user_id"
                                  constraintName="transaction_user_id"
-                                 referencedTableName="users" referencedColumnNames="user_id"
+                                 referencedTableName="users" referencedColumnNames="id"
                                  onDelete="CASCADE"/>
         <addForeignKeyConstraint baseTableName="transaction" baseColumnNames="bill_id"
                                  constraintName="transaction_bill_id"
-                                 referencedTableName="bills" referencedColumnNames="bill_id"
+                                 referencedTableName="bills" referencedColumnNames="id"
                                  onDelete="CASCADE"/>
+    </changeSet>
+    <changeSet  author="milov"  id="dropColumn-total_balance">
+        <sql dbms="postgresql">alter table users
+            drop column total_balance;</sql>
     </changeSet>
 </databaseChangeLog>

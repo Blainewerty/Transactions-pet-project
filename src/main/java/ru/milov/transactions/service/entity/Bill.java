@@ -1,5 +1,6 @@
 package ru.milov.transactions.service.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -12,20 +13,23 @@ import java.math.BigDecimal;
 @Entity
 @Accessors(chain = true)
 @Table(name = "bills")
-public class UserBill {
+public class Bill {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bill_id;
+    private Long id;
+
+//    private Long user_id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn
-    private UserDto userDto;
+    private User user;
 
     private String name;
 
     private BigDecimal balance;
-
 
     @Override
     public String toString() {

@@ -20,11 +20,11 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn
-    private UserDto userDto;
+    private User user;
 
     @ManyToOne
     @JoinColumn
-    private UserBill userBill;
+    private Bill bill;
 
     private String date;
 

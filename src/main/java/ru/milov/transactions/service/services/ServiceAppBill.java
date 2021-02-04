@@ -1,43 +1,53 @@
-//package ru.milov.transactions.service.services;
-//
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.stereotype.Service;
-//import ru.milov.transactions.dao.Dao;
-//import ru.milov.transactions.service.TypeExceptions;
-//import ru.milov.transactions.service.entity.UserBill;
-//import ru.milov.transactions.service.entity.UserDto;
-//import java.math.BigDecimal;
-//import java.util.LinkedList;
-//import java.util.List;
-//
-//@Service
-//@RequiredArgsConstructor
-//public class ServiceAppBill {
-//
-//    private final Dao <UserBill, Long> userBillDao;
-//
-//    public List getInfoAboutAllBillsOfUser(UserDto userDto) throws TypeExceptions {
-//        if (userDto != null) {
-//            UserBill userBill = new UserBill();
-//            userBill.setUser_id(userDto.getUser_id());
-//            List<UserBill> billList = new LinkedList<>();
-//            return userBillDao.findByAll(userBill, billList);
-//        } else throw new TypeExceptions("Problem with User Info!");
-//    }
-//
-//    public void createUserBill(UserDto userDto, String nameOfBill, int balance) {
-//        UserBill userBill = new UserBill();
-//
-//        userBill.setUser_id(userDto.getUser_id());
-//        userBill.setBalance(BigDecimal.valueOf(balance));
-//        userBill.setName(nameOfBill);
-//        userBillDao.insert(userBill);
-//    }
-//
+package ru.milov.transactions.service.services;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
+import ru.milov.transactions.dao.converter.ConverterBillToBillResponse;
+import ru.milov.transactions.dao.repository.RepositoryBill;
+import ru.milov.transactions.dao.response.ResponseBill;
+import ru.milov.transactions.dao.response.ResponseUser;
+import ru.milov.transactions.service.TypeExceptions;
+import ru.milov.transactions.service.entity.Bill;
+import ru.milov.transactions.service.entity.User;
+
+import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+
+@Service("/bill")
+@RequiredArgsConstructor
+public class ServiceAppBill {
+
+    private final RepositoryBill repositoryBill;
+    private final ConverterBillToBillResponse converter;
+
+    public List getInfoAboutAllBillsOfUser(ResponseUser responseUser) throws TypeExceptions {
+       return repositoryBill.findAllByUser(responseUser)
+                .stream()
+                .map(converter::convert)
+                .collect(toList());
+    }
+
+    public ResponseBill createUserBill(User user, String nameOfBill, BigDecimal balance) {
+        Bill userBill = new Bill();
+
+        userBill.setUser(user);
+        userBill.setBalance(balance);
+        userBill.setName(nameOfBill);
+        return converter.convert(repositoryBill.save(userBill));
+    }
+
+    public ResponseBill getInfoAboutUserBill (String billName){
+        return converter.convert(repositoryBill.findByName(billName));
+    }
+
 //    public int countOfBillsMustBeBelowFive(UserDto userDto) throws TypeExceptions {
 //        return getInfoAboutAllBillsOfUser(userDto).size();
 //    }
-//
+
 //    public void updateUserBill(UserBill userBill) {
 //        userBillDao.update(userBill);
 //    }
@@ -45,4 +55,4 @@
 //    public boolean deleteUserBill(UserBill userBill) {
 //        return userBillDao.delete(userBill.getBill_id());
 //    }
-//}
+}

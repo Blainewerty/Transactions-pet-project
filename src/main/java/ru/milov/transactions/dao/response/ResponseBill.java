@@ -2,18 +2,19 @@ package ru.milov.transactions.dao.response;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import ru.milov.transactions.service.entity.UserDto;
+import ru.milov.transactions.service.entity.User;
 import java.math.BigDecimal;
 
 @Data
 @Accessors(chain = true)
-public class ResponseUserBill {
+public class ResponseBill {
 
-    private Long bill_id;
+    private Long id;
 
-    private UserDto userDto;
+    private User user;
 
     private String name;
 
-    BigDecimal balance;
+    private BigDecimal balance;
+
 }

@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,11 +15,11 @@ import java.math.BigDecimal;
 @ToString
 @Accessors(chain = true)
 @Table(name = "users")
-public class UserDto {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long id;
 
     private String email;
 
@@ -28,15 +29,10 @@ public class UserDto {
 
     private String lastName;
 
-
-    private BigDecimal totalBalance;
-
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "bills",
-//            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-//    )
-//    private List<UserBill> billList;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "bills", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "id"))
+    private List<Bill> bill;
 
 
 }
