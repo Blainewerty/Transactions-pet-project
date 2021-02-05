@@ -77,8 +77,4 @@
                                  referencedTableName="bills" referencedColumnNames="id"
                                  onDelete="CASCADE"/>
     </changeSet>
-    <changeSet  author="milov"  id="dropColumn-total_balance">
-        <sql dbms="postgresql">alter table users
-            drop column total_balance;</sql>
-    </changeSet>
 </databaseChangeLog>

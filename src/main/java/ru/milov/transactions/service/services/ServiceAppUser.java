@@ -2,6 +2,7 @@ package ru.milov.transactions.service.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.milov.transactions.dao.converter.ConverterUserToUserResponse;
 import ru.milov.transactions.dao.repository.RepositoryUser;
@@ -16,12 +17,12 @@ public class ServiceAppUser {
     @Autowired
     RepositoryUser repositoryUser;
     @Autowired
-    DigestService digestService;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     ConverterUserToUserResponse converter;
 
-    public User checkIfUserInDb(User requestUser) throws TypeExceptions {
-        User user = repositoryUser.findByEmail(requestUser.getEmail());
+    public User checkIfUserInDb(String email) throws TypeExceptions {
+        User user = repositoryUser.findByEmail(email);
         if (user != null) {
             return user;
         } else {
@@ -33,13 +34,13 @@ public class ServiceAppUser {
 //        userDao.update(userDto);
 //    }
 
-    public ResponseUser registerUser(User userDto) {
-        userDto.setPassword(digestService.digest(userDto.getPassword()));
-        return converter.convert(repositoryUser.save(userDto));
+    public ResponseUser registerUser(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        return converter.convert(repositoryUser.save(user));
     }
 
-    public ResponseUser authInApp(User requestUser) throws TypeExceptions {
-        User user = checkIfUserInDb(requestUser);
+    public ResponseUser authInApp(String email, String password) throws TypeExceptions {
+        User user = checkIfUserInDb(email);
         if (user != null) {
             return converter.convert(repositoryUser.findByEmailAndPassword(user.getEmail(), user.getPassword()));
         } else throw new TypeExceptions("There is no such user in DB!");

@@ -20,8 +20,6 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    private Long user_id;
-
     @ManyToOne
     @JsonIgnore
     @JoinColumn
@@ -31,8 +29,4 @@ public class Bill {
 
     private BigDecimal balance;
 
-    @Override
-    public String toString() {
-        return name + '\t' + balance ;
-    }
 }

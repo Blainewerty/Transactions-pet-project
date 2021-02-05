@@ -3,8 +3,6 @@ package ru.milov.transactions.dao.response;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import ru.milov.transactions.service.entity.Bill;
-
-import java.math.BigDecimal;
 import java.util.List;
 
 @Data

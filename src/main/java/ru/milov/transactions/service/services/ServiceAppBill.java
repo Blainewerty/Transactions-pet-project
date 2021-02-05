@@ -31,8 +31,11 @@ public class ServiceAppBill {
                 .collect(toList());
     }
 
-    public ResponseBill createUserBill(User user, String nameOfBill, BigDecimal balance) {
+    public ResponseBill createUserBill(Long id, String nameOfBill, BigDecimal balance) {
         Bill userBill = new Bill();
+
+        User user  = new User();
+        user.setId(id);
 
         userBill.setUser(user);
         userBill.setBalance(balance);
