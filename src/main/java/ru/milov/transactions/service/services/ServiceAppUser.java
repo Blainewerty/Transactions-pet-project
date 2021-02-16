@@ -2,11 +2,10 @@ package ru.milov.transactions.service.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.dao.converter.ConverterUserToUserResponse;
-import ru.milov.transactions.dao.repository.RepositoryUser;
-import ru.milov.transactions.dao.response.ResponseUser;
+import ru.milov.transactions.converter.ConverterUserToUserResponse;
+import ru.milov.transactions.repository.RepositoryUser;
+import ru.milov.transactions.response.ResponseUser;
 import ru.milov.transactions.service.TypeExceptions;
 import ru.milov.transactions.service.entity.User;
 
@@ -15,11 +14,11 @@ import ru.milov.transactions.service.entity.User;
 public class ServiceAppUser {
 
     @Autowired
-    RepositoryUser repositoryUser;
+    private RepositoryUser repositoryUser;
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private ConverterUserToUserResponse converter;
     @Autowired
-    ConverterUserToUserResponse converter;
+    private DigestService digestService;
 
     public User checkIfUserInDb(String email) throws TypeExceptions {
         User user = repositoryUser.findByEmail(email);
@@ -35,15 +34,21 @@ public class ServiceAppUser {
 //    }
 
     public ResponseUser registerUser(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(digestService.digest(user.getPassword()));
         return converter.convert(repositoryUser.save(user));
     }
 
-    public ResponseUser authInApp(String email, String password) throws TypeExceptions {
-        User user = checkIfUserInDb(email);
-        if (user != null) {
-            return converter.convert(repositoryUser.findByEmailAndPassword(user.getEmail(), user.getPassword()));
-        } else throw new TypeExceptions("There is no such user in DB!");
+    public ResponseUser authInApp(User user) {
+        try {
+            if (checkIfUserInDb(user.getEmail()) != null) {
+                return converter.convert(repositoryUser.findByEmailAndPassword(user.getEmail(),
+                        digestService.digest(user.getPassword())));
+            } else
+                throw new TypeExceptions("There is no such user in DB!");
+        } catch (TypeExceptions typeExceptions) {
+            typeExceptions.printStackTrace();
+        }
+        return null;
     }
 
 //    public boolean deleteUserFromDb(UserDto userDto){

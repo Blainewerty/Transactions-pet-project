@@ -1,7 +1,7 @@
 package ru.milov.transactions.service.services;
 
 import org.springframework.stereotype.Service;
-import ru.milov.transactions.dao.response.ResponseUser;
+import ru.milov.transactions.response.ResponseUser;
 import ru.milov.transactions.service.entity.User;
 
 @Service

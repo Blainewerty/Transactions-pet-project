@@ -1,4 +1,4 @@
-package ru.milov.transactions.dao.repository;
+package ru.milov.transactions.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.milov.transactions.service.entity.Transaction;

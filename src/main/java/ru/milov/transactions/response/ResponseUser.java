@@ -1,4 +1,4 @@
-package ru.milov.transactions.dao.response;
+package ru.milov.transactions.response;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

@@ -9,7 +9,7 @@
 //import ru.milov.transactions.service.services.DigestService;
 //import ru.milov.transactions.service.services.ServiceSecurity;
 //import ru.milov.transactions.service.services.ServiceConverter;
-//import ru.milov.transactions.dao.response.ResponseUserDto;
+//import ru.milov.transactions.response.ResponseUserDto;
 //import ru.milov.transactions.service.entity.UserDto;
 //
 //import static org.mockito.Mockito.when;

@@ -2,22 +2,20 @@ package ru.milov.transactions.service.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
-import ru.milov.transactions.dao.converter.ConverterBillToBillResponse;
-import ru.milov.transactions.dao.repository.RepositoryBill;
-import ru.milov.transactions.dao.response.ResponseBill;
-import ru.milov.transactions.dao.response.ResponseUser;
+import ru.milov.transactions.converter.ConverterBillToBillResponse;
+import ru.milov.transactions.repository.RepositoryBill;
+import ru.milov.transactions.response.ResponseBill;
+import ru.milov.transactions.response.ResponseUser;
 import ru.milov.transactions.service.TypeExceptions;
 import ru.milov.transactions.service.entity.Bill;
 import ru.milov.transactions.service.entity.User;
 
 import java.math.BigDecimal;
-import java.util.LinkedList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-@Service("/bill")
+@Service
 @RequiredArgsConstructor
 public class ServiceAppBill {
 

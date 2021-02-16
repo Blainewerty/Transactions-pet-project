@@ -1,8 +1,8 @@
-package ru.milov.transactions.dao.converter;
+package ru.milov.transactions.converter;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-import ru.milov.transactions.dao.response.ResponseBill;
+import ru.milov.transactions.response.ResponseBill;
 import ru.milov.transactions.service.entity.Bill;
 
 @Component

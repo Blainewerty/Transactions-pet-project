@@ -1,7 +1,7 @@
-package ru.milov.transactions.dao.repository;
+package ru.milov.transactions.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.milov.transactions.dao.response.ResponseUser;
+import ru.milov.transactions.response.ResponseUser;
 import ru.milov.transactions.service.entity.Bill;
 
 import java.util.List;
