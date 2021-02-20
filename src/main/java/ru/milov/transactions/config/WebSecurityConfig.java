@@ -8,8 +8,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.milov.transactions.service.entity.AuthProvider;
 
 import javax.sql.DataSource;
 
@@ -17,46 +19,29 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final DataSource dataSource;
     @Autowired
-    public WebSecurityConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
+    private AuthProvider authProvider;
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth)
+    {
+        auth.authenticationProvider(authProvider);
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                    .withUser("user")
-//                    .password("{noop}1234")
-//                    .roles("USER")
-//                .and()
-//                    .withUser("admin")
-//                    .password("admin")
-//                    .roles("ADMIN");
-//    }
-
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+    PasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                    .antMatchers("/registration").permitAll()
-                    .antMatchers(HttpMethod.GET, "/hello").hasAnyRole("USER", "ADMIN")
-                    .antMatchers(HttpMethod.GET, "/bill/**").hasAnyRole("ADMIN")
-                    .anyRequest().authenticated()
-                .and()
-                    .httpBasic();
-    }
+        http
+                .authorizeRequests()
+                .antMatchers("/registration").permitAll()
+                .anyRequest().authenticated()
+                .and().httpBasic();
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery("select email, password, 'true' from users where email = ?")
-                .authoritiesByUsernameQuery("select email, role from users where email = ?");
+        http.csrf().disable();
     }
 }

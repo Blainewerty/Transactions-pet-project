@@ -11,9 +11,7 @@ public class ConverterUserToUserResponse implements Converter<User, ResponseUser
     @Override
     public ResponseUser convert(User user) {
         return new ResponseUser()
-                .setId(user.getId())
                 .setEmail(user.getEmail())
-                .setPassword(user.getPassword())
                 .setFirstName(user.getFirstName())
                 .setLastName(user.getLastName())
                 .setBill(user.getBill());

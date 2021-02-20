@@ -4,15 +4,17 @@ spring:
   jpa:
     database: POSTGRESQL
     show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      connection:
+        characterEncoding=utf-8
+        CharSet=utf-8
+        useUnicode=true
   datasource:
     platform: postgres
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: admin
     driverClassName: org.postgresql.Driver
-    logging:
-      level:
-        org:
-          springframework:
-            security: DEBUG
-

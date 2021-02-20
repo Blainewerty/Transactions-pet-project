@@ -77,4 +77,10 @@
                                  referencedTableName="bills" referencedColumnNames="id"
                                  onDelete="CASCADE"/>
     </changeSet>
+    <changeSet id="24/02/2021" author="milov">
+        <dropColumn tableName="users" columnName="active"></dropColumn>
+        <addColumn tableName="users">
+            <column name="active" type = "BOOLEAN"></column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

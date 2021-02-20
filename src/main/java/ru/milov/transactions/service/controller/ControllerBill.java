@@ -1,14 +1,14 @@
 package ru.milov.transactions.service.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.milov.transactions.response.ResponseBill;
-import ru.milov.transactions.response.ResponseUser;
-import ru.milov.transactions.service.TypeExceptions;
+import ru.milov.transactions.service.entity.Bill;
+import ru.milov.transactions.service.entity.User;
 import ru.milov.transactions.service.services.ServiceAppBill;
+
 import java.math.BigDecimal;
 import java.util.List;
 import static org.springframework.http.ResponseEntity.notFound;
@@ -20,13 +20,16 @@ public class ControllerBill {
 
     private final ServiceAppBill serviceAppBill;
 
+
+    @Autowired
     public ControllerBill(ServiceAppBill serviceAppBill) {
         this.serviceAppBill = serviceAppBill;
     }
 
     @GetMapping("/getBill/{nameOfBill}")
     public ResponseEntity<ResponseBill> getUserBill(@PathVariable("nameOfBill") String nameOfBill){
-        ResponseBill responseBill =  serviceAppBill.getInfoAboutUserBill(nameOfBill);
+        User user =  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ResponseBill responseBill =  serviceAppBill.getInfoAboutUserBill(user.getId(), nameOfBill);
         if(responseBill == null){
             return notFound().build();
         }
@@ -34,13 +37,15 @@ public class ControllerBill {
     }
 
     @PostMapping("/createBill")
-    public ResponseEntity<ResponseBill> createUserBill(Long id, String nameOfBill, BigDecimal balance){
-        return ok(serviceAppBill.createUserBill(id, nameOfBill, balance));
+    public ResponseEntity<ResponseBill> createUserBill(@RequestBody Bill newBill){
+        User user =  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ok(serviceAppBill.createUserBill(user, newBill));
     }
 
     @GetMapping("/billList")
-    public List<ResponseBill> getUserBillList(ResponseUser responseUser ) throws TypeExceptions {
-        return serviceAppBill.getInfoAboutAllBillsOfUser(responseUser);
+    public List<ResponseBill> getUserBillList() {
+        User user =  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return serviceAppBill.getInfoAboutAllBillsOfUser(user.getId());
     }
 }
 
