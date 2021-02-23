@@ -18,3 +18,21 @@ spring:
     username: postgres
     password: admin
     driverClassName: org.postgresql.Driver
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client:
+              accessTokenUri: https://oauth2.googleapis.com/token
+              clientAuthenticationScheme: form
+              clientId: 541874651137-cjepnqj7nfof9vgto1geq7uk1j7k9bvr.apps.googleusercontent.com
+              clientSecret: YgqMiyY3Pwkc711InzdCMkd7
+              scope: openid,email,profile
+              userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+            resource:
+              preferTokenInfo: true
+              userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+
+
+

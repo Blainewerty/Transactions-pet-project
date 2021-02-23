@@ -16,11 +16,16 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 public class ControllerRegistration {
 
-    @Autowired
+    final
     RepositoryUser repositoryUser;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    public ControllerRegistration(RepositoryUser repositoryUser, PasswordEncoder passwordEncoder) {
+        this.repositoryUser = repositoryUser;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PostMapping("/registration")
     public ResponseEntity<User> addUser(@RequestBody User userFrom) {

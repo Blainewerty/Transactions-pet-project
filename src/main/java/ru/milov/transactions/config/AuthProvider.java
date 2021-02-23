@@ -1,4 +1,4 @@
-package ru.milov.transactions.service.entity;
+package ru.milov.transactions.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -9,6 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import ru.milov.transactions.service.entity.User;
 import ru.milov.transactions.service.services.ServiceAppUser;
 
 import java.util.Collection;
@@ -42,4 +43,6 @@ public class AuthProvider implements AuthenticationProvider {
     public boolean supports(Class<?> arg) {
         return true;
     }
+
+
 }
