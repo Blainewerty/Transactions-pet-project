@@ -23,6 +23,7 @@ public class Bill {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn
     private User user;
 

@@ -9,7 +9,8 @@ import ru.milov.transactions.service.entity.Bill;
 import ru.milov.transactions.service.entity.User;
 import ru.milov.transactions.service.services.ServiceAppBill;
 import java.util.List;
-import static org.springframework.http.ResponseEntity.notFound;
+import java.util.stream.Stream;
+
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
@@ -25,13 +26,9 @@ public class ControllerBill {
     }
 
     @GetMapping("/getBill/{nameOfBill}")
-    public ResponseEntity<ResponseBill> getUserBill(@PathVariable("nameOfBill") String nameOfBill){
+    public ResponseEntity<Stream<Bill>> getUserBill(@PathVariable("nameOfBill") String nameOfBill){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ResponseBill responseBill =  serviceAppBill.getInfoAboutUserBill(user.getId(), nameOfBill);
-        if(responseBill == null){
-            return notFound().build();
-        }
-        return ok(responseBill);
+        return ok(user.getBill().stream().filter(i-> i.getName().equals(nameOfBill)));
     }
 
     @PostMapping("/createBill")
@@ -41,9 +38,9 @@ public class ControllerBill {
     }
 
     @GetMapping("/billList")
-    public List<ResponseBill> getUserBillList() {
+    public ResponseEntity<Stream<Bill>> getUserBillList() {
         User user =  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return serviceAppBill.getInfoAboutAllBillsOfUser(user.getId());
+        return ok(user.getBill().stream());
     }
 }
 
