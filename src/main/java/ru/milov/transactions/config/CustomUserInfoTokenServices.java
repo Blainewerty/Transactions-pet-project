@@ -71,7 +71,18 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
         this.principalExtractor = principalExtractor;
     }
 
-
+//    @Override
+//    public OAuth2Authentication loadAuthentication(String accessToken)
+//            throws AuthenticationException, InvalidTokenException {
+//        Map<String, Object> map = getMap(this.userInfoEndpointUrl, accessToken);
+//        if (map.containsKey("error")) {
+//            if (this.logger.isDebugEnabled()) {
+//                this.logger.debug("userinfo returned error: " + map.get("error"));
+//            }
+//            throw new InvalidTokenException(accessToken);
+//        }
+//        return extractAuthentication(map);
+//    }
 
     private OAuth2Authentication extractAuthentication(Map<String, Object> map) {
         Object principal = getPrincipal(map);
@@ -140,19 +151,6 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
-
-    //    @Override
-//    public OAuth2Authentication loadAuthentication(String accessToken)
-//            throws AuthenticationException, InvalidTokenException {
-//        Map<String, Object> map = getMap(this.userInfoEndpointUrl, accessToken);
-//        if (map.containsKey("error")) {
-//            if (this.logger.isDebugEnabled()) {
-//                this.logger.debug("userinfo returned error: " + map.get("error"));
-//            }
-//            throw new InvalidTokenException(accessToken);
-//        }
-//        return extractAuthentication(map);
-//    }
 
     @Override
     public OAuth2Authentication loadAuthentication(String accessToken)

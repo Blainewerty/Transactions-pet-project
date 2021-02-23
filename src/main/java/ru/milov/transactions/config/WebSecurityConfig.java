@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
@@ -23,7 +22,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.milov.transactions.repository.RepositoryUser;
 
-import javax.servlet.Filter;
+import java.util.logging.Filter;
 
 @Configuration
 @EnableWebSecurity
@@ -61,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return registration;
     }
 
-    private Filter ssoFilter() {
+    private javax.servlet.Filter ssoFilter() {
         OAuth2ClientAuthenticationProcessingFilter googleFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/google");
         OAuth2RestTemplate googleTemplate = new OAuth2RestTemplate(google(), oAuth2ClientContext);
         googleFilter.setRestTemplate(googleTemplate);
@@ -74,26 +73,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "google.client")
+    @ConfigurationProperties("google.client")
     public AuthorizationCodeResourceDetails google() {
         return new AuthorizationCodeResourceDetails();
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "google.resource")
+    @ConfigurationProperties("google.resource")
     public ResourceServerProperties googleResource() {
         return new ResourceServerProperties();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http./*addFilterBefore(ssoFilter(), UsernamePasswordAuthenticationFilter.class)
-                .*/authorizeRequests()
+        http
+                .authorizeRequests()
                 .antMatchers("/registration").permitAll()
                 .anyRequest().authenticated()
-                .and().httpBasic()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().rememberMe();
+                .and().httpBasic();
         http.csrf().disable();
     }
 }
