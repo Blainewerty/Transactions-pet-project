@@ -6,6 +6,7 @@ import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 
 @Service
 public class DigestService {
+
     public String digest(String passwrd) {
         return md5Hex(passwrd);
     }

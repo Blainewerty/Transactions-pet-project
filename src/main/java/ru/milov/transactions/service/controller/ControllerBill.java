@@ -8,8 +8,6 @@ import ru.milov.transactions.response.ResponseBill;
 import ru.milov.transactions.service.entity.Bill;
 import ru.milov.transactions.service.entity.User;
 import ru.milov.transactions.service.services.ServiceAppBill;
-
-import java.math.BigDecimal;
 import java.util.List;
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
@@ -28,7 +26,7 @@ public class ControllerBill {
 
     @GetMapping("/getBill/{nameOfBill}")
     public ResponseEntity<ResponseBill> getUserBill(@PathVariable("nameOfBill") String nameOfBill){
-        User user =  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ResponseBill responseBill =  serviceAppBill.getInfoAboutUserBill(user.getId(), nameOfBill);
         if(responseBill == null){
             return notFound().build();
