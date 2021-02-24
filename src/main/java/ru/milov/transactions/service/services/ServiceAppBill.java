@@ -7,28 +7,24 @@ import ru.milov.transactions.repository.RepositoryBill;
 import ru.milov.transactions.response.ResponseBill;
 import ru.milov.transactions.service.entity.Bill;
 import ru.milov.transactions.service.entity.User;
-
-import java.math.BigDecimal;
+import javax.transaction.Transactional;
 import java.util.List;
-
 import static java.util.stream.Collectors.toList;
 
 @Service
-public class ServiceAppBill{
+public class ServiceAppBill {
 
     private final RepositoryBill repositoryBill;
-    private final ServiceAppUser serviceAppUser;
     private final ConverterBillToBillResponse converter;
 
     @Autowired
     public ServiceAppBill(RepositoryBill repositoryBill, ServiceAppUser serviceAppUser, ConverterBillToBillResponse converter) {
         this.repositoryBill = repositoryBill;
-        this.serviceAppUser = serviceAppUser;
         this.converter = converter;
     }
 
-    public List getInfoAboutAllBillsOfUser(Long id) {
-       return repositoryBill.findAllByUser_id(id)
+    public List getInfoAboutAllBillsOfUser(User user) {
+        return user.getBill()
                 .stream()
                 .map(converter::convert)
                 .collect(toList());
@@ -41,25 +37,19 @@ public class ServiceAppBill{
         bill.setName(newBill.getName());
         bill.setBalance(newBill.getBalance());
 
-
-
         return converter.convert(repositoryBill.save(bill));
     }
 
-    public ResponseBill getInfoAboutUserBill (Long id, String nameOfBill){
-        return converter.convert(repositoryBill.findByUser_idAndName(id, nameOfBill));
+    public ResponseBill getInfoAboutUserBill(User user, String nameOfBill) {
+        return (ResponseBill) user.getBill().stream().filter(i-> i.getName().equals(nameOfBill));
     }
 
+    public void updateBill(Bill bill) {
+        repositoryBill.save(bill);
+    }
 
-//    public int countOfBillsMustBeBelowFive(UserDto userDto) throws TypeExceptions {
-//        return getInfoAboutAllBillsOfUser(userDto).size();
-//    }
-
-//    public void updateUserBill(UserBill userBill) {
-//        userBillDao.update(userBill);
-//    }
-//
-//    public boolean deleteUserBill(UserBill userBill) {
-//        return userBillDao.delete(userBill.getBill_id());
-//    }
+    @Transactional
+    public void deleteUserBill(User user, String nameOfBill) {
+        repositoryBill.deleteByUserAndName(user, nameOfBill);
+    }
 }

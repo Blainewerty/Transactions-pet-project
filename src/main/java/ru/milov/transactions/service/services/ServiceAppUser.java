@@ -5,24 +5,28 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.milov.transactions.converter.ConverterUserToUserResponse;
 import ru.milov.transactions.repository.RepositoryUser;
 import ru.milov.transactions.response.ResponseUser;
+import ru.milov.transactions.service.entity.Role;
 import ru.milov.transactions.service.entity.User;
+
+import java.util.Collections;
 
 @Service
 public class ServiceAppUser implements UserDetailsService {
 
     private final RepositoryUser repositoryUser;
+    private final PasswordEncoder passwordEncoder;
     private final Converter<User, ResponseUser> converter;
-    private final DigestService digestService;
 
     @Autowired
-    public ServiceAppUser(RepositoryUser repositoryUser, ConverterUserToUserResponse converter, DigestService digestService) {
+    public ServiceAppUser(RepositoryUser repositoryUser, PasswordEncoder passwordEncoder, ConverterUserToUserResponse converter) {
         this.repositoryUser = repositoryUser;
+        this.passwordEncoder = passwordEncoder;
         this.converter = converter;
-        this.digestService = digestService;
     }
 
     @Override
@@ -36,9 +40,13 @@ public class ServiceAppUser implements UserDetailsService {
 //        userDao.update(userDto);
 //    }
 
-    public ResponseUser registerUser(User user) {
-        user.setPassword(digestService.digest(user.getPassword()));
-        return converter.convert(repositoryUser.save(user));
+    public void registerUser(User user) {
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.USER));
+
+        converter.convert(repositoryUser.save(user));
     }
 
 

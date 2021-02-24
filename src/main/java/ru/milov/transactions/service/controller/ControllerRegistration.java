@@ -1,44 +1,25 @@
 package ru.milov.transactions.service.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import ru.milov.transactions.repository.RepositoryUser;
-import ru.milov.transactions.service.entity.Role;
 import ru.milov.transactions.service.entity.User;
-import java.util.Collections;
+import ru.milov.transactions.service.services.ServiceAppUser;
 
-import static org.springframework.http.ResponseEntity.ok;
-
-@RestController
+@Controller
 public class ControllerRegistration {
 
-    final
-    RepositoryUser repositoryUser;
+    private final ServiceAppUser serviceAppUser;
 
-    private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public ControllerRegistration(RepositoryUser repositoryUser, PasswordEncoder passwordEncoder) {
-        this.repositoryUser = repositoryUser;
-        this.passwordEncoder = passwordEncoder;
+    public ControllerRegistration(ServiceAppUser serviceAppUser) {
+        this.serviceAppUser = serviceAppUser;
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<User> addUser(@RequestBody User userFrom) {
-        User user = new User();
-        user.setEmail(userFrom.getEmail());
-        user.setFirstName(userFrom.getFirstName());
-        user.setLastName(userFrom.getLastName());
-        user.setPassword(passwordEncoder.encode(userFrom.getPassword()));
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
+    public String addUser(@RequestBody User user) {
 
-        repositoryUser.save(user);
+        serviceAppUser.registerUser(user);
 
-        return ok(user);
+        return "redirect:/";
     }
 }

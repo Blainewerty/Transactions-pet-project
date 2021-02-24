@@ -15,6 +15,6 @@ public class ControllerMain {
         {
             return "redirect:/bill/billList";
         }
-        return "index";
+        return "redirect:/registration";
     }
 }

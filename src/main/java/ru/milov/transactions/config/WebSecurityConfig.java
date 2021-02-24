@@ -87,11 +87,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/registration").permitAll()
-                .anyRequest().authenticated()
-                .and().httpBasic()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().rememberMe()
-                .and().logout().permitAll()
-                .and().csrf().disable();
+                    .anyRequest()
+                    .authenticated()
+                .and()
+                    .httpBasic()
+                .and()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                    .rememberMe()
+                .and()
+                    .logout().permitAll()
+                .and()
+                    .csrf().disable();
     }
 }

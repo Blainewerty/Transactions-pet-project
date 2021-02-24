@@ -40,7 +40,7 @@ public class User implements UserDetails {
 
     private String googleUsername;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "bills", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "id"))
     private List<Bill> bill;
