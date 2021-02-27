@@ -9,6 +9,8 @@ import ru.milov.transactions.service.entity.Bill;
 import ru.milov.transactions.service.entity.User;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
+
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -18,7 +20,7 @@ public class ServiceAppBill {
     private final ConverterBillToBillResponse converter;
 
     @Autowired
-    public ServiceAppBill(RepositoryBill repositoryBill, ServiceAppUser serviceAppUser, ConverterBillToBillResponse converter) {
+    public ServiceAppBill(RepositoryBill repositoryBill, ConverterBillToBillResponse converter) {
         this.repositoryBill = repositoryBill;
         this.converter = converter;
     }
@@ -41,7 +43,9 @@ public class ServiceAppBill {
     }
 
     public ResponseBill getInfoAboutUserBill(User user, String nameOfBill) {
-        return (ResponseBill) user.getBill().stream().filter(i-> i.getName().equals(nameOfBill));
+        Optional<Bill> matchingToObject = user.getBill().stream().filter(i-> i.getName().equals(nameOfBill)).findFirst();
+        Bill userBill = matchingToObject.get();
+        return converter.convert(userBill) ;
     }
 
     public void updateBill(Bill bill) {
