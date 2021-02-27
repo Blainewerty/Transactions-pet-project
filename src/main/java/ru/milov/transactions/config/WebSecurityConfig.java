@@ -37,9 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     RepositoryUser repositoryUser;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authProvider);
@@ -58,17 +55,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return registration;
     }
 
-    private javax.servlet.Filter ssoFilter() {
-        OAuth2ClientAuthenticationProcessingFilter googleFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/google");
-        OAuth2RestTemplate googleTemplate = new OAuth2RestTemplate(google(), oAuth2ClientContext);
-        googleFilter.setRestTemplate(googleTemplate);
-        CustomUserInfoTokenServices tokenServices = new CustomUserInfoTokenServices(googleResource().getUserInfoUri(), google().getClientId());
-        tokenServices.setRestTemplate(googleTemplate);
-        googleFilter.setTokenServices(tokenServices);
-        tokenServices.setRepositoryUser(repositoryUser);
-        tokenServices.setPasswordEncoder(passwordEncoder);
-        return googleFilter;
-    }
+//    private javax.servlet.Filter ssoFilter() {
+//        OAuth2ClientAuthenticationProcessingFilter googleFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/google");
+//        OAuth2RestTemplate googleTemplate = new OAuth2RestTemplate(google(), oAuth2ClientContext);
+//        googleFilter.setRestTemplate(googleTemplate);
+//        CustomUserInfoTokenServices tokenServices = new CustomUserInfoTokenServices(googleResource().getUserInfoUri(), google().getClientId());
+//        tokenServices.setRestTemplate(googleTemplate);
+//        googleFilter.setTokenServices(tokenServices);
+//        tokenServices.setRepositoryUser(repositoryUser);
+//        tokenServices.setPasswordEncoder(passwordEncoder);
+//        return googleFilter;
+//    }
 
     @Bean
     @ConfigurationProperties("google.client")

@@ -53,13 +53,13 @@
             <column name="bill_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="transaction_name" type="VARCHAR(255)">
+            <column name="name_of_transaction" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="transaction_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="transaction_value" type="DECIMAL">
+            <column name="value_of_transaction" type="DECIMAL">
                 <constraints checkConstraint="CHECK (transaction_value >=0)"/>
             </column>
         </createTable>

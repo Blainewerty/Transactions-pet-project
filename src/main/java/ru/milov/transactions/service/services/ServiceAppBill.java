@@ -20,7 +20,7 @@ public class ServiceAppBill {
     private final ConverterBillToBillResponse converter;
 
     @Autowired
-    public ServiceAppBill(RepositoryBill repositoryBill, ConverterBillToBillResponse converter) {
+    public ServiceAppBill(RepositoryBill repositoryBill, ServiceAppUser mockServiceAppUser, ConverterBillToBillResponse converter) {
         this.repositoryBill = repositoryBill;
         this.converter = converter;
     }

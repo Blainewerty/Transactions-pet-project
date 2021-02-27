@@ -13,5 +13,7 @@ public interface RepositoryBill extends JpaRepository<Bill, Long> {
     List<Bill> findAllByUser_id(Long id);
 
     void deleteByUserAndName(User user, String nameOfBill);
+
+    Bill findByUserAndName(User user, String name);
 }
 
