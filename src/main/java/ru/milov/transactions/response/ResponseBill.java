@@ -8,9 +8,7 @@ import java.math.BigDecimal;
 @Accessors(chain = true)
 public class ResponseBill {
 
-    private Long id;
-
-    private String name;
+     private String name;
 
     private BigDecimal balance;
 

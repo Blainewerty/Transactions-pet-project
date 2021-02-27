@@ -68,7 +68,6 @@ public class ControllerBillTest {
 
         // Configure ServiceAppBill.createUserBill(...).
         final ResponseBill responseBill = new ResponseBill();
-        responseBill.setId(0L);
         responseBill.setName("name");
         responseBill.setBalance(new BigDecimal("0.00"));
         when(mockServiceAppBill.createUserBill(any(User.class), any(Bill.class))).thenReturn(responseBill);

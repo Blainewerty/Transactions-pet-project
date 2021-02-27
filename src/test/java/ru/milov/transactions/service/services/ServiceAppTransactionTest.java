@@ -1,14 +1,11 @@
 package ru.milov.transactions.service.services;
 
 import org.junit.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.milov.transactions.converter.ConverterTransactionToTransactionResponse;
 import ru.milov.transactions.repository.RepositoryBill;
 import ru.milov.transactions.repository.RepositoryTransaction;
 import ru.milov.transactions.repository.RepositoryUser;
@@ -32,16 +29,6 @@ public class ServiceAppTransactionTest {
 
     @Autowired
     private RepositoryTransaction repositoryTransaction;
-
-    @Mock
-    private ConverterTransactionToTransactionResponse mockConverter;
-
-    private ServiceAppTransaction serviceAppTransactionUnderTest;
-
-    @BeforeEach
-    public void setUp() {
-//        serviceAppTransactionUnderTest = new ServiceAppTransaction(mockServiceAppBill, mockRepositoryTransaction, mockConverter);
-    }
 
     @Test
     public void testStartingOperationWithBill() {

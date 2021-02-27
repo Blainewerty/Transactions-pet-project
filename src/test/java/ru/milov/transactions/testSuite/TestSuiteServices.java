@@ -1,8 +1,7 @@
-package ru.milov.transactions;
+package ru.milov.transactions.testSuite;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import ru.milov.transactions.repository.RepositoryUserTest;
 import ru.milov.transactions.service.services.ServiceAppBillTest;
 import ru.milov.transactions.service.services.ServiceAppTransactionTest;
 import ru.milov.transactions.service.services.ServiceAppUserTest;

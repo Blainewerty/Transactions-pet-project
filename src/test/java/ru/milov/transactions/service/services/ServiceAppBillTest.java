@@ -3,20 +3,19 @@ package ru.milov.transactions.service.services;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import ru.milov.transactions.converter.ConverterBillToBillResponse;
 import ru.milov.transactions.repository.RepositoryBill;
 import ru.milov.transactions.response.ResponseBill;
 import ru.milov.transactions.service.entity.Bill;
 import ru.milov.transactions.service.entity.User;
-
-import java.util.Arrays;
-import java.util.List;
-
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ServiceAppBillTest {
 
     @Mock
@@ -25,12 +24,6 @@ public class ServiceAppBillTest {
     ConverterBillToBillResponse converter;
     @InjectMocks
     ServiceAppBill serviceAppBill;
-
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
-
 
     @Test
     public void testCreateUserBill() throws Exception {

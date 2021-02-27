@@ -8,6 +8,7 @@ import ru.milov.transactions.response.ResponseBill;
 import ru.milov.transactions.service.entity.Bill;
 import ru.milov.transactions.service.entity.User;
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,6 @@ public class ServiceAppBill {
 
     public ResponseBill createUserBill(User user, Bill newBill) {
         Bill bill = new Bill();
-
         bill.setUser(user);
         bill.setName(newBill.getName());
         bill.setBalance(newBill.getBalance());

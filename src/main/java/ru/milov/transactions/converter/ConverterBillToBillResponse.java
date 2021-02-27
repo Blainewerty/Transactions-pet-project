@@ -11,7 +11,6 @@ public class ConverterBillToBillResponse implements Converter<Bill, ResponseBill
     @Override
     public ResponseBill convert(Bill bill) {
         return new ResponseBill()
-                .setId(bill.getId())
                 .setName(bill.getName())
                 .setBalance(bill.getBalance());
     }

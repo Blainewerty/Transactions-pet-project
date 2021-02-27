@@ -1,25 +1,21 @@
 package ru.milov.transactions.service.services;
 
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.milov.transactions.repository.RepositoryUser;
 import ru.milov.transactions.response.ResponseUser;
-import ru.milov.transactions.service.entity.Role;
 import ru.milov.transactions.service.entity.User;
-
-import java.util.Collections;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ServiceAppUserTest {
+
     @Mock
     RepositoryUser repositoryUser;
     @Mock
@@ -28,11 +24,6 @@ public class ServiceAppUserTest {
     Converter<User, ResponseUser> converter;
     @InjectMocks
     ServiceAppUser serviceAppUser;
-
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     public void testLoadUserByUsername(){
