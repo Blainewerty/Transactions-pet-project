@@ -13,7 +13,7 @@ import ru.milov.transactions.service.entity.User;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-class RepositoryUserTest extends TestCase {
+public class RepositoryUserTest extends TestCase {
 
     @Autowired
     RepositoryUser repositoryUser;

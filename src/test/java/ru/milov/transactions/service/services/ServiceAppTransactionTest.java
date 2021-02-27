@@ -1,7 +1,6 @@
 package ru.milov.transactions.service.services;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -16,16 +15,9 @@ import ru.milov.transactions.repository.RepositoryUser;
 import ru.milov.transactions.service.entity.Bill;
 import ru.milov.transactions.service.entity.Transaction;
 import ru.milov.transactions.service.entity.User;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-
-import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 
 @DataJpaTest
 @RunWith(SpringRunner.class)
@@ -89,21 +81,6 @@ public class ServiceAppTransactionTest {
     }
 
     @Test
-    public void testStartingOperationWithBill_ConverterTransactionToTransactionResponseReturnsNull() {
-
-    }
-
-    @Test
-    public void testTransferFromBillToBill() {
-
-    }
-
-    @Test
-    public void testTransferFromBillToBill_ConverterTransactionToTransactionResponseReturnsNull() {
-
-    }
-
-    @Test
     public void testGetInfoAboutAllUsersTransactions() {
         User user = new User().setEmail("email")
                 .setLastName("test")
@@ -136,32 +113,4 @@ public class ServiceAppTransactionTest {
         assertEquals(1,repositoryTransaction.findByUser(user).size());
     }
 
-    @Test
-    public void testGetInfoAboutAllUsersTransactions_RepositoryTransactionReturnsNoItems() {
-    }
-
-    @Test
-    public void testGetInfoAboutAllUsersTransactions_ConverterTransactionToTransactionResponseReturnsNull() {
-
-    }
-
-    @Test
-    public void testCreateTransaction_ConverterTransactionToTransactionResponseReturnsNull() {
-
-    }
-
-    @Test
-    public void testGetInfoAboutBillTransactions() {
-
-    }
-
-    @Test
-    public void testGetInfoAboutBillTransactions_RepositoryTransactionReturnsNoItems() {
-
-    }
-
-    @Test
-    public void testGetInfoAboutBillTransactions_ConverterTransactionToTransactionResponseReturnsNull() {
-
-    }
 }

@@ -46,7 +46,7 @@ public class ServiceAppUser implements UserDetailsService {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
 
-        converter.convert(repositoryUser.save(user));
+        repositoryUser.save(user);
     }
 
 
