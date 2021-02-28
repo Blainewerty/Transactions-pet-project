@@ -1,5 +1,6 @@
 package ru.milov.transactions.service.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Entity
 @ToString
 @Component
+@EqualsAndHashCode
 @Accessors(chain = true)
 @Table(name = "users")
 public class User implements UserDetails {
